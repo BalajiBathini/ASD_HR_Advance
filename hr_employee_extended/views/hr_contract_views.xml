@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_contract_form_inherit_salary_rules" model="ir.ui.view">
+        <field name="name">hr.contract.form.inherit.salary.rules</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='department_id']" position="before">
+                <field name="default_structure_id" readonly="1" />
+            </xpath>
+            <xpath expr="//field[@name='hr_responsible_id']" position="after">
+                <field name="contract_wage" /> 
+            </xpath>
+            <xpath expr="//page[@name='other']" position="after">
+                <page string="Salary Rules" name="salary_rules">
+                    <!-- <button name="action_open_structure" type="object" string="Open Salary Structure" class="oe_highlight" /> -->
+                    <!-- <field name="salary_rule_ids" widget="one2many_list" readonly="0">
+                        <list editable="bottom">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="category_id"/>
+                            <field name="sequence" optional="hide" invisible="1"/>
+
+                            <field name="amount_select"/>
+                            <field name="amount_percentage_base" invisible="amount_select != 'percentage'" required="amount_select == 'percentage'"/>
+                            <field name="quantity" invisible="amount_select in ['code', 'input']" required="amount_select not in ['code', 'input']"/>
+                            <field name="amount_fix"  invisible="amount_select != 'fix'"  required="amount_select == 'fix'"/>
+                            <field name="amount_other_input_id"  invisible="amount_select != 'input'"  required="amount_select == 'input'"/>
+                            <field name="amount_percentage" invisible="amount_select != 'percentage'" required="amount_select == 'percentage'"/>
+                            <field name="amount_python_compute" invisible="amount_select != 'code'" required="amount_select == 'code'"/>
+
+                        </list>
+                    </field> -->
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

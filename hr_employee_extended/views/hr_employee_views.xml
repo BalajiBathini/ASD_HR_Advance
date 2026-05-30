@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Server Action to Generate Barcodes for Selected Employees -->
+    <record id="action_generate_employee_barcodes" model="ir.actions.server">
+        <field name="name">Generate Barcodes</field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_model_id" ref="hr.model_hr_employee"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+            action = records.action_generate_barcodes_bulk()
+        </field>
+    </record>
+    <record id="view_employee_form_adding_imp_fields" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.for.adding.important.fields</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <!-- Rename Job Position -->
+            <xpath expr="//field[@name='job_id']" position="attributes">
+                <attribute name="string">Designation</attribute>
+            </xpath>
+            <xpath expr="//field[@name='coach_id']" position="attributes">
+                <attribute name="string">In-Charge</attribute>
+            </xpath>
+            <xpath expr="//field[@name='job_title']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='mobile_phone']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+
+            <!-- Add Employee Code below Designation -->
+            <xpath expr="//field[@name='job_id']" position="after">
+                <field name="employee_code"/>
+            </xpath>
+
+            <xpath expr="//sheet//field[@name='company_id']" position="after">
+                <field name="father_name"/>
+                <field name="mother_name"/>
+
+
+            </xpath>
+            <xpath expr="//sheet//field[@name='coach_id']" position="after">
+                <field name="blood_group"/>
+
+
+            </xpath>
+            <xpath expr="//sheet//field[@name='birthday']" position="after">
+                <field name="age" readonly="0"/>
+                <field name="religion_id"/>
+
+
+            </xpath>
+            <xpath expr="//sheet//field[@name='identification_id']" position="after">
+                <field name="pan" placeholder="10 characters Permanent Account Number"/>
+                <field name="uan" placeholder="12 characters Universal Account Number"/>
+                <field name="esic" placeholder="17 characters Employee Service Insurance Corporation"/>
+
+
+            </xpath>
+            <xpath expr="//sheet//field[@name='private_car_plate']" position="after">
+                <field name="height"/>
+                <field name="weight"/>
+
+
+            </xpath>
+            <xpath expr="//field[@name='identification_id']" position="attributes">
+                <attribute name="string">Aadhar No</attribute>
+            </xpath>
+            <xpath expr="//field[@name='ssnid']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='passport_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='place_of_birth']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='country_of_birth']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='distance_home_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@name='div_km_home_work']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='children']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//separator[@name='has_work_permit']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='visa_no']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='permit_no']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='visa_expire']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='work_permit_expiration_date']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='work_permit_name']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='has_work_permit']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//page[@name='public']//group[@name='managers']" position="after">
+
+                <group string="Contract">
+
+                    <field name="resource_calendar_id" string="Working Shift"/>
+
+                    <field name="contract_id"/>
+
+                    <field name="first_contract_date"/>
+
+                    <field name="joining_date"/>
+
+                </group>
+
+            </xpath>
+            <xpath expr="//field[@name='has_work_permit']/.." position="after">
+
+                <group col="1">
+
+                    <group string="Family Members">
+                        <field name="family_ids">
+                            <list editable="bottom">
+                                <field name="name"/>
+                                <field name="relation"/>
+                                <field name="phone"/>
+                                <field name="address"/>
+                            </list>
+                        </field>
+                    </group>
+
+                </group>
+                <group col="1">
+
+                    <group string="Documents">
+                        <field name="document_ids">
+                            <list editable="bottom">
+                                <field name="name"/>
+                                <field name="attachment" filename="attachment_name"/>
+                                <field name="attachment_name" invisible="1"/>
+                            </list>
+                        </field>
+                    </group>
+
+                </group>
+
+            </xpath>
+
+            <!--            <xpath expr="//page[@name='hr_settings']" position="after">-->
+            <!--                <page name="employee_payroll_details" string="Payroll Details">-->
+            <!--                    <group>-->
+            <!--                        <group string='Attendence Data' name="attendance_data">-->
+            <!--                            <field name="last_attendance_worked_hours" readonly="0" invisible="0"/>-->
+            <!--                            <field name="last_attendance_id" readonly="0" invisible="0"/>-->
+            <!--                            <field name="attendance_state" readonly="0" invisible="0"/>-->
+            <!--                            <field name="leave_manager_id" readonly="0" invisible="0"/>-->
+            <!--                            <field name="current_leave_id" readonly="0" invisible="0"/>-->
+            <!--                            <field name="current_leave_state" readonly="0" invisible="0"/>-->
+            <!--                            <field name="allocations_count" readonly="0" invisible="0"/>-->
+            <!--                            <field name="allocation_count" readonly="0" invisible="0"/>-->
+            <!--                            <field name="leaves_count" readonly="0" invisible="0"/>-->
+            <!--                            <field name="show_leaves" readonly="0" invisible="0"/>-->
+            <!--                            <field name="remaining_leaves" readonly="0" invisible="0"/>-->
+            <!--                            <field name="last_attendance_worked_hours" readonly="0" invisible="0"/>-->
+            <!--                            <field name="hours_previously_today" readonly="0" invisible="0"/>-->
+            <!--                            <field name="hours_previously_today" readonly="0" invisible="0"/>-->
+            <!--                            <field name="hours_last_month" readonly="0" invisible="0"/>-->
+
+            <!--                            <field name="contracts_count" readonly="0" invisible="0"/>-->
+            <!--                            &lt;!&ndash; <field name="payslip_count" readonly="0" invisible="0"/> &ndash;&gt;-->
+            <!--                            <field name="related_partners_count" readonly="0" invisible="0"/>-->
+            <!--                            <field name="child_all_count" readonly="0" invisible="0"/>-->
+            <!--                            &lt;!&ndash; <field name="expense_manager_id" readonly="0" invisible="0"/> &ndash;&gt;-->
+
+            <!--                            <field name="has_timesheet" readonly="0" invisible="0"/>-->
+            <!--                            <field name="total_overtime" readonly="0" invisible="0"/>-->
+            <!--                        </group>-->
+            <!--                        <group>-->
+            <!--                        </group>-->
+            <!--                            <field name="overtime_ids" widget="section_one2many"/>-->
+
+            <!--                            <field name="attendance_ids" widget="section_one2many"/>-->
+
+            <!--                            <field name="contract_ids" widget="section_one2many"/>-->
+
+            <!--                            <field name="candidate_id" widget="section_one2many"/>-->
+
+            <!--                    </group>-->
+            <!--                </page>-->
+            <!--            </xpath>-->
+
+            <!--            <xpath expr="//page[@name='public']//group[4]" position="replace">-->
+            <!--                <group string="Schedule" name="group_schedule" >-->
+            <!--                    <field name="resource_calendar_id" help="The default working hours are set in configuration." invisible="1"/>-->
+            <!--                    <field name="id" invisible="1"/>-->
+            <!--                    <field name="tz" required="id"/>-->
+            <!--                </group>-->
+            <!--            </xpath>-->
+
+        </field>
+    </record>
+
+    <record id="view_res_bank_form_inherit_ifsc" model="ir.ui.view">
+        <field name="name">res.bank.form.inherit.ifsc</field>
+        <field name="model">res.bank</field>
+        <field name="inherit_id" ref="base.view_res_bank_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='bic']" position="attributes">
+                <attribute name="string">IFSC Code</attribute>
+            </xpath>
+
+        </field>
+    </record>
+    <record id="view_employee_tree_adding_imp_fields" model="ir.ui.view">
+        <field name="name">hr.employee.tree.inherit.for.adding.important.fields</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_tree"/>
+        <field name="arch" type="xml">
+            <!-- <xpath expr="//list" position="attributes">
+                <attribute name="editable">top</attribute>
+            </xpath> -->
+
+            <xpath expr="//list/field[@name='activity_ids']" position="replace">
+                <field name="activity_ids" widget="list_activity" optional="hide"/>
+            </xpath>
+            <xpath expr="//list/field[@name='job_id']" position="attributes">
+                <attribute name="string">Designation</attribute>
+            </xpath>
+
+            <xpath expr="//list/field[@name='coach_id']" position="attributes">
+                <attribute name="string">In-Charge</attribute>
+            </xpath>
+
+
+            <!-- Add new fields -->
+            <xpath expr="//list/field[@name='work_email']" position="after">
+                <field name="employee_code"/>
+                <field name="blood_group"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!--    <record id="view_employee_tree_add_imp_fields" model="ir.ui.view">-->
+    <!--        <field name="name">hr.employee.tree.inherit.for.add.important.fields</field>-->
+    <!--        <field name="model">hr.employee</field>-->
+    <!--        <field name="inherit_id" ref="hr_attendance.view_employee_tree_inherit_leave"/>-->
+    <!--        <field name="arch" type="xml">-->
+
+    <!--&lt;!&ndash;            <xpath expr="//field[@name='attendance_manager_id']" position="after">&ndash;&gt;-->
+    <!--&lt;!&ndash;                <field name="resource_calendar_id" string="Working Shift" readonly="0" optional="show" />&ndash;&gt;-->
+    <!--&lt;!&ndash;                &lt;!&ndash; to delete later maybe  below &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <field name="last_attendance_worked_hours" readonly="0" invisible="0" optional="hide"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <field name="last_attendance_id" readonly="0" invisible="0" optional="hide"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <field name="leave_manager_id" readonly="0" invisible="0" optional="hide"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <field name="attendance_state" readonly="0" invisible="0" optional="hide"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <field name="total_overtime" readonly="0" invisible="0" optional="hide"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <field name="allocations_count" readonly="0" invisible="0" optional="hide"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <field name="allocation_count" readonly="0" invisible="0" optional="hide"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <field name="leaves_count" readonly="0" invisible="0" optional="hide"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <field name="remaining_leaves" readonly="0" invisible="0" optional="hide"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <field name="last_attendance_worked_hours" readonly="0" invisible="0" optional="hide"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <field name="hours_previously_today" readonly="0" invisible="0" optional="hide"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <field name="hours_last_month" readonly="0" invisible="0" optional="hide"/>&ndash;&gt;-->
+
+    <!--&lt;!&ndash;                    <field name="contracts_count" readonly="0" invisible="0" optional="hide"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    &lt;!&ndash; <field name="payslip_count" readonly="0" invisible="0" optional="hide"/> &ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <field name="related_partners_count" readonly="0" invisible="0" optional="hide"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                    <field name="child_all_count" readonly="0" invisible="0" optional="hide"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;                &lt;!&ndash; to delete later maybe  above &ndash;&gt;&ndash;&gt;-->
+
+
+    <!--&lt;!&ndash;            </xpath>&ndash;&gt;-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <record id="hr_contract_form_inherit_father_name" model="ir.ui.view">
+        <field name="name">hr.contract.form.inherit.father.name</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="employee_code" readonly="1"/>
+                <field name="father_name"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

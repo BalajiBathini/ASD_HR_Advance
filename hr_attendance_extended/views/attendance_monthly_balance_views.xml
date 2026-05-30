@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_attendance_monthly_balance_tree" model="ir.ui.view">
+        <field name="name">attendance.monthly.balance.tree</field>
+        <field name="model">attendance.monthly.balance</field>
+        <field name="arch" type="xml">
+            <list string="Working Hours Ledger" decoration-danger="not is_salary_eligible">
+                <field name="employee_id"/>
+                <field name="month_year"/>
+                <field name="date_start" column_invisible="1"/>
+                <field name="norm_hours"/>
+                <field name="actual_worked_hours"/>
+                <field name="overtime_hours"/>
+                <field name="previous_balance_hours"/>
+                <field name="total_available_hours"/>
+                <field name="consumed_hours"/>
+                <field name="remaining_balance_hours" decoration-info="True" decoration-bf="True"/>
+                <field name="is_salary_eligible"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_attendance_monthly_balance_form" model="ir.ui.view">
+        <field name="name">attendance.monthly.balance.form</field>
+        <field name="model">attendance.monthly.balance</field>
+        <field name="arch" type="xml">
+            <form string="Working Hours Ledger">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                            <field name="month_year"/>
+                        </group>
+                        <group>
+                            <field name="norm_hours"/>
+                            <field name="actual_worked_hours"/>
+                            <field name="overtime_hours"/>
+                            <field name="previous_balance_hours"/>
+                            <field name="total_available_hours"/>
+                            <field name="consumed_hours"/>
+                            <field name="remaining_balance_hours"/>
+                            <field name="is_salary_eligible"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="view_attendance_monthly_balance_search" model="ir.ui.view">
+        <field name="name">attendance.monthly.balance.search</field>
+        <field name="model">attendance.monthly.balance</field>
+        <field name="arch" type="xml">
+            <search string="Search Ledger">
+                <field name="employee_id"/>
+                <field name="month_year"/>
+                <filter string="Eligible for Salary" name="eligible" domain="[('is_salary_eligible', '=', True)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Employee" name="group_by_employee" context="{'group_by':'employee_id'}"/>
+                    <filter string="Month" name="group_by_month" context="{'group_by':'month_year'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_attendance_monthly_balance" model="ir.actions.act_window">
+        <field name="name">Working Hours Ledger</field>
+        <field name="res_model">attendance.monthly.balance</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_attendance_monthly_balance_search"/>
+    </record>
+
+    <menuitem id="menu_attendance_monthly_balance" 
+              name="Working Hours Ledger" 
+              parent="menu_working_hours_parent" 
+              sequence="10"
+              action="action_attendance_monthly_balance"/>
+</odoo>

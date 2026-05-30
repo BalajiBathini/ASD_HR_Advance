@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+hr_employee_extended.access_hr_religion,access_hr_religion,hr_employee_extended.model_hr_religion,base.group_user,1,1,1,1
+
+hr_employee_extended.access_hr_employee_family,access_hr_employee_family,hr_employee_extended.model_hr_employee_family,base.group_user,1,1,1,1
+hr_employee_extended.access_hr_employee_document,access_hr_employee_document,hr_employee_extended.model_hr_employee_document,base.group_user,1,1,1,1

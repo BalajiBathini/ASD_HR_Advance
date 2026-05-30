@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_payslip_form_custom_totals" model="ir.ui.view">
+        <field name="name">hr.payslip.form.custom.totals</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="payroll.hr_payslip_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='dynamic_filtered_payslip_lines']/list/field[@name='total']" position="attributes">
+                <attribute name="sum">Total Salary Distribution</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>

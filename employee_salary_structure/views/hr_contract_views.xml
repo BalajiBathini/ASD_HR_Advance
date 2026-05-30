@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_contract_view_form_inherit_salary" model="ir.ui.view">
+        <field name="name">hr.contract.form.inherit.salary</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='information']" position="after">
+                <page name="salary_information" string="Salary Information">
+                    <group>
+                        <group>
+                            <field name="gross_salary"/>
+                            <field name="annual_ctc" readonly="1"/>
+                            <field name="is_structure_editable" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="total_earnings" readonly="1"/>
+                            <field name="total_deductions" readonly="1"/>
+                            <field name="net_salary" readonly="1" decoration-bf="1" decoration-success="1"/>
+                        </group>
+                    </group>
+                    <header>
+                        <button name="action_load_structure" string="Load from Template" type="object" class="oe_highlight"/>
+                        <button name="action_edit_structure" string="Edit Structure" type="object" class="btn-primary" invisible="is_structure_editable == True"/>
+                        <button name="action_save_structure" string="Save Structure" type="object" class="btn-success" invisible="is_structure_editable == False"/>
+                        <button name="action_recalculate" string="Recalculate" type="object" class="btn-secondary"/>
+                    </header>
+                    <field name="employee_component_ids" readonly="is_structure_editable == False">
+                        <list editable="bottom" decoration-info="component_type == 'earning'" decoration-danger="component_type == 'deduction'">
+                            <field name="sequence" widget="handle"/>
+                            <field name="name"/>
+                            <field name="component_type"/>
+                            <field name="calculation_method"/>
+                            <field name="based_on" invisible="calculation_method != 'percentage'" required="calculation_method == 'percentage'"/>
+                            <field name="amount_or_percentage"/>
+                            <field name="calculated_amount" readonly="1"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

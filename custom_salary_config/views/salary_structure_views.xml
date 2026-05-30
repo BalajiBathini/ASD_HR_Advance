@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_payroll_structure_form_custom" model="ir.ui.view">
+        <field name="name">hr.payroll.structure.form.custom</field>
+        <field name="model">hr.payroll.structure</field>
+        <field name="inherit_id" ref="payroll.hr_payroll_structure_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='rule_ids']/.." position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='rule_ids']/.." position="before">
+                <page string="Salary Components (Auto-Config)">
+                    <field name="custom_component_ids">
+                        <list editable="bottom" decoration-info="component_type == 'earning'" decoration-danger="component_type == 'deduction'">
+                            <field name="sequence" widget="handle"/>
+                            <field name="name"/>
+                            <field name="component_type"/>
+                            <field name="calculation_method"/>
+                            <field name="based_on" invisible="calculation_method != 'percentage'" required="calculation_method == 'percentage'"/>
+                            <field name="based_on_rule_id" invisible="based_on != 'other'" required="based_on == 'other'"/>
+                            <field name="amount"/>
+                            <field name="rule_id" column_invisible="1"/>
+                        </list>
+                    </field>
+                    <p class="text-muted mt-2">
+                        <em>Components created here will automatically generate standard Odoo Salary Rules in the background, including necessary Python logic for evaluation and isolation overrides.</em>
+                    </p>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

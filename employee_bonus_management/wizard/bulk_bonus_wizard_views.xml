@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_bulk_bonus_wizard_form" model="ir.ui.view">
+        <field name="name">bulk.bonus.wizard.form</field>
+        <field name="model">bulk.bonus.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Apply Bulk Bonus">
+                <group>
+                    <field name="apply_to_all"/>
+                    <field name="employee_ids" widget="many2many_tags" invisible="apply_to_all == True" required="apply_to_all == False"/>
+                </group>
+                <group>
+                    <field name="name"/>
+                    <field name="bonus_type"/>
+                    <field name="calculation_base" invisible="bonus_type != 'percentage'" required="bonus_type == 'percentage'"/>
+                    <field name="amount"/>
+                    <field name="bonus_month"/>
+                </group>
+                <footer>
+                    <button name="action_apply_bonus" string="Apply" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_bulk_bonus_wizard" model="ir.actions.act_window">
+        <field name="name">Apply Bulk Bonus</field>
+        <field name="res_model">bulk.bonus.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

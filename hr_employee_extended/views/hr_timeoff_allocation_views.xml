@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Action to open Odoo's built-in multi allocation wizard with sane defaults -->
+    <record id="action_open_multi_timeoff_allocation" model="ir.actions.act_window">
+        <field name="name">Allocate Leaves (All Employees)</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.leave.allocation.generate.multi.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <!-- Default to Company mode; company set from context company_id -->
+    <field name="context">{'default_allocation_mode': 'company'}</field>
+    </record>
+
+    <!-- Menu item under HR > Time Off > Management to access the wizard -->
+    <menuitem id="menu_allocate_timeoff_all_employees"
+              name="Allocate Leaves (All Employees)"
+              parent="hr_holidays.menu_hr_holidays_management"
+              action="action_open_multi_timeoff_allocation"
+              sequence="95"
+              groups="hr_holidays.group_hr_holidays_manager"/>
+</odoo>

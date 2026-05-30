@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hr_payslip_tree_employee_code" model="ir.ui.view">
+        <field name="name">hr.payslip.list.employee.code</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list/field[@name='employee_id']" position="after">
+                <field name="employee_code" readonly="1" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="hr_payslip_view_kanban_employee_code" model="ir.ui.view">
+        <field name="name">hr.payslip.kanban.employee.code</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.hr_payslip_view_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban//field[@name='employee_id']" position="after">
+                <div>
+                    <span class="fw-semibold me-1">Emp Code:</span>
+                    <field name="employee_code" readonly="1" class="oe_inline"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_hr_payslip_form_employee_code" model="ir.ui.view">
+        <field name="name">hr.payslip.form.employee.code</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="before">
+                    <field name="employee_code" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_hr_payslip_filter_employee_code" model="ir.ui.view">
+        <field name="name">hr.payslip.select.employee.code</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search/field[@name='employee_id'][1]" position="after">
+                <field name="employee_code"/>
+            </xpath>
+            <xpath expr="//search/field[@name='employee_id'][2]" position="replace">
+                <field name="employee_code" string="Employee Code"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Hide Create Draft Entry button in Payslip -->
+    <record id="view_hr_payslip_form_hide_create_draft" model="ir.ui.view">
+        <field name="name">hr.payslip.form.hide.create.draft</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll_account.hr_payslip_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_payslip_done']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Hide Create Draft Entry button in Payslip Batch -->
+    <record id="hr_payslip_run_view_form_hide_create_draft" model="ir.ui.view">
+        <field name="name">hr.payslip.run.form.hide.create.draft</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="inherit_id" ref="hr_payroll_account.hr_payslip_run_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_validate']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

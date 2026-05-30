@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_payslip_custom_fields" inherit_id="hr_payroll.report_payslip">
+        <!-- Add Employee Code after Employee Name -->
+        <xpath expr="//div[@id='employee_name']" position="after">
+            <div id="employee_code">
+                <strong class="me-2">Employee Code:</strong>
+                <span t-if="o.employee_id.employee_code" t-field="o.employee_id.employee_code"/>
+                <span t-else="" style="color:#875A7B" class="fw-bold">-</span>
+            </div>
+        </xpath>
+        
+    </template>
+</odoo>

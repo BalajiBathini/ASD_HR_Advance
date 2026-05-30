@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_employee_salary_component_hr_manager,employee.salary.component.hr.manager,model_employee_salary_component,hr.group_hr_manager,1,1,1,1
+access_employee_salary_component_hr_user,employee.salary.component.hr.user,model_employee_salary_component,hr.group_hr_user,1,1,1,1
+access_employee_salary_component_employee,employee.salary.component.employee,model_employee_salary_component,base.group_user,1,0,0,0

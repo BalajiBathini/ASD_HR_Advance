@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_bonus_root"
+              name="Bonuses"
+              parent="payroll.payroll_menu_root"
+              sequence="25"/>
+              
+    <menuitem id="menu_hr_bonus"
+              name="Employee Bonuses"
+              parent="menu_bonus_root"
+              sequence="10"
+              action="action_hr_bonus"/>
+              
+    <menuitem id="menu_bulk_bonus"
+              name="Apply Bulk Bonus"
+              parent="menu_bonus_root"
+              sequence="20"
+              action="action_bulk_bonus_wizard"/>
+</odoo>

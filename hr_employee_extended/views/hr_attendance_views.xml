@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Inherit List View to add employee_code -->
+    <record id="view_attendance_tree_inherit" model="ir.ui.view">
+        <field name="name">hr.attendance.list.inherit.employee.code</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="employee_code" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit Kanban View to add employee_code -->
+    <record id="view_hr_attendance_kanban_inherit" model="ir.ui.view">
+        <field name="name">hr.attendance.kanban.inherit.employee.code</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.view_hr_attendance_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <span class="text-muted">
+                    <i class="fa fa-id-badge me-1" aria-label="Employee Code" role="img" title="Employee Code"></i>
+                    <field name="employee_code"/>
+                </span>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit Form View to add employee_code -->
+    <record id="hr_attendance_view_form_inherit" model="ir.ui.view">
+        <field name="name">hr.attendance.form.inherit.employee.code</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="employee_code" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit Search View to add employee_code filter -->
+    <record id="hr_attendance_view_filter_inherit" model="ir.ui.view">
+        <field name="name">hr.attendance.search.inherit.employee.code</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="employee_code" string="Employee Code"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit Pivot View to add employee_code -->
+    <record id="hr_attendance_view_pivot_inherit" model="ir.ui.view">
+        <field name="name">hr.attendance.pivot.inherit.employee.code</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_pivot"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="employee_code" type="row"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit Graph View to add employee_code -->
+    <record id="hr_attendance_view_graph_inherit" model="ir.ui.view">
+        <field name="name">hr.attendance.graph.inherit.employee.code</field>
+        <field name="model">hr.attendance</field>
+        <field name="inherit_id" ref="hr_attendance.hr_attendance_view_graph"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="after">
+                <field name="employee_code" type="row"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

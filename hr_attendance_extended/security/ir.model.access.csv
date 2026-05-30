@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_attendance_monthly_balance_user,attendance_monthly_balance_user,model_attendance_monthly_balance,base.group_user,1,0,0,0
+access_attendance_monthly_balance_manager,attendance_monthly_balance_manager,model_attendance_monthly_balance,hr.group_hr_manager,1,1,1,1
+access_attendance_batch_ledger,attendance_batch_ledger,model_attendance_batch_ledger,hr.group_hr_manager,1,1,1,1
