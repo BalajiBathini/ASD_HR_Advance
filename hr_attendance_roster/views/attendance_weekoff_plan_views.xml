@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Wizard View -->
+    <record id="view_attendance_weekoff_allocate_wizard" model="ir.ui.view">
+        <field name="name">attendance.weekoff.allocate.wizard.form</field>
+        <field name="model">attendance.weekoff.allocate.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Bulk Allocate Weekly Offs">
+                <group>
+                    <group>
+                        <field name="department_id"/>
+                        <field name="weekoff_day"/>
+                    </group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                </group>
+                <field name="employee_ids" widget="many2many_tags" placeholder="Select Employees"/>
+                <footer>
+                    <button string="Allocate" type="object" name="action_allocate" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_attendance_weekoff_allocate_wizard" model="ir.actions.act_window">
+        <field name="name">Bulk Allocate</field>
+        <field name="res_model">attendance.weekoff.allocate.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Plan views -->
+    <record id="view_attendance_weekoff_plan_tree" model="ir.ui.view">
+        <field name="name">attendance.weekoff.plan.tree</field>
+        <field name="model">attendance.weekoff.plan</field>
+        <field name="arch" type="xml">
+            <list string="Weekly Off Plans">
+                <field name="department_id"/>
+                <field name="employee_id"/>
+                <field name="weekoff_day"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_attendance_weekoff_plan_form" model="ir.ui.view">
+        <field name="name">attendance.weekoff.plan.form</field>
+        <field name="model">attendance.weekoff.plan</field>
+        <field name="arch" type="xml">
+            <form string="Weekly Off Plan">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="department_id"/>
+                        </group>
+                        <group>
+                            <field name="weekoff_day"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_attendance_weekoff_plan" model="ir.actions.act_window">
+        <field name="name">Weekly Off Plans</field>
+        <field name="res_model">attendance.weekoff.plan</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

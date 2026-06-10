@@ -1,0 +1,60 @@
+.rainbow-text {
+    background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.btn-orange {
+    background-color: rgb(240, 174, 51) !important;
+    color: white !important;
+}
+
+.btn-yellow {
+    background-color: rgb(241, 241, 56) !important;
+    color: black !important;
+}
+
+.btn-light-blue {
+    background-color: rgb(58, 143, 223) !important;
+    color: white !important;
+}
+
+.btn-blue {
+    background-color: blue !important;
+    color: white !important;
+}
+
+.btn-indigo {
+    background-color: indigo !important;
+    color: white !important;
+}
+
+.btn-violet {
+    background-color: rgb(148, 1, 99) !important;
+    color: white !important;
+}
+
+.btn-teal {
+    background-color: teal !important;
+    color: white !important;
+}
+
+.btn-grey {
+    background-color: rgb(200, 193, 193) !important;
+    color: black !important;
+}
+
+/* .h3 {
+    margin-top: 25px;
+} */
+/* .employment-rows .form-control{
+    font-size:12px !important;
+    padding: 5px !important;
+    margin: 0px !important;
+
+} */
+
+.o_files_block {
+    width: 130px !important;
+}

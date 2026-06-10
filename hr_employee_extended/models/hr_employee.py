@@ -79,7 +79,33 @@ class Employee(models.Model):
     religion_id = fields.Many2one("hr.religion", string="Religion")
     height = fields.Float(string='Height (CM)')
     weight = fields.Float(string='Weight (KG)')
-    blood_group = fields.Char(string='Blood Group')
+    blood_group = fields.Selection(
+        [
+            ('a_pos', 'A+'),
+            ('a_neg', 'A-'),
+            ('b_pos', 'B+'),
+            ('b_neg', 'B-'),
+            ('ab_pos', 'AB+'),
+            ('ab_neg', 'AB-'),
+            ('o_pos', 'O+'),
+            ('o_neg', 'O-'),
+
+            ('bombay', 'Bombay (hh)'),
+            ('rh_null', 'Rh-null'),
+            ('unknown', 'Unknown'),
+        ],
+        string='Blood Group',
+        default='unknown',
+    )
+    food_preference = fields.Selection(
+        [
+            ('veg', 'Vegetarian'),
+            ('non_veg', 'Non-Vegetarian'),
+            ('vegan', 'Vegan'),
+            ('eggetarian', 'Eggetarian'),
+        ],
+        string='Food Preference'
+    )
     age = fields.Integer(
         string='Age',
         compute='_compute_age',

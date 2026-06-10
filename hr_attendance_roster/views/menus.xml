@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menus under root Attendance or HR Advance app. We will use standard Attendance as parent -->
+    <!-- Assuming hr_attendance.menu_hr_attendance_root is the root app. Or maybe the client uses something else. -->
+    
+    <menuitem id="menu_hr_attendance_roster_root" name="Attendance Roster" sequence="20" parent="hr_attendance.menu_hr_attendance_root"/>
+
+    <!-- Shift Master -->
+    <menuitem id="menu_attendance_shift_master" name="Shifts" parent="menu_hr_attendance_roster_root" sequence="10" action="action_attendance_shift_master"/>
+    
+    <!-- Public Holidays -->
+    <menuitem id="menu_attendance_public_holiday" name="Public Holidays" parent="menu_hr_attendance_roster_root" sequence="20" action="action_attendance_public_holiday"/>
+
+    <!-- Weekoff Plans -->
+    <menuitem id="menu_attendance_weekoff_plan" name="Weekly Off Plans" parent="menu_hr_attendance_roster_root" sequence="30" action="action_attendance_weekoff_plan"/>
+
+    <!-- Monthly Sheet -->
+    <menuitem id="menu_attendance_monthly_sheet" name="Monthly Sheets" parent="menu_hr_attendance_roster_root" sequence="40" action="action_attendance_monthly_sheet"/>
+
+    <!-- Bulk Allocation Wizard -->
+    <menuitem id="menu_attendance_weekoff_wizard" name="Bulk Allocate Weekoffs" parent="menu_hr_attendance_roster_root" sequence="35" action="action_attendance_weekoff_allocate_wizard"/>
+
+</odoo>

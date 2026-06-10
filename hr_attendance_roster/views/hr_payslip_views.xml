@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_payslip_form_inherit_roster" model="ir.ui.view">
+        <field name="name">hr.payslip.form.inherit.roster</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="payroll.hr_payslip_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Add Attendance Sheet link -->
+            <xpath expr="//field[@name='credit_note']" position="after">
+                <field name="asd_monthly_sheet_id"/>
+            </xpath>
+
+            <!-- Inject asd_type and amount into standard worked_days_line_ids -->
+            <!-- Assume payroll module defines the tree view of worked_days_line_ids in hr.payslip form -->
+            <xpath expr="//field[@name='worked_days_line_ids']/list/field[@name='number_of_days']" position="before">
+                <field name="asd_type" optional="show"/>
+            </xpath>
+            <xpath expr="//field[@name='worked_days_line_ids']/list/field[@name='number_of_hours']" position="after">
+                <field name="amount" optional="show"/>
+                <field name="currency_id" column_invisible="1"/>
+            </xpath>
+
+            <!-- Add totals fields at the end of the worked days notebook page -->
+            <xpath expr="//field[@name='worked_days_line_ids']" position="after">
+                <group class="oe_right" colspan="2" style="background-color:#f8f9fa; padding:10px; border-radius:5px;">
+                    <group>
+                        <field name="asd_total_days" widget="float"/>
+                        <field name="asd_total_hours" widget="float_time"/>
+                        <field name="asd_total_amount" class="oe_subtotal_footer_separator oe_inline o_td_label"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

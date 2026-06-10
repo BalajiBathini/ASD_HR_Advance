@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_monthly_attendance_sheet" model="ir.actions.report">
+        <field name="name">Monthly Attendance Matrix</field>
+        <field name="model">attendance.monthly.sheet</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hr_attendance_roster.report_monthly_sheet</field>
+        <field name="report_file">hr_attendance_roster.report_monthly_sheet</field>
+        <field name="print_report_name">'Attendance Matrix - %s' % (object.employee_id.name)</field>
+        <field name="binding_model_id" ref="model_attendance_monthly_sheet"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_monthly_sheet">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Attendance Sheet: <span t-field="doc.employee_id.name"/></h2>
+                        <p>
+                            <strong>Month:</strong> <span t-field="doc.month"/> / <span t-field="doc.year"/><br/>
+                            <strong>Department:</strong> <span t-field="doc.department_id.name"/>
+                        </p>
+                        <table class="table table-bordered table-sm mt-4">
+                            <thead>
+                                <tr>
+                                    <th>Summary</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Present Days</td><td><span t-field="doc.present_days"/></td></tr>
+                                <tr><td>Weekly Off Days</td><td><span t-field="doc.weekly_off_days"/></td></tr>
+                                <tr><td>Public Holidays</td><td><span t-field="doc.public_holiday_days"/></td></tr>
+                                <tr><td>Leaves</td><td><span t-field="doc.leave_days"/></td></tr>
+                                <tr><td>Absents</td><td><span t-field="doc.absent_days"/></td></tr>
+                                <tr><td>LOPs</td><td><span t-field="doc.lop_days"/></td></tr>
+                                <tr><td><strong>Total Payable Days</strong></td><td><strong><span t-field="doc.total_payable_days"/></strong></td></tr>
+                                <tr><td>Total Worked Hours</td><td><span t-field="doc.worked_hours"/></td></tr>
+                                <tr><td>Overtime Hours</td><td><span t-field="doc.overtime_hours"/></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

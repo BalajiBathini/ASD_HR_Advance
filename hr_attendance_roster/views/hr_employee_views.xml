@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_form_inherit_roster" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.roster</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='hr_settings']//group[@name='active_group']" position="after">
+                <group string="Attendance &amp; Shifts" name="shift_group">
+                    <field name="default_shift_id"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_attendance_monthly_sheet_tree" model="ir.ui.view">
+        <field name="name">attendance.monthly.sheet.tree</field>
+        <field name="model">attendance.monthly.sheet</field>
+        <field name="arch" type="xml">
+            <list string="Monthly Attendance Sheet">
+                <field name="employee_id"/>
+                <field name="department_id" optional="show"/>
+                <field name="month"/>
+                <field name="year"/>
+                <field name="present_days"/>
+                <field name="worked_hours"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_attendance_monthly_sheet_form" model="ir.ui.view">
+        <field name="name">attendance.monthly.sheet.form</field>
+        <field name="model">attendance.monthly.sheet</field>
+        <field name="arch" type="xml">
+            <form string="Attendance Sheet">
+                <header>
+                    <button name="action_populate_attendance" string="Populate Attendance" type="object" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="employee_id" placeholder="Employee"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="department_id"/>
+                            <field name="month"/>
+                            <field name="year"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Attendance Matrix" name="matrix">
+                            <group>
+                                <group>
+                                    <field name="day_1"/><field name="day_2"/><field name="day_3"/><field name="day_4"/><field name="day_5"/>
+                                    <field name="day_6"/><field name="day_7"/><field name="day_8"/><field name="day_9"/><field name="day_10"/>
+                                    <field name="day_11"/><field name="day_12"/><field name="day_13"/><field name="day_14"/><field name="day_15"/>
+                                    <field name="day_16"/>
+                                </group>
+                                <group>
+                                    <field name="day_17"/><field name="day_18"/><field name="day_19"/><field name="day_20"/><field name="day_21"/>
+                                    <field name="day_22"/><field name="day_23"/><field name="day_24"/><field name="day_25"/><field name="day_26"/>
+                                    <field name="day_27"/><field name="day_28"/><field name="day_29"/><field name="day_30"/><field name="day_31"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Summary" name="summary">
+                            <group>
+                                <group string="Days">
+                                    <field name="present_days"/>
+                                    <field name="weekly_off_days"/>
+                                    <field name="public_holiday_days"/>
+                                    <field name="leave_days"/>
+                                    <field name="absent_days"/>
+                                    <field name="lop_days"/>
+                                    <field name="total_payable_days" class="fw-bold"/>
+                                </group>
+                                <group string="Hours">
+                                    <field name="worked_hours"/>
+                                    <field name="overtime_hours"/>
+                                    <field name="total_payable_hours" class="fw-bold"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_attendance_monthly_sheet" model="ir.actions.act_window">
+        <field name="name">Monthly Sheets</field>
+        <field name="res_model">attendance.monthly.sheet</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
