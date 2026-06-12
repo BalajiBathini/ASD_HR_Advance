@@ -179,12 +179,16 @@ class EmployeeProfileWizard(models.TransientModel):
             or emp.create_date
         )
 
+        blood_val = self._get_selection_label(emp_sudo, 'blood_group', getattr(emp_sudo, 'blood_group', False)) if 'blood_group' in emp_sudo._fields else ''
+        if not blood_val and hasattr(emp_sudo, 'blood_type'):
+            blood_val = emp_sudo.blood_type
+
         data = {
-            'employee_code': val(emp.barcode or emp.employee_id),
+            'employee_code': val(getattr(emp, 'employee_code', False) or emp.barcode or emp.employee_id),
             'date': val(self._format_date(fields.Date.today())),
             'department': val(emp.department_id.name if emp.department_id else ''),
             'post': val(emp.job_id.name if emp.job_id else ''),
-            'blood_group': val(emp_sudo.blood_type if hasattr(emp_sudo, 'blood_type') else ''),
+            'blood_group': val(blood_val),
             'employee_photo': (
                 getattr(emp_sudo, 'image_1920', False)
                 or getattr(emp_sudo, 'avatar_1920', False)
@@ -203,23 +207,23 @@ class EmployeeProfileWizard(models.TransientModel):
             ),
             # Personal details
             'name': val(emp.name),
-            'father_name': val(emp_sudo.private_info if False else '#N/A'),  # custom field
-            'mother_name': '#N/A',
+            'father_name': val(getattr(emp_sudo, 'father_name', False)),
+            'mother_name': val(getattr(emp_sudo, 'mother_name', False)),
             'address': val(emp_sudo.private_street or ''),
             'contact': val(emp_sudo.private_phone or emp.mobile_phone or ''),
             'email': val(emp_sudo.private_email or emp.work_email or ''),
-            'language': '#N/A',
+            'language': val(getattr(getattr(emp_sudo, 'user_id', False), 'lang', False) if getattr(emp_sudo, 'user_id', False) else False),
             'birth_date': val(self._format_date(emp_sudo.birthday)),
             'gender': val(self._get_selection_label(emp, 'gender', emp.gender)),
             'marital': val(self._get_selection_label(emp_sudo, 'marital', emp_sudo.marital)),
-            'height': '#N/A',
+            'height': val(str(emp_sudo.height) if getattr(emp_sudo, 'height', False) else ''),
             'bank_account': val(emp_sudo.bank_account_id.acc_number if emp_sudo.bank_account_id else ''),
-            'food_preference': '#N/A',
-            'aadhaar': '#N/A',
-            'pan': '#N/A',
+            'food_preference': val(self._get_selection_label(emp_sudo, 'food_preference', getattr(emp_sudo, 'food_preference', False)) if 'food_preference' in emp_sudo._fields else ''),
+            'aadhaar': val(getattr(emp_sudo, 'identification_id', False) or getattr(emp_sudo, 'aadhar', False)),
+            'pan': val(getattr(emp_sudo, 'pan', False)),
             'nationality': val(emp_sudo.country_id.name if emp_sudo.country_id else ''),
-            'weight': '#N/A',
-            'uan': '#N/A',
+            'weight': val(str(emp_sudo.weight) if getattr(emp_sudo, 'weight', False) else ''),
+            'uan': val(getattr(emp_sudo, 'uan', False)),
             # Sections
             'qualifications': qualifications,
             'experiences': experiences,
