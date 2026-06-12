@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- View cft.approval View List -->
+    <record id="view_cft_approval_list" model="ir.ui.view">
+        <field name="name">view.cft.approval.list</field>
+        <field name="model">cft.approval</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="job_id"/>
+                <field name="cft_member_id"/>
+                <field name="status"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- View cft.approval form -->
+    <record id="view_cft_approval_form" model="ir.ui.view">
+        <field name="name">view.cft.approval.form</field>
+        <field name="model">cft.approval</field>
+        <field name="arch" type="xml">
+            <form string="Cft Approval">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="job_id"/>
+                            <field name="cft_member_id"/>
+                            <field name="status"/>
+                        </h1>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- View cft.approval search -->
+    <record id="view_cft_approval_search" model="ir.ui.view">
+        <field name="name">view.cft.approval.search</field>
+        <field name="model">cft.approval</field>
+        <field name="arch" type="xml">
+            <search>
+                <group expand="1" string="Group By">
+                    <filter string="Job" name="job_id" domain="[]" context="{'group_by':'job_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action cft.approval -->
+    <record id="action_cft_approval" model="ir.actions.act_window">
+        <field name="name">Cft Approval</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">cft.approval</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                There is no examples click here to add new Cft Approval.
+            </p>
+        </field>
+    </record>
+
+</odoo>

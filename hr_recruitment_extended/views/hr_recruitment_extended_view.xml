@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="hr_applicant_view_form_extended" model="ir.ui.view">
+        <field name="name">Jobs - Recruitment Form View Inherited</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form" />
+        <field name="arch" type="xml">
+
+            <!-- Add invisible field for image_128 -->
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="image_128" invisible="1"/>
+                <field name="avatar_128" invisible="1"/>
+            </xpath>
+
+            <!-- Add Applicant Image on right side similar to Employee Form -->
+            <xpath expr="//field[@name='linkedin_profile']" position="after">
+                <field name="image_1920" widget="image" class="oe_avatar m-0" options="{'zoom': true, 'preview_image': 'avatar_128'}"/>
+            </xpath>
+
+            <!-- <xpath expr="//field[@name='salary_expected']" position="inside">
+                <field name="salary_expected" placeholder="Expected"/>
+            </xpath> -->
+            <xpath expr="//field[@name='candidate_id']" position="attributes">
+                <attribute name="string">Candidate Name</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='linkedin_profile']" position="after">
+                <field name="state_sequence" invisible="1" readonly="0"/>
+                <field name="is_last_stage" invisible="1" readonly="0"/>
+            </xpath>
+
+
+            <xpath expr="//field[@name='job_id']" position="before">
+                <field name="department_id" invisible="0" readonly="0"/>
+                <field name="destination" />
+                <field name="grade"/>
+
+                <div class="o_row">
+                    <label for="ctc" class="col-form-label">CTC</label>
+                    <field name="ctc" placeholder="CTC" widget="monetary"/>
+                    <span invisible="not ctc_currency_id"> </span>
+                    <field name="ctc_currency_id" placeholder="Currency"/>
+                </div>
+            </xpath>
+
+            <xpath expr="//field[@name='stage_id']" position="replace">
+                <field name="stage_id" widget="statusbar_duration" options="{'clickable': '1'}" invisible="not active and not employee_id"/>
+            </xpath>
+
+            <xpath expr="//button[@name='create_employee_from_applicant']" position="before">
+
+                <!-- New (sequence 0) to Initial Qualification -->
+            <button string="Initial Qualification" name="action_move_to_next_stage" type="object" confirm="Are you sure you want to move this application to the next stage?"
+                invisible="state_sequence != 0 or not active" class="btn btn-orange"/>
+            <!-- Initial Qualification (sequence 1) to Interview Scheduling -->
+            <button string="Interview Scheduling" name="action_move_to_next_stage" type="object" confirm="Are you sure you want to move this application to the next stage?"
+                invisible="state_sequence != 1 or not active" class="btn btn-yellow"/>
+            <!-- Interview Scheduling (sequence 2) to Job Application -->
+            <!-- <button string="Job Application" name="action_move_to_next_stage" type="object" confirm="Are you sure you want to move this application to the next stage?"
+                invisible="state_sequence != 2 or not active" class="btn btn-light-blue"/> -->
+            <!-- Job Application (sequence 3) to First Interview -->
+            <button string="First Interview" name="action_move_to_next_stage" type="object" confirm="Are you sure you want to move this application to the next stage?"
+                invisible="state_sequence != 2 or not active" class="btn btn-indigo"/>
+            <!-- First Interview (sequence 4) to Second Interview -->
+            <button string="Second Interview" name="action_move_to_next_stage" type="object" confirm="Are you sure you want to move this application to the next stage?"
+                invisible="state_sequence != 3 or not active" class="btn btn-blue"/>
+            <!-- Second Interview (sequence 5) to Salary Negotiation -->
+            <button string="Salary Negotiation" name="action_move_to_next_stage" type="object" confirm="Are you sure you want to move this application to the next stage?"
+                invisible="state_sequence != 4 or not active" class="btn btn-violet"/>
+            <!-- Salary Negotiation (sequence 6) to Offer Letter Release -->
+            <button string="Offer Letter Release" name="action_move_to_next_stage" type="object" confirm="Are you sure you want to move this application to the next stage?"
+                invisible="state_sequence != 5 or not active" class="btn btn-teal"/>
+            <!-- Offer Letter Release (sequence 7) to Contract Signed -->
+            <button string="Contract Signed" name="action_move_to_next_stage" type="object" confirm="Are you sure you want to move this application to the next stage?"
+                invisible="state_sequence != 6 or not active" class="btn btn-success"/>
+            <button string="Undo" name="action_move_to_previous_stage" type="object" confirm="Are you sure you want to undo this application to the previous stage?"
+                invisible="state_sequence == 0 or not active" class="btn btn-secondary"/>
+            
+            </xpath>
+
+            <!-- Add congratulatory message for the last stage -->
+            <xpath expr="//sheet" position="before">
+                <div invisible="not is_last_stage">
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading" role="status">Congratulations!</h4>
+                        <p>You are hired!</p>
+                    </div>
+                </div>
+            </xpath>
+            
+            <xpath expr="//field[@name='linkedin_profile']" position="after">
+                <field name="short_intro" placeholder="Short Introduction"/>
+            </xpath>
+
+            <xpath expr="//page[@name='application_details']" position="after">
+                <page string="Additional Information">
+                    <group>
+                        <group string="Personal Information">
+                            <field name="father_name"/>
+                            <field name="mother_name"/>
+                            <field name="dob"/>
+                            <field name="age"/>
+                            <field name="caste_id"/>
+                            <field name="marital_status"/>
+                            <field name="spouse_name" invisible="marital_status != 'yes'" />
+                        </group>
+                        <group string="Contact Information">
+                            <field name="mobile_no"/>
+                            <field name="emergency_contact_no"/>
+                            <field name="emergency_contact_name"/>
+                            <field name="emergency_contact_relation"/>
+                            <field name="mail_id"/>
+                        </group>
+                        <group string="Health Information">
+                            <field name="blood_group"/>
+                            <field name="medical_disability"/>
+                        </group>
+                        <group string="Address">
+                            <field name="permanent_address"/>
+                            <field name="present_address"/>
+                        </group>
+                        <group string="Salary and Experience">
+                            <field name="salary_expected"/>
+                            <field name="is_negotiable"/>
+                            <field name="total_experience"/>
+                            <field name="notice_period"/>
+                            <field name="present_salary"/>
+                        </group>
+                        <group string="Interview and Career">
+                            <field name="interview_date"/>
+                            <field name="promotion_taken"/>
+                            <field name="promoted_designation"/>
+                            <field name="special_increment"/>
+                            <field name="increment_amount"/>
+                        </group>
+                        <group string="Referral">
+                            <field name="referred_by"/>
+                        </group>
+                    </group>
+                </page>
+                <page string="Employment History">
+                    <group>
+                        <field name="employment_ids" widget="one2many_list" nolabel="1">
+                            <list editable="bottom">
+                                <field name="employment_type_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="company"/>
+                                <field name="location"/>
+                                <field name="duration_from"/>
+                                <field name="duration_to"/>
+                                <field name="designation"/>
+                                <field name="reporting_officer" optional="hide"/>
+                                <field name="years_of_experience"/>
+                                <field name="previous_salary"/>
+                                <field name="leaving_reason"/>
+                                <field name="attachment_ids" widget="many2many_binary"/>
+                            </list>
+                            <form>
+                                <group>
+                                    <group>
+                                        <field name="employment_type_id"/>
+                                        <field name="company"/>
+                                        <field name="location"/>
+                                        <field name="duration_from"/>
+                                        <field name="duration_to"/>
+                                    </group>
+                                    <group>
+                                        <field name="designation"/>
+                                        <field name="reporting_officer"/>
+                                        <field name="years_of_experience"/>
+                                        <field name="previous_salary"/>
+                                        <field name="leaving_reason"/>
+                                        <field name="attachment_ids" widget="many2many_binary"/>
+                                    </group>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                </page>
+                <page string="Education and Documents">
+                    <group>
+                        <field name="education_ids" widget="one2many_list" nolabel="1">
+                            <list editable="bottom">
+                                <field name="exam_passed"/>
+                                <field name="subject"/>
+                                <field name="specialization"/>
+                                <field name="institution"/>
+                                <field name="marks_obtained"/>
+                                <field name="year_of_passing"/>
+                                <field name="study_type"/>
+                                <field name="achievements"/>
+                                <field name="attachment_ids" widget="many2many_binary"/>
+                            </list>
+                        </field>
+                        <br/>
+                        <field name="document_ids" widget="one2many_list" nolabel="1">
+                            <list editable="bottom">
+                                <field name="document_type"/>
+                                <field name="name_on_document"/>
+                                <field name="document_no"/>
+                                <field name="valid_from"/>
+                                <field name="valid_to"/>
+                                <field name="attachment_ids" widget="many2many_binary"/>
+                            </list>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+
+
+        </field>
+    </record>
+
+    <record id="hr_applicant_view_form_inherit_hr_recruitment_skills_extended" model="ir.ui.view">
+         <field name="name">hr.applicant.view.form.inherit.hr.recruitment.skills</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment_skills.hr_applicant_view_form"/>
+        <field name="arch" type="xml">
+        <xpath expr="//div[hasclass('row', 'ms-2')]" position="after">
+                <group>
+                    <group>
+                        <field name="other_skills"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- invisible="not active or not survey_id" -->
+    <record id="hr_applicant_view_survey_form_inherit" model="ir.ui.view">
+        <field name="name">Jobs - Recruitment Survey Form View Inherited</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment_survey.hr_applicant_view_form_inherit" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_send_survey']" position="attributes">
+                <attribute name="invisible">not active or not survey_id or state_sequence not in [2, 3, 4]</attribute>
+            </xpath>
+        </field>
+    </record>
+
+<!--    <record id="hr_applicant_view_form_inherit_extended_for_salary" model="ir.ui.view">-->
+<!--        <field name="name">Jobs - Recruitment Form View Extended for Contract Salary</field>-->
+<!--        <field name="model">hr.applicant</field>-->
+<!--        <field name="inherit_id" ref="hr_contract_salary.hr_applicant_view_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//button[@name='action_generate_offer']" position="attributes">-->
+<!--                <attribute name="invisible">not active or application_status == 'hired' or state_sequence != 5</attribute>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+
+</odoo>

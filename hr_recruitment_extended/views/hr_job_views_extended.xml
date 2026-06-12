@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="view_hr_job_form_extended" model="ir.ui.view">
+        <field name="name">hr.job.form.extended</field>
+        <field name="model">hr.job</field>
+        <field name="inherit_id" ref="hr.view_hr_job_form"/>
+        <field name="arch" type="xml">
+            <!-- Added Button and state to header -->
+            <xpath expr="//header" position="inside">
+                <button string="Send for CFT Approval" name="action_send_for_cft_approval" type="object"
+                        confirm="Are you sure you want to send this job for CFT approval?"
+                        invisible="state != 'draft' or budgeted" class="btn-primary"/>
+                <button string="Approve" name="action_approve_cft" type="object"
+                        confirm="Are you sure you want to approve this job?"
+                        invisible="state != 'pending' or not can_approve_cft or user_has_approved" 
+                        class="btn-success"/>
+                <button string="Reject" name="action_reject_cft" type="object"
+                        confirm="Are you sure you want to reject this job?"
+                        invisible="state != 'pending' or not can_approve_cft or user_has_approved" 
+                        class="btn-danger"/>
+                <button string="Undo" 
+                        name="action_undo" 
+                        type="object" 
+                        confirm="Are you sure you want to undo this action?" 
+                        invisible="state not in ['approved', 'declined'] or not can_approve_cft" 
+                        class="btn-warning"/>
+                <field name="state" invisible="budgeted" widget="statusbar" options="{'clickable': False}"/>
+            </xpath>
+            
+            <xpath expr="//field[@name='department_id']" position="after">
+                <field name="budgeted"/>
+                <field name="budget_selection" readonly="1"/>
+                <field name="cft_member_ids" invisible="budgeted" widget="many2many_tags" options="{'no_create': True, 'no_open': True}"/>
+                <field name="remarks" invisible="budgeted" required="not budgeted"/>
+                <field name="user_has_approved" invisible="1"/>
+                <field name="is_cft_approval_required" invisible="1"/>
+                <field name="is_cft_approved" invisible="1"/>
+                <field name="can_approve_cft" invisible="1"/>
+            </xpath>
+            <!-- Added CFT Approvals page -->
+            <xpath expr="//sheet/notebook" position="inside">
+                <page string="CFT Approvals" name="cft_approvals" invisible="budgeted or state not in ['draft', 'pending']">
+                    <field name="cft_approval_ids" readonly="1">
+                        <list>
+                            <field name="cft_member_id"/>
+                            <field name="status"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+            
+            <xpath expr="//field[@name='no_of_recruitment']" position="attributes">
+                <attribute name="string">No. of Recruitment</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <record id="hr_job_simple_form_extended" model="ir.ui.view">
+        <field name="name">hr.job.simple.form.extended</field>
+        <field name="model">hr.job</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_job_simple_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="budgeted"/>
+                <field name="budget_selection" readonly="1"/>
+                <field name="cft_member_ids" invisible="budgeted" widget="many2many_tags" options="{'no_create': True, 'no_open': True}"/>
+                <field name="remarks" invisible="budgeted" required="1"/>
+                <field name="user_has_approved" invisible="1"/>
+                <field name="is_cft_approval_required" invisible="1"/>
+                <field name="is_cft_approved" invisible="1"/>
+                <field name="can_approve_cft" invisible="1"/>
+            </xpath>
+            <xpath expr="//footer" position="replace">
+                <footer>
+                    <button string="Create" name="%(hr_recruitment.action_hr_job_applications)d" type="action"
+                            class="btn-primary o_create_job" data-hotkey="q" invisible="not budgeted"/>
+                    <button string="Send for CFT Approval" name="create_and_send_for_approval" type="object"
+                            class="btn-primary" invisible="budgeted"/>
+                    <button string="Discard" class="btn-secondary" special="cancel" data-hotkey="x"/>
+                </footer>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_hr_job_kanban_extended" model="ir.ui.view">
+        <field name="name">hr.job.kanban.extended</field>
+        <field name="model">hr.job</field>
+        <field name="inherit_id" ref="website_hr_recruitment.hr_job_website_inherit"/>
+        <field name="arch" type="xml">
+            <!-- <xpath expr="//field[@name='website_published']" position="attributes">
+                <attribute name="readonly">not can_publish</attribute>
+            </xpath> -->
+
+            <xpath expr="//field[@name='is_published']" position="attributes">
+                <attribute name="invisible">not can_publish</attribute>
+            </xpath>
+            
+
+        </field>
+    </record>
+    
+    <record id="view_hr_job_survey_extended" model="ir.ui.view">
+        <field name="name">hr.job.form1.extended</field>
+        <field name="model">hr.job</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_job_survey"/>
+        <field name="arch" type="xml">
+
+            <!-- Changed Mission Dates to Target Date -->
+            <xpath expr="//field[@name='date_from']" position="attributes">
+                <attribute name="string">Target Date</attribute>
+            </xpath>
+            <xpath expr="//field[@name='interviewer_ids']" position="after">
+                <field name="qualification"/>
+                <field name="experience"/>
+                <field name="designation"/>
+                <!-- <div class="o_row">
+                    <label for="ctc" class="col-form-label">CTC</label>
+                    <field name="ctc" widget="monetary" placeholder="CTC"/>
+                    <span invisible="not ctc_currency_id"> </span>
+                    <field name="ctc_currency_id" placeholder="Currency"/>
+                </div>
+                <br/> -->
+                <div class="d-flex flex-row align-items-center gap-2">
+                    <div class="o_input_group">
+                        <label for="ctc" class="col-form-label">CTC</label>
+                        <field name="ctc" widget="monetary" options="{'currency_field': 'ctc_currency_id'}" placeholder="CTC" class="w-50"/>
+                        <field name="ctc_currency_id" class="w-auto" placeholder="Currency"/>
+                    </div>
+                </div>
+                <br/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Made survey_id invisible in form view -->
+    <record id="view_hr_job_survey_inherit_extended" model="ir.ui.view">
+        <field name="name">hr.job.form.inherit.extended</field>
+        <field name="model">hr.job</field>
+        <field name="inherit_id" ref="hr_recruitment_survey.hr_job_survey_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='survey_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Made survey_id invisible in kanban view -->
+    <record id="view_hr_job_kanban_inherit_survey_extended" model="ir.ui.view">
+        <field name="name">hr.job.kanban.inherit.survey.extended</field>
+        <field name="model">hr.job</field>
+        <field name="inherit_id" ref="hr_recruitment_survey.view_hr_job_kanban_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='survey_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+        </field>
+    </record>
+    
+
+    <!-- Remove company_id from searchpanel to enforce strict company filtering based on UI user context -->
+    <record id="view_job_filter_recruitment_extended" model="ir.ui.view">
+        <field name="name">hr.job.filter.recruitment.extended</field>
+        <field name="model">hr.job</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_job_search_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//searchpanel/field[@name='company_id']" position="replace">
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Enforce active company domain strictly at the UI layer so Administrators do not bypass it -->
+    <record id="hr_recruitment.action_hr_job" model="ir.actions.act_window">
+        <field name="domain">[('company_id', 'in', allowed_company_ids)]</field>
+    </record>
+
+</odoo>

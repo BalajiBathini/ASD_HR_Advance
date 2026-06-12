@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<odoo>
+<data noupdate="0">
+
+        <record model="hr.recruitment.stage" id="hr_recruitment.stage_job0">
+            <field name="name">New</field>
+            <field name="sequence">0</field>
+            <field name="template_id" ref="hr_recruitment.email_template_data_applicant_congratulations"/> 
+        </record>
+        <record model="hr.recruitment.stage" id="hr_recruitment.stage_job1">
+            <field name="name">Initial Qualification</field>
+            <field name="sequence">1</field>
+            <field name="template_id" ref="hr_recruitment_extended.email_template_initial_qualification"/>
+        </record>
+        <record model="hr.recruitment.stage" id="hr_recruitment.stage_job2">
+            <field name="name">Interview Scheduling</field>
+            <field name="sequence">2</field>
+            <field name="template_id" ref="hr_recruitment_extended.email_template_interview_scheduling"/>
+        </record>
+        <!-- <record model="hr.recruitment.stage" id="hr_recruitment.stage_job3">
+            <field name="name">Job Application</field>
+            <field name="sequence">3</field>
+        </record> -->
+        <record model="hr.recruitment.stage" id="hr_recruitment.stage_job3">
+            <field name="name">First Interview</field>
+            <field name="sequence">3</field>
+            <field name="template_id" ref="hr_recruitment_extended.email_template_first_interview"/>
+        </record>
+        <record model="hr.recruitment.stage" id="hr_recruitment.stage_job4">
+            <field name="name">Second Interview</field>
+            <!-- <field name="fold" eval="False"/> -->
+            <!-- <field name="hired_stage">False</field> -->
+            <field name="sequence">4</field>
+            <field name="template_id" ref="hr_recruitment_extended.email_template_second_interview"/>
+        </record>
+        <record model="hr.recruitment.stage" id="hr_recruitment.stage_job5">
+            <field name="name">Salary Negotiation</field>
+            <field name="sequence">5</field>
+            <field name="template_id" ref="hr_recruitment_extended.email_template_salary_negotiation"/>
+            <field name="fold" eval="False"/>
+            <field name="hired_stage">False</field>
+        </record>
+        <record model="hr.recruitment.stage" id="stage_job6">
+            <field name="name">Offer Letter Release</field>
+            <field name="sequence">6</field>
+            <field name="template_id" ref="hr_recruitment_extended.email_template_offer_letter_release"/>
+        </record>
+        <record model="hr.recruitment.stage" id="stage_job7">
+            <field name="name">Contract Signed</field>
+            <field name="sequence">7</field>
+            <!-- <field name="fold" eval="True"/> -->
+            <field name="hired_stage">True</field>
+            <field name="template_id" ref="hr_recruitment_extended.email_template_contract_signed"/>
+        </record>
+
+
+        <record model="employment.type" id="employment_type_present">
+            <field name="name">Present Employer</field>
+        </record>
+        <record model="employment.type" id="employment_type_previous1">
+            <field name="name">Previous Employer I</field>
+        </record>
+        <record model="employment.type" id="employment_type_previous2">
+            <field name="name">Previous Employer II</field>
+        </record>
+        <record model="employment.type" id="employment_type_previous3">
+            <field name="name">Previous Employer III</field>
+        </record>
+        <record model="employment.type" id="employment_type_previous4">
+            <field name="name">Previous Employer IV</field>
+        </record>
+        <record model="employment.type" id="employment_type_previous5">
+            <field name="name">Previous Employer V</field>
+        </record>
+
+    </data>
+</odoo>

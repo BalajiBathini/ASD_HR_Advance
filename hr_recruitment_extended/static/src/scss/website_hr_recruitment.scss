@@ -1,0 +1,30 @@
+.full-width-table {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 0 15px; /* Optional: Adds some padding on the sides */
+}
+
+.full-width-table .table-responsive {
+    width: 100%;
+}
+
+.full-width-table .table.full-width {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.full-width-table .table th,
+.full-width-table .table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #dee2e6;
+    vertical-align: middle;
+}
+
+/* Ensure responsiveness */
+@media (max-width: 768px) {
+    .full-width-table .table-responsive {
+        overflow-x: auto;
+    }
+}

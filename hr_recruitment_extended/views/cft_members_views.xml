@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree View for CFT Members -->
+    <record id="cft_member_view_tree" model="ir.ui.view">
+        <field name="name">cft.member.tree</field>
+        <field name="model">cft.member</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="user_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View for CFT Members -->
+    <record id="cft_member_view_form" model="ir.ui.view">
+        <field name="name">cft.member.form</field>
+        <field name="model">cft.member</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="user_id"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action for CFT Members -->
+    <record id="action_cft_members" model="ir.actions.act_window">
+        <field name="name">CFT Members</field>
+        <field name="res_model">cft.member</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu for CFT Members under Recruitment Configuration -->
+    <menuitem id="menu_cft_members" 
+              name="CFT Members" 
+              parent="hr_recruitment.menu_hr_recruitment_configuration" 
+              action="action_cft_members"/>
+</odoo>

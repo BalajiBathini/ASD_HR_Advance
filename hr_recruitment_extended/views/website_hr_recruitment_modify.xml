@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="apply_extended" inherit_id="website_hr_recruitment.apply">
+        
+        <xpath expr="//textarea[@id='recruitment5']" position="replace">
+            <textarea id="recruitment5"
+                class="form-control s_website_form_input"
+                placeholder="Optional introduction, or any question you might have about the job…"
+                name="short_intro"  rows="5"></textarea>
+        </xpath>
+        <xpath expr="//div[hasclass('col-12', 's_website_form_submit', 'mb64')]" position="replace" >
+            
+        </xpath>
+
+        <xpath expr="//section[hasclass('col-12', 'col-md-3', 'ps-5')]" position="replace">
+
+
+        </xpath>
+
+        <xpath expr="//section[hasclass('col-12', 'col-md-9', 's_website_form')]" position="replace" >
+            <section id="forms" class="col-12 s_website_form" data-vcss="001" data-snippet="s_website_form">
+                <div class="container ">
+                    <form id="hr_recruitment_form" action="/website/form/" method="post"
+                    enctype="multipart/form-data" class="o_mark_required row"
+                    data-mark="*" data-model_name="hr.applicant"
+                    data-success-mode="redirect" data-success-page="/job-thank-you"
+                    hide-change-model="true">
+                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                        <div class="col-md-9">
+                            <div class="col-12 mb-0 py-2 s_website_form_field s_website_form_required s_website_form_model_required"
+                                data-type="char" data-name="Field">
+                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                    <label class="col-4 col-sm-auto s_website_form_label" style="width: 200px" for="recruitment1">
+                                        <span class="s_website_form_label_content">Your Name</span>
+                                        <span class="s_website_form_mark"> *</span>
+                                    </label>
+                                    <div class="col-sm">
+                                        <input id="recruitment1" type="text"
+                                            class="form-control s_website_form_input"
+                                            name="partner_name" required=""
+                                            data-fill-with="name"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-0 py-2 s_website_form_field s_website_form_required"
+                                data-type="email" data-name="Field">
+                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                    <label class="col-4 col-sm-auto s_website_form_label" style="width: 200px" for="recruitment2">
+                                        <span class="s_website_form_label_content">Your Email</span>
+                                        <span class="s_website_form_mark"> *</span>
+                                    </label>
+                                    <div class="col-sm">
+                                        <input id="recruitment2" type="email"
+                                            class="form-control s_website_form_input"
+                                            name="email_from" required=""
+                                            data-fill-with="email"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-0 py-2 s_website_form_field s_website_form_required"
+                                data-type="char" data-name="Field">
+                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                    <label class="col-4 col-sm-auto s_website_form_label" style="width: 200px" for="recruitment3">
+                                        <span class="s_website_form_label_content">Your Phone Number</span>
+                                        <span class="s_website_form_mark"> *</span>
+                                    </label>
+                                    <div class="col-sm">
+                                        <input id="recruitment3" type="tel"
+                                            class="form-control s_website_form_input"
+                                            name="partner_phone" required=""
+                                            data-fill-with="phone"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-0 py-2 s_website_form_field s_website_form_required"
+                                data-type="char" data-name="Field">
+                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                    <label class="col-4 col-sm-auto s_website_form_label" style="width: 200px" for="recruitment4">
+                                        <span class="s_website_form_label_content">LinkedIn Profile</span>
+                                        <span class="s_website_form_mark"> *</span>
+                                    </label>
+                                    <div class="col-sm" >
+                                        <i class="fa fa-linkedin fa-2x o_linkedin_icon"></i>
+                                        <input id="recruitment4" type="text"
+                                        class="form-control s_website_form_input pl64"
+                                            placeholder="e.g. https://www.linkedin.com/in/fpodoo"
+                                            style="padding-inline-start: calc(40px + 0.375rem)"
+                                            name="linkedin_profile"
+                                            data-fill-with="linkedin_profile"/>
+                                        <div class="alert alert-warning mt-2 d-none" id="linkedin-message" role="alert"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-0 py-2 s_website_form_field s_website_form_custom"
+                                data-type="binary" data-name="Field">
+                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                    <label class="col-4 col-sm-auto s_website_form_label" style="width: 200px" for="recruitment6">
+                                        <span class="s_website_form_label_content">Resume</span>
+                                        <span class="s_website_form_mark"> *</span>
+                                    </label>
+                                    <div class="col-sm">
+                                        <input id="recruitment6" type="file"
+                                            class="form-control s_website_form_input o_resume_input"
+                                            name="Resume"/>
+                                        <span class="text-muted small">Provide either a resume file or a linkedin profile</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 mb-0 py-2 s_website_form_field"
+                                data-type="text" data-name="Field">
+                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                    <label class="col-4 col-sm-auto s_website_form_label" style="width: 200px" for="recruitment5">
+                                        <span class="s_website_form_label_content">Short Introduction</span>
+                                    </label>
+                                    <div class="col-sm">
+                                        <textarea id="recruitment5"
+                                            class="form-control s_website_form_input"
+                                            placeholder="Optional introduction, or any question you might have about the job…"
+                                            name="applicant_notes"  rows="5"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <section class="col-12 ps-5">
+                                <a role="button" t-attf-href="/jobs/#{slug(job)}" class="btn btn-outline-primary btn-lg mb16 o_apply_description_link" style="--btn-font-size: 16px;">
+                                    <i class="oi oi-arrow-left"></i> Job Description
+                                </a>
+                                <div t-if="job.name" class="d-flex flex-column align-items-baseline">
+                                    <span class="text-muted small">Job</span>
+                                    <h6 t-field="job.name"/>
+                                </div>
+                                <div class="d-flex flex-column align-items-baseline">
+                                    <span class="text-muted small">Location</span>
+                                    <h6 t-if="job.address_id" t-field="job.address_id" t-options='{
+                                        "widget": "contact",
+                                        "fields": ["city"],
+                                        "no_tag_br": True,
+                                        "no_marker": True
+                                    }'/>
+                                    <h6 t-else="">Remote</h6>
+                                </div>
+                                <div t-if="job.department_id" class="d-flex flex-column align-items-baseline">
+                                    <span class="text-muted small">Department</span>
+                                    <h6 t-field="job.department_id"/>
+                                </div>
+                                <div t-if="job.contract_type_id" class="d-flex flex-column align-items-baseline">
+                                    <span class="text-muted small">Employment Type</span>
+                                    <h6 t-field="job.contract_type_id"/>
+                                </div>
+                                <hr t-if="job.job_details" class="w-50 my-3"/>
+                                <div t-field="job.job_details"/>
+                            </section>
+                        </div>
+                        <!-- custom code starts here  -->
+                        <!-- custom code starts here  -->
+                        <!-- custom code starts here  -->
+                        <!-- custom code starts here  -->
+                        <h3 class="section-title">Personal Information</h3>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label for="father_name">Father's Name<span class="text-danger"> *</span></label>
+                                    <input type="text" name="father_name" class="form-control" required="1"/>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label for="mother_name">Mother's Name<span class="text-danger"> *</span></label>
+                                    <input type="text" name="mother_name" class="form-control" required="1"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label for="dob">Date of Birth<span class="text-danger"> *</span></label>
+                                    <input type="date" name="dob" class="form-control" required="1"/>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="marital_status">Marital Status</label>
+                                    <select name="marital_status" class="form-control">
+                                        <option value="yes">Yes</option>
+                                        <option value="no">No</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label for="spouse_name">Spouse Name (If Yes)</label>
+                                    <input type="text" name="spouse_name" class="form-control"/>
+                                </div>
+                            </div>
+                            <br/>
+                            <h3>Contact Information</h3>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label for="mobile_no">Mobile No.<span class="text-danger"> *</span></label>
+                                    <input type="text" name="mobile_no" class="form-control" required="1"/>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label for="emergency_contact_no">Emergency Contact No.</label>
+                                    <input type="text" name="emergency_contact_no" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label for="emergency_contact_name">Emergency Contact Name</label>
+                                    <input type="text" name="emergency_contact_name" class="form-control"/>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label for="emergency_contact_relation">Relation</label>
+                                    <input type="text" name="emergency_contact_relation" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label for="mail_id">Mail Id</label>
+                                    <input type="email" name="mail_id" class="form-control"/>
+                                </div>
+                            </div>
+                            <br/>
+                            <h3 class="section-title">Health Information</h3>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label for="blood_group">Blood Group<span class="text-danger"> *</span></label>
+                                    <select name="blood_group" class="form-control" required="1">
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label for="medical_disability">Any Medical Disability</label>
+                                    <textarea name="medical_disability" class="form-control"></textarea>
+                                </div>
+                            </div>
+                            <br/>
+                            <h3>Address Information</h3>
+                        <div class="form-group">
+                                <label for="present_address">Present Address<span class="text-danger"> *</span></label>
+                                <textarea name="present_address" class="form-control" required="1"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="permanent_address">Permanent Address</label>
+                                <textarea name="permanent_address" class="form-control"></textarea>
+                            </div>
+
+                            <br/>
+                            <h3>Salary and Experience</h3>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label for="present_salary">Present Salary</label>
+                                    <input type="number" name="present_salary" class="form-control" step="0.01"/>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label for="salary_expected">Expected Salary<span class="text-danger"> *</span></label>
+                                    <input type="number" name="salary_expected" class="form-control" step="0.01" required="1"/>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label for="total_experience">Total Experience<span class="text-danger"> *</span></label>
+                                    <input type="text" name="total_experience" class="form-control" placeholder="e.g., 2 years 3 months" required="1"/>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label for="notice_period">Notice Period</label>
+                                    <input type="text" name="notice_period" class="form-control" placeholder="e.g., 30 days"/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                  <div class="col-md-6 form-check">
+                                    <input type="checkbox" name="is_negotiable" class="form-check-input"/>
+                                    <label for="is_negotiable" class="form-check-label">Is Expected Salary Negotiable</label>
+                                </div>
+
+                            </div>
+                            <br/>
+                            <h3>Referral</h3>
+                            <div class="col-md-6 form-group">
+                                <label for="referred_by">Name of the Person/Placement That Referred You</label>
+                                <input type="text" name="referred_by" class="form-control"/>
+                            </div>
+                            <br/>
+                            <div class="container mt-5">
+                                <h3 class="mb-3">Skills<span class="text-danger"> *</span></h3>
+                                <div class="skills-details table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th style="width: 30%;">Skill Type</th>
+                                                <th style="width: 30%;">Skill</th>
+                                                <th style="width: 20%;">Proficiency</th>
+                                                <th style="width: 10%;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="skills-rows">
+                                            <tr t-att-data-row="0">
+                                                <td>
+                                                    <div class="s_website_form_field">
+                                                        <!-- Changed to candidate_skill_ids -->
+                                                        <select name="candidate_skill_ids[0][skill_type_id]" class="form-control s_website_form_input">
+                                                            <option value="">Select Skill Type</option>
+                                                            <t t-foreach="request.env['hr.skill.type'].sudo().search([])" t-as="skill_type">
+                                                                <option t-att-value="skill_type.id"><t t-esc="skill_type.name"/></option>
+                                                            </t>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="s_website_form_field">
+                                                        <!-- Changed to candidate_skill_ids -->
+                                                        <select name="candidate_skill_ids[0][skill_id]" class="form-control s_website_form_input">
+                                                            <option value="">Select Skill</option>
+                                                            <!-- Skills will be populated dynamically via JavaScript -->
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="s_website_form_field">
+                                                        <!-- Changed to candidate_skill_ids and renamed to skill_level_id -->
+                                                        <select name="candidate_skill_ids[0][skill_level_id]" class="form-control s_website_form_input">
+                                                            <option value="">Select Proficiency</option>
+                                                            <!-- Levels will be populated dynamically via JavaScript -->
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-danger delete-skill-row" disabled="disabled">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="text-center mt-3">
+                                    <button type="button" class="btn btn-secondary add-skill-row">Add Skill</button>
+                                </div>
+                            </div>
+                            <div class="container mt-5">
+                                <h3 class="mb-3">Other Skills</h3>
+                                <div class="col-md-6 form-group">
+                                    <label for="other_skills">Please list any other relevant skills not covered above</label>
+                                    <textarea name="other_skills" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="mt-5 full-width-table">
+                                <h3 class="mb-3">Education / Qualification / Degree Details<span class="text-danger"> *</span></h3>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered full-width" >
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 15%;">Exam Passed</th>
+                                                <th style="width: 20%;">Subject</th>
+                                                <th style="width: 20%;">Specialization</th>
+                                                <th style="width: 20%;">Institution</th>
+                                                <th style="width: 12%;">Marks (%)</th>
+                                                <th style="width: 14%;">Year</th>
+                                                <th style="width: 14%;">Study Type</th>
+                                                <th style="width: 20%;">Achievements</th>
+                                                <th style="width: 20%;">Attachments</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="font-size: 12px">
+                                            <t t-foreach="range(5)" t-as="i">
+                                                <tr>
+                                                    <td>
+                                                        <div class="s_website_form_field">
+                                                            <select t-attf-name="education_ids[#{i}][exam_passed]" class="form-control s_website_form_input">
+                                                                <option value="">Select</option>
+                                                                <option value="10th">10th</option>
+                                                                <option value="12th">12th</option>
+                                                                <option value="graduation">Graduation</option>
+                                                                <option value="technical">Technical</option>
+                                                                <option value="certification">Any Other Certifications</option>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="s_website_form_field">
+                                                            <textarea t-attf-name="education_ids[#{i}][subject]" class="form-control s_website_form_input"></textarea>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="s_website_form_field">
+                                                            <textarea t-attf-name="education_ids[#{i}][specialization]" class="form-control s_website_form_input"></textarea>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="s_website_form_field">
+                                                            <textarea t-attf-name="education_ids[#{i}][institution]" class="form-control s_website_form_input"></textarea>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="s_website_form_field">
+                                                            <input type="number" t-attf-name="education_ids[#{i}][marks_obtained]" class="form-control s_website_form_input" min="0" max="100"/>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="s_website_form_field">
+                                                            <input type="number" t-attf-name="education_ids[#{i}][year_of_passing]" class="form-control s_website_form_input" min="1900" max="2100"/>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="s_website_form_field">
+                                                            <select t-attf-name="education_ids[#{i}][study_type]" class="form-control s_website_form_input">
+                                                                <option value="">Select</option>
+                                                                <option value="full_time">Full Time</option>
+                                                                <option value="part_time">Part Time</option>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="s_website_form_field">
+                                                            <textarea t-attf-name="education_ids[#{i}][achievements]" class="form-control s_website_form_input" rows="2"></textarea>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="s_website_form_field">
+                                                            <input type="file" t-attf-name="education_ids[#{i}][attachment_ids]" multiple="multiple" class="form-control s_website_form_input" data-oe-file-widget="false"/>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Previous/Current Employment History -->
+                            <div class="mt-5 full-width-table">
+                                <h3 class="mb-3">Previous/Current Employment History</h3>
+                                <div class="employment-history table-responsive">
+                                    <table class="table table-bordered table-striped full-width" >
+                                        <thead class="thead-light" >
+                                            <tr>
+                                                <th style="width: 15%;">Details</th>
+                                                <th style="width: 15%;">Company</th>
+                                                <th style="width: 15%;">Location</th>
+                                                <th style="width: 25%;">Duration (From-To)</th>
+                                                <th style="width: 15%;">Designation</th>
+                                                <th style="width: 15%;">Reporting Officer</th>
+                                                <th style="width: 15%;">Years of Exp.</th>
+                                                <th style="width: 15%;">Reason for leaving</th>
+                                                <th style="width: 25%;">Experience Certificate</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="employment-rows">
+                                            <tr t-att-data-row="0">
+                                                <td>
+                                                    <div class="s_website_form_field">
+                                                        <select name="employment_ids[0][employment_type_id]" class="form-control s_website_form_input">
+                                                            <option value="">Select</option>
+                                                            <t t-foreach="request.env['employment.type'].search([])" t-as="type">
+                                                                <option t-att-value="type.id" t-esc="type.name"/>
+                                                            </t>
+                                                        </select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="s_website_form_field">
+                                                        <input type="text" name="employment_ids[0][company]" class="form-control s_website_form_input" />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="s_website_form_field">
+                                                        <input type="text" name="employment_ids[0][location]" class="form-control s_website_form_input" />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="s_website_form_field">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <input type="date" name="employment_ids[0][duration_from]" class="form-control s_website_form_input" placeholder="From" />
+                                                            </div>
+                                                            <div class="col-12 mt-2">
+                                                                <input type="date" name="employment_ids[0][duration_to]" class="form-control s_website_form_input" placeholder="To" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="s_website_form_field">
+                                                        <input type="text" name="employment_ids[0][designation]" class="form-control s_website_form_input" />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="s_website_form_field">
+                                                        <input type="text" name="employment_ids[0][reporting_officer]" class="form-control s_website_form_input" />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="s_website_form_field">
+                                                        <input type="number" name="employment_ids[0][years_of_experience]" class="form-control s_website_form_input" step="0.1" />
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="s_website_form_field">
+                                                        <textarea name="employment_ids[0][leaving_reason]" class="form-control s_website_form_input" rows="1" ></textarea>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="s_website_form_field">
+                                                        <input type="file" name="employment_ids[0][attachment_ids]" class="form-control s_website_form_input" multiple="multiple" />
+                                                        <div class="file-previews" ></div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <button type="button" class="btn btn-sm btn-danger delete-employment-row" disabled="disabled" ><i class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="text-center mt-3">
+                                    <button type="button" class="btn btn-secondary add-employment-row">Add Employment Record</button>
+                                </div>
+                            </div>
+
+                            <!-- Document Details Section -->
+                            <div class="mt-5 full-width-table">
+                                <h3 class="mb-3">Document Details<span class="text-danger"> *</span></h3>
+                                <div class="document-details table-responsive">
+                                    <table class="table table-bordered table-hover full-width">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th>Document Type</th>
+                                                <th>Name on Document</th>
+                                                <th>Document No</th>
+                                                <th width="14%">Valid From</th>
+                                                <th width="14%">Valid To</th>
+                                                <th>Document Attachment</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="range(5)" t-as="i">
+                                                <tr>
+                                                    <td>
+                                                        <div class="s_website_form_field">
+                                                            <select t-attf-name="document_ids[#{i}][document_type]" class="form-control s_website_form_input">
+                                                                <option value="">Select</option>
+                                                                <option value="aadhar">Aadhaar Card</option>
+                                                                <option value="pan">Pan Card</option>
+                                                                <option value="election">Election Card</option>
+                                                                <option value="passport">Passport</option>
+                                                                <option value="birth_certificate">Birth Certificate</option>
+                                                                <option value="bank_account">Bank Account</option>
+                                                                <option value="photo">Passport Size Photo</option>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="s_website_form_field">
+                                                            <input type="text" t-attf-name="document_ids[#{i}][name_on_document]" class="form-control s_website_form_input"/>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="s_website_form_field">
+                                                            <input type="text" t-attf-name="document_ids[#{i}][document_no]" class="form-control s_website_form_input"/>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="s_website_form_field">
+                                                            <input type="date" t-attf-name="document_ids[#{i}][valid_from]" class="form-control s_website_form_input"/>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="s_website_form_field">
+                                                            <input type="date" t-attf-name="document_ids[#{i}][valid_to]" class="form-control s_website_form_input"/>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="s_website_form_field">
+                                                            <input type="file" t-attf-name="document_ids[#{i}][attachment_ids]" multiple="multiple" class="form-control s_website_form_input" data-oe-file-widget="false"/>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        <!-- ends here  -->
+                        <!-- ends here  -->
+                        <!-- ends here  -->
+                        <!-- ends here  -->
+                        <div class="col-12 mb-0 py-2 s_website_form_field s_website_form_dnone"
+                             data-type="record" data-model="hr.job">
+                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                <label class="col-4 col-sm-auto s_website_form_label" style="width: 200px" for="recruitment7">
+                                    <span class="s_website_form_label_content">Job</span>
+                                </label>
+                                <div class="col-sm">
+                                    <input id="recruitment7" type="hidden"
+                                        class="form-control s_website_form_input"
+                                        name="job_id"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-0 py-2 s_website_form_field s_website_form_dnone"
+                             data-type="record" data-model="hr.department">
+                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                <label class="col-4 col-sm-auto s_website_form_label" style="width: 200px" for="recruitment8">
+                                    <span class="s_website_form_label_content">Department</span>
+                                </label>
+                                <div class="col-sm">
+                                    <input id="recruitment8" type="hidden"
+                                        class="form-control s_website_form_input"
+                                        name="department_id"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 s_website_form_submit mt-5 mb-5" style="text-align: center" data-name="Submit Button">
+                            <div class="alert alert-warning mt-2 d-none" id="warning-message" role="alert"></div>
+                            <div class="s_website_form_label"/>
+                            <a href="#" role="button" class="btn btn-primary btn-lg s_website_form_send" id="apply-btn">I'm feeling lucky</a>
+                            <span id="s_website_form_result"></span>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </section>
+    </xpath>
+
+        <!-- <xpath expr="//section[@class='col-12 col-md-3 ps-5']" position="after"> -->
+            <!-- <div class="col-12 s_website_form_field"> -->
+        <xpath expr="//div[hasclass('col-12', 'mb-0', 'py-2', 's_website_form_field')]" position="after">
+
+            
+                    
+
+        </xpath>
+
+    </template>
+
+</odoo>
