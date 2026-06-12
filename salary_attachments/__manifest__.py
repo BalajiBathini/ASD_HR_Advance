@@ -3,6 +3,9 @@
     'name': 'Salary Attachments',
     'version': '18.0.1.0.0',
     'category': 'Human Resources/Payroll',
+    'sequence': 1,
+    'author': 'Balaji Bathini',
+    'license': 'LGPL-3',
     'summary': 'Manage employee deductions and additions',
     'description': """
         Manage employee loans, salary advances, and other deductions.

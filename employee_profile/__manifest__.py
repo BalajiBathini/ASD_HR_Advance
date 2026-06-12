@@ -3,6 +3,8 @@
     'name': 'Employee Profile DOCX',
     'version': '18.0.1.0.0',
     'category': 'Human Resources',
+    'sequence': 1,
+
     'summary': 'Generate Employee Profile DOCX from Employee Record',
     'description': """
         Generates a formatted DOCX employee profile document from the employee form view.

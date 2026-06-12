@@ -3,6 +3,9 @@
     'name': 'Employee Salary Structure',
     'version': '18.0.1.0.0',
     'category': 'Human Resources/Contracts',
+    'sequence': 1,
+    'author': 'Balaji Bathini',
+    'license': 'LGPL-3',
     'summary': 'Individual employee salary management',
     'description': """
         Employee Salary Structure module.

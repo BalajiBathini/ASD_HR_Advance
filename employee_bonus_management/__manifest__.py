@@ -4,6 +4,10 @@
     'version': '18.0.1.0.0',
     'category': 'Human Resources/Payroll',
     'summary': 'Manage bonuses and incentives',
+    'sequence': 1,
+    'author': 'Balaji Bathini',
+    'license': 'LGPL-3',
+
     'description': """
         Manage employee bonuses and incentives.
         Includes a bulk wizard to apply bonuses across all or selected employees.
