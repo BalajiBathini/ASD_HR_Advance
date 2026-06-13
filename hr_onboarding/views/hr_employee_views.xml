@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hr_employee_onboarding_inherit" model="ir.ui.view">
+        <field name="name">hr.employee.onboarding.inherit</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Smart Button -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button"
+                        name="action_view_onboarding"
+                        type="object"
+                        icon="fa-tasks"
+                        invisible="onboarding_count == 0">
+                    <field name="onboarding_count"
+                           string="Onboarding"
+                           widget="statinfo"/>
+                </button>
+            </xpath>
+
+            <!-- Onboarding Status Badge + Quick Create Button after Work Info tab -->
+            <xpath expr="//notebook/page[@name='public']" position="after">
+                <page string="Onboarding" name="onboarding">
+                    <group>
+                        <field name="onboarding_state" widget="badge"
+                               decoration-success="onboarding_state == 'done'"
+                               decoration-warning="onboarding_state == 'in_progress'"
+                               decoration-info="onboarding_state == 'not_started'"/>
+                    </group>
+                    <div class="mt-2">
+                        <button name="action_create_onboarding"
+                                string="Create Onboarding Plan"
+                                type="object"
+                                class="btn btn-primary"
+                                invisible="onboarding_count != 0"/>
+                        <button name="action_view_onboarding"
+                                string="View Onboarding Plans"
+                                type="object"
+                                class="btn btn-secondary"
+                                invisible="onboarding_count == 0"/>
+                    </div>
+                    <field name="onboarding_id" readonly="1"
+                           invisible="onboarding_count == 0">
+                        <list>
+                            <field name="join_date"/>
+                            <field name="template_id"/>
+                            <field name="completion_pct" widget="progressbar"/>
+                            <field name="state" widget="badge"
+                                   decoration-success="state == 'done'"
+                                   decoration-warning="state == 'in_progress'"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

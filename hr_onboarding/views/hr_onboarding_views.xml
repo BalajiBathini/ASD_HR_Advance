@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ── Onboarding Form View ────────────────────────────────────── -->
+    <record id="view_hr_onboarding_form" model="ir.ui.view">
+        <field name="name">hr.onboarding.form</field>
+        <field name="model">hr.onboarding</field>
+        <field name="arch" type="xml">
+            <form string="Onboarding Plan">
+                <header>
+                    <button name="action_start"
+                            string="Start Onboarding"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_apply_template"
+                            string="Apply Template"
+                            type="object"
+                            invisible="state != 'draft'"/>
+                    <button name="action_send_notifications"
+                            string="Send Notifications"
+                            type="object"
+                            invisible="state not in ('in_progress',)"/>
+                    <button name="action_complete"
+                            string="Mark Complete"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'in_progress'"/>
+                    <button name="action_cancel"
+                            string="Cancel"
+                            type="object"
+                            invisible="state in ('done', 'cancelled')"/>
+                    <button name="action_reset_draft"
+                            string="Reset to Draft"
+                            type="object"
+                            invisible="state != 'cancelled'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,in_progress,done"/>
+                </header>
+                <sheet>
+                    <!-- Progress Banner -->
+                    <div class="alert alert-info mb-3"
+                         role="status"
+                         invisible="total_tasks == 0">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <strong>Completion:</strong>
+                                <field name="done_tasks" readonly="1"/> /
+                                <field name="total_tasks" readonly="1"/> tasks done
+                                (<field name="completion_pct" readonly="1"/>%)
+                            </div>
+                            <div class="col-4 text-end">
+                                <span class="text-danger"
+                                      invisible="overdue_task_count == 0">
+                                    ⚠ <field name="overdue_task_count" readonly="1"/> overdue
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <group>
+                        <group string="Employee">
+                            <field name="employee_id"/>
+                            <field name="department_id" readonly="1"/>
+                            <field name="job_id" readonly="1"/>
+                            <field name="manager_id" readonly="1"/>
+                        </group>
+                        <group string="Plan Configuration">
+                            <field name="join_date"/>
+                            <field name="template_id"/>
+                            <field name="completion_pct" widget="progressbar"
+                                   invisible="total_tasks == 0"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Checklist" name="tasks">
+                            <field name="task_ids" context="{'default_onboarding_id': id}">
+                                <list decoration-success="state == 'done'"
+                                       decoration-danger="state == 'pending' and due_date and due_date &lt; context_today()"
+                                       decoration-muted="state == 'skipped'">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="category"/>
+                                    <field name="name"/>
+                                    <field name="responsible_id"/>
+                                    <field name="due_days"/>
+                                    <field name="due_date"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'done'"
+                                           decoration-warning="state == 'in_progress'"
+                                           decoration-danger="state == 'pending'"
+                                           decoration-info="state == 'skipped'"/>
+                                    <field name="is_mandatory"/>
+                                    <button name="action_mark_done"
+                                            string="✔ Done"
+                                            type="object"
+                                            class="btn-sm btn-success"
+                                            invisible="state == 'done'"/>
+                                    <field name="completed_date" optional="hide"/>
+                                    <field name="completed_by" optional="hide"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ── Onboarding List View ────────────────────────────────────── -->
+    <record id="view_hr_onboarding_list" model="ir.ui.view">
+        <field name="name">hr.onboarding.list</field>
+        <field name="model">hr.onboarding</field>
+        <field name="arch" type="xml">
+            <list string="Onboarding Plans"
+                  decoration-success="state == 'done'"
+                  decoration-warning="state == 'in_progress'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="join_date"/>
+                <field name="template_id"/>
+                <field name="total_tasks"/>
+                <field name="done_tasks"/>
+                <field name="completion_pct" widget="progressbar"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'done'"
+                       decoration-warning="state == 'in_progress'"
+                       decoration-info="state == 'draft'"
+                       decoration-danger="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ── Onboarding Kanban View (Manager Dashboard) ─────────────── -->
+    <record id="view_hr_onboarding_kanban" model="ir.ui.view">
+        <field name="name">hr.onboarding.kanban</field>
+        <field name="model">hr.onboarding</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column">
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="join_date"/>
+                <field name="completion_pct"/>
+                <field name="state"/>
+                <field name="total_tasks"/>
+                <field name="done_tasks"/>
+                <field name="overdue_task_count"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="o_kanban_record_top mb-0">
+                            <div class="o_kanban_record_headings">
+                                <strong class="o_kanban_record_title">
+                                    <field name="employee_id"/>
+                                </strong>
+                            </div>
+                            <span class="badge rounded-pill"
+                                  t-att-class="record.state.raw_value == 'done' ? 'bg-success' :
+                                               record.state.raw_value == 'in_progress' ? 'bg-warning' :
+                                               'bg-secondary'">
+                                <field name="state"/>
+                            </span>
+                        </div>
+                        <div class="mt-1">
+                            <small class="text-muted">
+                                <field name="department_id"/> · Joined <field name="join_date"/>
+                            </small>
+                        </div>
+                        <div class="mt-2">
+                            <div class="progress" style="height:8px;">
+                                <div class="progress-bar bg-success"
+                                     t-att-style="'width:' + record.completion_pct.raw_value + '%'"/>
+                            </div>
+                            <small>
+                                <field name="done_tasks"/>/<field name="total_tasks"/> tasks
+                                (<field name="completion_pct"/>%)
+                            </small>
+                        </div>
+                        <div class="mt-1" t-if="record.overdue_task_count.raw_value > 0">
+                            <span class="text-danger">
+                                ⚠ <field name="overdue_task_count"/> overdue
+                            </span>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ── Search View ─────────────────────────────────────────────── -->
+    <record id="view_hr_onboarding_search" model="ir.ui.view">
+        <field name="name">hr.onboarding.search</field>
+        <field name="model">hr.onboarding</field>
+        <field name="arch" type="xml">
+            <search string="Onboarding Plans">
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="template_id"/>
+                <filter name="in_progress" string="In Progress"
+                        domain="[('state','=','in_progress')]"/>
+                <filter name="completed" string="Completed"
+                        domain="[('state','=','done')]"/>
+                <filter name="draft" string="Draft"
+                        domain="[('state','=','draft')]"/>
+                <separator/>
+                <filter name="joined_this_month" string="Joined This Month"
+                        domain="[('join_date','&gt;=', (context_today() + relativedelta(day=1)).strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_dept" string="Department"
+                            context="{'group_by': 'department_id'}"/>
+                    <filter name="group_state" string="Status"
+                            context="{'group_by': 'state'}"/>
+                    <filter name="group_template" string="Template"
+                            context="{'group_by': 'template_id'}"/>
+                    <filter name="group_join_month" string="Join Month"
+                            context="{'group_by': 'join_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ── Action ──────────────────────────────────────────────────── -->
+    <record id="action_hr_onboarding" model="ir.actions.act_window">
+        <field name="name">Onboarding Plans</field>
+        <field name="res_model">hr.onboarding</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_hr_onboarding_search"/>
+        <field name="context">{'search_default_in_progress': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No onboarding plans yet!
+            </p>
+            <p>Create an onboarding plan for a new employee to track
+               their Day 0 → Day 30 checklist.</p>
+        </field>
+    </record>
+
+</odoo>

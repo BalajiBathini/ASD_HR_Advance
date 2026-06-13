@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Sequence for Hr Induction -->
+    <record id="seq_hr_induction" model="ir.sequence">
+        <field name="name">Hr Induction Sequence</field>
+        <field name="code">hr.induction</field>
+        <field name="prefix"></field>
+        <field name="padding">3</field>
+        <field name="number_increment">1</field>
+    </record>
+    
+    <!-- Sequence for Hr Induction Department Line -->
+    <record id="seq_hr_induction_department_line" model="ir.sequence">
+        <field name="name">Hr Induction Department Line Sequence</field>
+        <field name="code">hr.induction.department.line</field>
+        <field name="prefix"></field>
+        <field name="padding">3</field>
+        <field name="number_increment">1</field>
+    </record>
+
+    <!-- Initial Stages -->
+    <record id="stage_draft" model="hr.induction.stage">
+        <field name="name">Draft</field>
+        <field name="sequence">1</field>
+    </record>
+    <record id="stage_scheduled" model="hr.induction.stage">
+        <field name="name">Scheduled</field>
+        <field name="sequence">2</field>
+    </record>
+    <record id="stage_completed" model="hr.induction.stage">
+        <field name="name">Completed</field>
+        <field name="sequence">3</field>
+    </record>
+    <record id="stage_cancelled" model="hr.induction.stage">
+        <field name="name">Cancelled</field>
+        <field name="sequence">4</field>
+        <field name="fold">True</field>
+    </record>
+    
+    <!-- Mail Template -->
+    <record id="mail_template_induction_scheduled" model="mail.template">
+        <field name="name">Induction Scheduled Notification</field>
+        <field name="model_id" ref="model_hr_induction"/>
+        <field name="subject">Induction Scheduled for {{object.employee_id.name}}</field>
+        <field name="email_from">{{object.user_id.email or ''}}</field>
+        <field name="email_to">{{object.hod_id.user_id.email or ''}}, {{','.join(object.department_line_ids.mapped('assigned_to.user_id.email'))}}</field>
+        <field name="body_html">
+            <![CDATA[
+            <p>Dear All,</p>
+            <p>We are pleased to announce the joining of ${object.employee_id.name} as "${object.employee_id.job_id.name}" in ${object.company_id.name} and his induction schedule is attached for your kind reference. All are requested to extend your full cooperation to him during induction as per schedule. Details of ${object.employee_id.name} are as under:</p>
+            <p><strong>Employee Details</strong></p>
+            <ul>
+                <li><strong>Full Name:</strong> ${object.employee_id.name}</li>
+                <li><strong>Date of Joining:</strong> ${object.joining_date}</li>
+                <li><strong>Company:</strong> ${object.company_id.name}</li>
+                <li><strong>Designation:</strong> ${object.employee_id.job_id.name}</li>
+                <li><strong>Date of Birth:</strong> ${object.employee_id.birthday or 'N/A'}</li>
+                <li><strong>Qualification:</strong> ${object.employee_id.study_field or 'N/A'}</li>
+                <li><strong>Past Experience:</strong> ${object.employee_id.children or 'N/A'} Years</li>
+                <li><strong>Responsibilities @ ${object.company_id.name}:</strong> ${object.employee_id.notes or 'N/A'}</li>
+            </ul>
+            <p>Let us all welcome him in ${object.company_id.name}.</p>
+            <p>Thanks &amp; Regards,</p>
+            <p>${object.user_id.name}</p>
+            ]]>
+        </field>
+    </record>
+
+
+</odoo>

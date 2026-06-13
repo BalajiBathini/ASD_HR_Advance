@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+
+access_hr_induction_user,hr.induction.user,model_hr_induction,hr.group_hr_user,1,1,1,0
+access_hr_induction_manager,hr.induction.manager,model_hr_induction,hr.group_hr_manager,1,1,1,1
+access_hr_induction_employee,hr.induction.employee,model_hr_induction,base.group_user,1,0,0,0
+
+access_hr_induction_stage_user,hr.induction.stage.user,model_hr_induction_stage,hr.group_hr_user,1,0,0,0
+access_hr_induction_stage_manager,hr.induction.stage.manager,model_hr_induction_stage,hr.group_hr_manager,1,1,1,1
+access_hr_induction_stage_employee,hr.induction.stage.employee,model_hr_induction_stage,base.group_user,1,0,0,0
+
+access_hr_induction_department_line_user,hr.induction.department.line.user,model_hr_induction_department_line,hr.group_hr_user,1,1,1,0
+access_hr_induction_department_line_manager,hr.induction.department.line.manager,model_hr_induction_department_line,hr.group_hr_manager,1,1,1,1
+access_hr_induction_department_line_employee,hr.induction.department.line.employee,model_hr_induction_department_line,base.group_user,1,0,0,0
+

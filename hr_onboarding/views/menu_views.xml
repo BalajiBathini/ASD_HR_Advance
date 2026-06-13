@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Root Menu: under Employees app -->
+    <menuitem id="menu_hr_onboarding_root"
+              name="Onboarding"
+              parent="hr.menu_hr_root"
+              sequence="25"/>
+
+    <menuitem id="menu_hr_onboarding_plans"
+              name="Onboarding Plans"
+              parent="menu_hr_onboarding_root"
+              action="action_hr_onboarding"
+              sequence="10"/>
+
+    <menuitem id="menu_my_onboarding_tasks"
+              name="My Tasks"
+              parent="menu_hr_onboarding_root"
+              action="action_my_onboarding_tasks"
+              sequence="20"/>
+
+    <menuitem id="menu_all_onboarding_tasks"
+              name="All Tasks"
+              parent="menu_hr_onboarding_root"
+              action="action_all_onboarding_tasks"
+              sequence="30"
+              groups="hr.group_hr_manager"/>
+
+    <menuitem id="menu_hr_onboarding_config"
+              name="Configuration"
+              parent="menu_hr_onboarding_root"
+              sequence="100"
+              groups="hr.group_hr_manager"/>
+
+    <menuitem id="menu_hr_onboarding_templates"
+              name="Onboarding Templates"
+              parent="menu_hr_onboarding_config"
+              action="action_hr_onboarding_template"
+              sequence="10"/>
+
+</odoo>

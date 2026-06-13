@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="onboarding_template_standard" model="hr.onboarding.template">
+        <field name="name">Standard Onboarding Template</field>
+        <field name="description">
+            Default onboarding checklist covering IT Setup, HR Admin, Payroll,
+            Training, and Manager tasks from Day 0 to Day 30.
+        </field>
+    </record>
+
+    <!-- ── IT Setup ───────────────────────────────────────────────────── -->
+
+    <record id="tpl_line_laptop" model="hr.onboarding.template.line">
+        <field name="template_id" ref="onboarding_template_standard"/>
+        <field name="sequence">10</field>
+        <field name="name">Laptop Issued</field>
+        <field name="category">it</field>
+        <field name="responsible_role">it_team</field>
+        <field name="due_days">0</field>
+        <field name="is_mandatory">True</field>
+        <field name="description">Issue laptop with required software pre-installed.</field>
+    </record>
+
+    <record id="tpl_line_email" model="hr.onboarding.template.line">
+        <field name="template_id" ref="onboarding_template_standard"/>
+        <field name="sequence">20</field>
+        <field name="name">Email Account Created</field>
+        <field name="category">it</field>
+        <field name="responsible_role">it_team</field>
+        <field name="due_days">0</field>
+        <field name="is_mandatory">True</field>
+        <field name="description">Create official company email account and share credentials.</field>
+    </record>
+
+    <record id="tpl_line_system_access" model="hr.onboarding.template.line">
+        <field name="template_id" ref="onboarding_template_standard"/>
+        <field name="sequence">30</field>
+        <field name="name">System Access (ERP / HRMS)</field>
+        <field name="category">it</field>
+        <field name="responsible_role">it_team</field>
+        <field name="due_days">1</field>
+        <field name="is_mandatory">True</field>
+        <field name="description">Provision Odoo login with appropriate role/access group.</field>
+    </record>
+
+    <!-- ── HR Admin ───────────────────────────────────────────────────── -->
+
+    <record id="tpl_line_idcard" model="hr.onboarding.template.line">
+        <field name="template_id" ref="onboarding_template_standard"/>
+        <field name="sequence">40</field>
+        <field name="name">ID Card Generated &amp; Issued</field>
+        <field name="category">hr_admin</field>
+        <field name="responsible_role">hr_admin</field>
+        <field name="due_days">1</field>
+        <field name="is_mandatory">True</field>
+        <field name="description">Generate employee ID card and issue physical card.</field>
+    </record>
+
+    <record id="tpl_line_offer_letter" model="hr.onboarding.template.line">
+        <field name="template_id" ref="onboarding_template_standard"/>
+        <field name="sequence">50</field>
+        <field name="name">Offer Letter Copy Filed</field>
+        <field name="category">hr_admin</field>
+        <field name="responsible_role">hr_admin</field>
+        <field name="due_days">0</field>
+        <field name="is_mandatory">True</field>
+        <field name="description">Collect signed copy of offer letter and file in employee record.</field>
+    </record>
+
+    <record id="tpl_line_nda" model="hr.onboarding.template.line">
+        <field name="template_id" ref="onboarding_template_standard"/>
+        <field name="sequence">60</field>
+        <field name="name">NDA / Bond Signed</field>
+        <field name="category">hr_admin</field>
+        <field name="responsible_role">hr_admin</field>
+        <field name="due_days">1</field>
+        <field name="is_mandatory">True</field>
+        <field name="description">Get NDA and bond agreement signed and filed.</field>
+    </record>
+
+    <!-- ── Payroll ────────────────────────────────────────────────────── -->
+
+    <record id="tpl_line_bank_account" model="hr.onboarding.template.line">
+        <field name="template_id" ref="onboarding_template_standard"/>
+        <field name="sequence">70</field>
+        <field name="name">Bank Account Details Submitted</field>
+        <field name="category">payroll</field>
+        <field name="responsible_role">employee</field>
+        <field name="due_days">3</field>
+        <field name="is_mandatory">True</field>
+        <field name="description">Employee to submit bank account details for salary credit.</field>
+    </record>
+
+    <record id="tpl_line_pf_esi" model="hr.onboarding.template.line">
+        <field name="template_id" ref="onboarding_template_standard"/>
+        <field name="sequence">80</field>
+        <field name="name">PF / ESI Enrollment</field>
+        <field name="category">payroll</field>
+        <field name="responsible_role">payroll_team</field>
+        <field name="due_days">7</field>
+        <field name="is_mandatory">True</field>
+        <field name="description">Register employee under EPF and ESIC. Collect UAN if existing.</field>
+    </record>
+
+    <record id="tpl_line_tds" model="hr.onboarding.template.line">
+        <field name="template_id" ref="onboarding_template_standard"/>
+        <field name="sequence">90</field>
+        <field name="name">TDS Declaration Submitted</field>
+        <field name="category">payroll</field>
+        <field name="responsible_role">employee</field>
+        <field name="due_days">7</field>
+        <field name="is_mandatory">False</field>
+        <field name="description">Employee to declare investments under Form 12BB for TDS computation.</field>
+    </record>
+
+    <!-- ── Training ───────────────────────────────────────────────────── -->
+
+    <record id="tpl_line_induction" model="hr.onboarding.template.line">
+        <field name="template_id" ref="onboarding_template_standard"/>
+        <field name="sequence">100</field>
+        <field name="name">Induction Training Assigned</field>
+        <field name="category">training</field>
+        <field name="responsible_role">ld_team</field>
+        <field name="due_days">1</field>
+        <field name="is_mandatory">True</field>
+        <field name="description">Assign induction training programme (company, culture, policies).</field>
+    </record>
+
+    <record id="tpl_line_compliance" model="hr.onboarding.template.line">
+        <field name="template_id" ref="onboarding_template_standard"/>
+        <field name="sequence">110</field>
+        <field name="name">Compliance Training Completed</field>
+        <field name="category">training</field>
+        <field name="responsible_role">employee</field>
+        <field name="due_days">7</field>
+        <field name="is_mandatory">True</field>
+        <field name="description">Complete mandatory compliance and POSH training.</field>
+    </record>
+
+    <!-- ── Manager ────────────────────────────────────────────────────── -->
+
+    <record id="tpl_line_kra" model="hr.onboarding.template.line">
+        <field name="template_id" ref="onboarding_template_standard"/>
+        <field name="sequence">120</field>
+        <field name="name">KRAs / Goals Defined</field>
+        <field name="category">manager</field>
+        <field name="responsible_role">manager</field>
+        <field name="due_days">30</field>
+        <field name="is_mandatory">True</field>
+        <field name="description">Manager to define and share KRAs and 30-60-90 day goals.</field>
+    </record>
+
+</odoo>

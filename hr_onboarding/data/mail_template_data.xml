@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- Task Assignment Notification -->
+    <record id="mail_template_task_assignment" model="mail.template">
+        <field name="name">Onboarding Task Assignment</field>
+        <field name="model_id" ref="model_hr_onboarding_task"/>
+        <field name="subject">Action Required: Onboarding Task — {{ object.name }}</field>
+        <field name="email_to">{{ object.responsible_id.email }}</field>
+        <field name="body_html"><![CDATA[
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+    <div style="background: #1a6e3c; padding: 20px; text-align: center;">
+        <h2 style="color: #fff; margin: 0;">Employee Onboarding Task</h2>
+    </div>
+    <div style="padding: 24px; background: #f9f9f9;">
+        <p>Dear <strong>{{ object.responsible_id.name }}</strong>,</p>
+        <p>You have been assigned an onboarding task for new employee
+           <strong>{{ object.employee_id.name }}</strong>.</p>
+
+        <table style="width:100%; border-collapse: collapse; margin: 16px 0;">
+            <tr>
+                <td style="padding: 8px; background:#e8f5e9; font-weight:bold; width:40%;">Task</td>
+                <td style="padding: 8px; background:#fff;">{{ object.name }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; background:#e8f5e9; font-weight:bold;">Category</td>
+                <td style="padding: 8px; background:#fff;">{{ object.category }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; background:#e8f5e9; font-weight:bold;">Due Date</td>
+                <td style="padding: 8px; background:#fff;">
+                    {{ object.due_date | date('dd MMM yyyy') }}
+                    (Day {{ object.due_days }} from joining)
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 8px; background:#e8f5e9; font-weight:bold;">Joining Date</td>
+                <td style="padding: 8px; background:#fff;">
+                    {{ object.join_date | date('dd MMM yyyy') }}
+                </td>
+            </tr>
+            {% if object.description %}
+            <tr>
+                <td style="padding: 8px; background:#e8f5e9; font-weight:bold;">Instructions</td>
+                <td style="padding: 8px; background:#fff;">{{ object.description }}</td>
+            </tr>
+            {% endif %}
+        </table>
+
+        <p>Please complete this task by the due date and mark it done in the system.</p>
+    </div>
+    <div style="background:#1a6e3c; padding: 12px; text-align:center;">
+        <small style="color:#cde;">German Green Steel and Power Limited — HR Department</small>
+    </div>
+</div>
+        ]]></field>
+        <field name="auto_delete">True</field>
+    </record>
+
+    <!-- Onboarding Welcome to Employee -->
+    <record id="mail_template_onboarding_welcome" model="mail.template">
+        <field name="name">Onboarding Welcome Email</field>
+        <field name="model_id" ref="model_hr_onboarding"/>
+        <field name="subject">Welcome to German Green Steel — Your Onboarding Plan</field>
+        <field name="email_to">{{ object.employee_id.work_email }}</field>
+        <field name="body_html"><![CDATA[
+<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+    <div style="background: #1a6e3c; padding: 24px; text-align:center;">
+        <h1 style="color:#fff; margin:0;">Welcome Aboard! 🎉</h1>
+    </div>
+    <div style="padding: 24px;">
+        <p>Dear <strong>{{ object.employee_id.name }}</strong>,</p>
+        <p>We are excited to welcome you to <strong>German Green Steel and Power Limited</strong>!
+           Your onboarding plan has been created to help you settle in smoothly.</p>
+
+        <h3>Your First 30 Days — Quick Summary</h3>
+        <ul>
+            <li><strong>Day 0:</strong> Laptop, Email, Offer Letter</li>
+            <li><strong>Day 1:</strong> ID Card, System Access, NDA, Induction</li>
+            <li><strong>Day 3:</strong> Submit Bank Account Details</li>
+            <li><strong>Day 7:</strong> PF/ESI Enrollment, TDS Declaration, Compliance Training</li>
+            <li><strong>Day 30:</strong> KRA / Goals Discussion with Manager</li>
+        </ul>
+
+        <p>Your HR contact will guide you through each step.
+           Do not hesitate to reach out for any assistance.</p>
+        <p>Warm regards,<br/><strong>HR Team</strong></p>
+    </div>
+    <div style="background:#1a6e3c; padding:12px; text-align:center;">
+        <small style="color:#cde;">German Green Steel and Power Limited</small>
+    </div>
+</div>
+        ]]></field>
+        <field name="auto_delete">True</field>
+    </record>
+
+</odoo>

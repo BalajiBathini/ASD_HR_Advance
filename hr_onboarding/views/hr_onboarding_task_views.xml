@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ── Task List View ─────────────────────────────────────────── -->
+    <record id="view_hr_onboarding_task_list" model="ir.ui.view">
+        <field name="name">hr.onboarding.task.list</field>
+        <field name="model">hr.onboarding.task</field>
+        <field name="arch" type="xml">
+            <list string="Onboarding Tasks"
+                  decoration-success="state == 'done'"
+                  decoration-danger="state == 'pending' and due_date and due_date &lt; context_today()"
+                  decoration-muted="state == 'skipped'">
+                <field name="employee_id"/>
+                <field name="category"/>
+                <field name="name"/>
+                <field name="responsible_id"/>
+                <field name="due_date"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'done'"
+                       decoration-warning="state == 'in_progress'"
+                       decoration-danger="state == 'pending'"
+                       decoration-info="state == 'skipped'"/>
+                <field name="is_mandatory"/>
+                <field name="completed_date" optional="hide"/>
+                <button name="action_mark_done"
+                        string="Mark Done"
+                        type="object"
+                        class="btn-sm btn-success"
+                        invisible="state == 'done'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ── Task Form View ─────────────────────────────────────────── -->
+    <record id="view_hr_onboarding_task_form" model="ir.ui.view">
+        <field name="name">hr.onboarding.task.form</field>
+        <field name="model">hr.onboarding.task</field>
+        <field name="arch" type="xml">
+            <form string="Onboarding Task">
+                <header>
+                    <button name="action_mark_in_progress" string="Start"
+                            type="object" class="btn-secondary"
+                            invisible="state != 'pending'"/>
+                    <button name="action_mark_done" string="Mark Done"
+                            type="object" class="btn-primary"
+                            invisible="state == 'done'"/>
+                    <button name="action_skip" string="Skip"
+                            type="object"
+                            invisible="state in ('done','skipped') or is_mandatory"/>
+                    <button name="action_reset_pending" string="Reset"
+                            type="object"
+                            invisible="state == 'pending'"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="pending,in_progress,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Task Details">
+                            <field name="onboarding_id"/>
+                            <field name="employee_id" readonly="1"/>
+                            <field name="name"/>
+                            <field name="category"/>
+                            <field name="responsible_role"/>
+                            <field name="responsible_id"/>
+                            <field name="is_mandatory"/>
+                        </group>
+                        <group string="Schedule">
+                            <field name="join_date" readonly="1"/>
+                            <field name="due_days"/>
+                            <field name="due_date"/>
+                        </group>
+                    </group>
+                    <group string="Completion">
+                        <field name="completed_date" readonly="1"/>
+                        <field name="completed_by" readonly="1"/>
+                        <field name="ticket_ref"/>
+                        <field name="notes"/>
+                    </group>
+                    <group string="Instructions">
+                        <field name="description" nolabel="1"
+                               placeholder="Task instructions..."/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ── My Tasks Action (for employee self-service) ────────────── -->
+    <record id="action_my_onboarding_tasks" model="ir.actions.act_window">
+        <field name="name">My Onboarding Tasks</field>
+        <field name="res_model">hr.onboarding.task</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('responsible_id', '=', uid)]</field>
+        <field name="context">{'search_default_pending': 1}</field>
+    </record>
+
+    <!-- ── All Tasks Action ────────────────────────────────────────── -->
+    <record id="action_all_onboarding_tasks" model="ir.actions.act_window">
+        <field name="name">All Onboarding Tasks</field>
+        <field name="res_model">hr.onboarding.task</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ── Template List ───────────────────────────────────────────── -->
+    <record id="view_hr_onboarding_template_list" model="ir.ui.view">
+        <field name="name">hr.onboarding.template.list</field>
+        <field name="model">hr.onboarding.template</field>
+        <field name="arch" type="xml">
+            <list string="Onboarding Templates">
+                <field name="name"/>
+                <field name="task_count"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ── Template Form ───────────────────────────────────────────── -->
+    <record id="view_hr_onboarding_template_form" model="ir.ui.view">
+        <field name="name">hr.onboarding.template.form</field>
+        <field name="model">hr.onboarding.template</field>
+        <field name="arch" type="xml">
+            <form string="Onboarding Template">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Template Name..."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="description" placeholder="Describe this template..."/>
+                        <field name="active"/>
+                    </group>
+                    <notebook>
+                        <page string="Checklist Tasks" name="tasks">
+                            <field name="task_line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="category"/>
+                                    <field name="name"/>
+                                    <field name="responsible_role"/>
+                                    <field name="due_days"/>
+                                    <field name="is_mandatory"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ── Template Action ─────────────────────────────────────────── -->
+    <record id="action_hr_onboarding_template" model="ir.actions.act_window">
+        <field name="name">Onboarding Templates</field>
+        <field name="res_model">hr.onboarding.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Onboarding Template
+            </p>
+            <p>Templates allow you to define reusable checklists that are
+               automatically applied when a new employee joins.</p>
+        </field>
+    </record>
+
+</odoo>
