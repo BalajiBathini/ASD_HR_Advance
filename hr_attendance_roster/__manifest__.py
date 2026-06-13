@@ -14,7 +14,6 @@
     'data': [
         'security/ir.model.access.csv',
         'views/attendance_shift_views.xml',
-        'views/attendance_public_holiday_views.xml',
         'views/attendance_weekoff_plan_views.xml',
         'views/attendance_monthly_sheet_views.xml',
         'views/hr_employee_views.xml',

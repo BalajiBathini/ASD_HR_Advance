@@ -1,8 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_attendance_shift_master_user,attendance.shift.master.user,model_attendance_shift_master,base.group_user,1,0,0,0
 access_attendance_shift_master_officer,attendance.shift.master.officer,model_attendance_shift_master,hr_attendance.group_hr_attendance_manager,1,1,1,1
-access_attendance_public_holiday_user,attendance.public.holiday.user,model_attendance_public_holiday,base.group_user,1,0,0,0
-access_attendance_public_holiday_officer,attendance.public.holiday.officer,model_attendance_public_holiday,hr_attendance.group_hr_attendance_manager,1,1,1,1
 access_attendance_weekoff_plan_user,attendance.weekoff.plan.user,model_attendance_weekoff_plan,base.group_user,1,0,0,0
 access_attendance_weekoff_plan_officer,attendance.weekoff.plan.officer,model_attendance_weekoff_plan,hr_attendance.group_hr_attendance_manager,1,1,1,1
 access_attendance_weekoff_allocate_wizard,attendance.weekoff.allocate.wizard.manager,model_attendance_weekoff_allocate_wizard,hr_attendance.group_hr_attendance_manager,1,1,1,1

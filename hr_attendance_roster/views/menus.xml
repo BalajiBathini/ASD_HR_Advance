@@ -8,9 +8,6 @@
     <!-- Shift Master -->
     <menuitem id="menu_attendance_shift_master" name="Shifts" parent="menu_hr_attendance_roster_root" sequence="10" action="action_attendance_shift_master"/>
     
-    <!-- Public Holidays -->
-    <menuitem id="menu_attendance_public_holiday" name="Public Holidays" parent="menu_hr_attendance_roster_root" sequence="20" action="action_attendance_public_holiday"/>
-
     <!-- Weekoff Plans -->
     <menuitem id="menu_attendance_weekoff_plan" name="Weekly Off Plans" parent="menu_hr_attendance_roster_root" sequence="30" action="action_attendance_weekoff_plan"/>
 

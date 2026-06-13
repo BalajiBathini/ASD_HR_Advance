@@ -69,6 +69,7 @@ class AttendanceMonthlySheet(models.Model):
         if 'SICK' in name: return 'SL'
         if 'CASUAL' in name: return 'CL'
         if 'PRIVILEGE' in name: return 'PL'
+        if 'PUBLIC' in name or 'HOLIDAY' in name: return 'PH'
         if 'LOSS' in name or 'UNPAID' in name: return 'LOP'
         return 'L'
 
@@ -88,10 +89,6 @@ class AttendanceMonthlySheet(models.Model):
                 ('date_from', '<=', end_date),
                 ('date_to', '>=', start_date)
             ])
-            
-            # Fetch Public Holidays
-            domain_ph = [('date', '>=', start_date), ('date', '<=', end_date)]
-            holidays = self.env['attendance.public.holiday'].search(domain_ph)
             
             # Fetch Weekly Off Plans
             wo_plans = self.env['attendance.weekoff.plan'].search([
@@ -132,18 +129,6 @@ class AttendanceMonthlySheet(models.Model):
                         leave_found = True
                         break
                 if leave_found:
-                    setattr(record, field_name, status)
-                    continue
-                
-                # 2. Public Holiday
-                ph_found = False
-                for ph in holidays:
-                    if ph.date == current_date:
-                        if not ph.department_id or ph.department_id.id == record.department_id.id:
-                            status = 'PH'
-                            ph_found = True
-                            break
-                if ph_found:
                     setattr(record, field_name, status)
                     continue
                 
