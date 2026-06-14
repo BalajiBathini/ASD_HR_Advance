@@ -7,3 +7,9 @@ access_attendance_weekoff_allocate_wizard,attendance.weekoff.allocate.wizard.man
 access_attendance_monthly_sheet_user,attendance.monthly.sheet.user,model_attendance_monthly_sheet,base.group_user,1,0,0,0
 access_attendance_monthly_sheet_officer,attendance.monthly.sheet.officer,model_attendance_monthly_sheet,hr_attendance.group_hr_attendance_manager,1,1,1,1
 access_attendance_monthly_sheet_payroll_manager,attendance.monthly.sheet.payroll.manager,model_attendance_monthly_sheet,payroll.group_payroll_manager,1,1,0,0
+access_hr_attendance_policy_user,hr.attendance.policy.user,model_hr_attendance_policy,base.group_user,1,0,0,0
+access_hr_attendance_policy_officer,hr.attendance.policy.officer,model_hr_attendance_policy,hr_attendance.group_hr_attendance_manager,1,1,1,1
+access_hr_shift_roster_user,hr.shift.roster.user,model_hr_shift_roster,base.group_user,1,0,0,0
+access_hr_shift_roster_officer,hr.shift.roster.officer,model_hr_shift_roster,hr_attendance.group_hr_attendance_manager,1,1,1,1
+access_hr_attendance_regularization_user,hr.attendance.regularization.user,model_hr_attendance_regularization,base.group_user,1,1,1,1
+access_hr_attendance_regularization_officer,hr.attendance.regularization.officer,model_hr_attendance_regularization,hr_attendance.group_hr_attendance_manager,1,1,1,1

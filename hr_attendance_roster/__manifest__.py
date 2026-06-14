@@ -9,7 +9,8 @@
     'depends': [
         'hr_attendance_extended',
         'payroll',
-        'hr_holidays'
+        'hr_holidays',
+        'mail'
     ],
     'data': [
         'security/ir.model.access.csv',
@@ -18,6 +19,7 @@
         'views/attendance_monthly_sheet_views.xml',
         'views/hr_employee_views.xml',
         'views/hr_payslip_views.xml',
+        'views/new_attendance_views.xml',
         'views/menus.xml',
         'views/reports.xml',
     ],

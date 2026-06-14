@@ -106,6 +106,14 @@ class AttendanceMonthlySheet(models.Model):
                 ('check_in', '>=', start_dt),
                 ('check_in', '<=', end_dt)
             ])
+            
+            policy = record.employee_id.attendance_policy_id
+            rosters = self.env['hr.shift.roster'].search([
+                ('employee_id', '=', record.employee_id.id),
+                ('date_from', '<=', end_date),
+                ('date_to', '>=', start_date),
+                ('state', '=', 'confirmed')
+            ])
 
             worked_hrs_total = 0.0
             
@@ -147,10 +155,27 @@ class AttendanceMonthlySheet(models.Model):
                 
                 # 4. Attendance
                 day_att = [a for a in attendances if a.check_in.date() == current_date]
+                worked = sum(a.worked_hours for a in day_att)
+                
+                # Check roster expected shift
+                expected_shift = False
+                for roster in rosters:
+                    if roster.date_from <= current_date <= roster.date_to:
+                        expected_shift = roster.shift_id
+                        break
+                
+                if not expected_shift:
+                    expected_shift = record.employee_id.default_shift_id
+                
                 if day_att:
-                    # Could set shift code instead if shifts are assigned, but for now P
                     status = 'P'
-                    worked_hrs_total += sum(a.worked_hours for a in day_att)
+                    if policy:
+                        if worked < policy.absent_threshold:
+                            status = 'A'
+                        elif worked < policy.half_day_threshold:
+                            status = 'HD'
+                            
+                    worked_hrs_total += worked
                 else:
                     status = 'A' if current_date <= date.today() else ''
 

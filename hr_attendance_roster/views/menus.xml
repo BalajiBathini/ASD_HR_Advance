@@ -11,6 +11,15 @@
     <!-- Weekoff Plans -->
     <menuitem id="menu_attendance_weekoff_plan" name="Weekly Off Plans" parent="menu_hr_attendance_roster_root" sequence="30" action="action_attendance_weekoff_plan"/>
 
+    <!-- Policies -->
+    <menuitem id="menu_attendance_policy" name="Attendance Policies" parent="menu_hr_attendance_roster_root" sequence="15" action="action_hr_attendance_policy"/>
+
+    <!-- Shift Roster -->
+    <menuitem id="menu_attendance_shift_roster" name="Shift Roster" parent="menu_hr_attendance_roster_root" sequence="12" action="action_hr_shift_roster"/>
+
+    <!-- Regularization -->
+    <menuitem id="menu_attendance_regularization" name="Regularization" parent="menu_hr_attendance_roster_root" sequence="25" action="action_hr_attendance_regularization"/>
+
     <!-- Monthly Sheet -->
     <menuitem id="menu_attendance_monthly_sheet" name="Monthly Sheets" parent="menu_hr_attendance_roster_root" sequence="40" action="action_attendance_monthly_sheet"/>
 
