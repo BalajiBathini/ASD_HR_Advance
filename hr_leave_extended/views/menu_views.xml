@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menus for Holidays and Encashment under Time Off -> Configuration -->
+    <menuitem id="menu_hr_holiday_calendar"
+              name="Holiday Calendar"
+              parent="hr_holidays.menu_hr_holidays_configuration"
+              action="action_hr_holiday_calendar"
+              sequence="20"/>
+
+    <menuitem id="menu_hr_leave_encashment"
+              name="Leave Encashment"
+              parent="hr_holidays.menu_hr_holidays_my_leaves"
+              action="action_hr_leave_encashment"
+              sequence="30"/>
+              
+    <menuitem id="menu_hr_leave_encashment_approval"
+              name="Leave Encashments"
+              parent="hr_holidays.menu_hr_holidays_management"
+              action="action_hr_leave_encashment"
+              groups="hr_holidays.group_hr_holidays_manager"
+              sequence="30"/>
+</odoo>

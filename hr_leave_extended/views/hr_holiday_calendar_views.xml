@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_holiday_calendar_tree" model="ir.ui.view">
+        <field name="name">hr.holiday.calendar.tree</field>
+        <field name="model">hr.holiday.calendar</field>
+        <field name="arch" type="xml">
+            <list string="Holiday Calendar">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="state_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hr_holiday_calendar_form" model="ir.ui.view">
+        <field name="name">hr.holiday.calendar.form</field>
+        <field name="model">hr.holiday.calendar</field>
+        <field name="arch" type="xml">
+            <form string="Holiday Calendar">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="state_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_hr_holiday_calendar" model="ir.actions.act_window">
+        <field name="name">Holiday Calendar</field>
+        <field name="res_model">hr.holiday.calendar</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

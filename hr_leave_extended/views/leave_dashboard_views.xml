@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_leave_dashboard" model="ir.actions.client">
+        <field name="name">Leave Dashboard</field>
+        <field name="tag">hr_leave_extended.dashboard</field>
+    </record>
+
+<!--    <menuitem id="menu_leave_dashboard_manager"-->
+<!--              name="Manager Leave Dashboard"-->
+<!--              parent="hr_holidays.menu_hr_holidays_root"-->
+<!--              action="action_leave_dashboard"-->
+<!--              groups="hr_holidays.group_hr_holidays_manager"-->
+<!--              sequence="1"/>-->
+</odoo>

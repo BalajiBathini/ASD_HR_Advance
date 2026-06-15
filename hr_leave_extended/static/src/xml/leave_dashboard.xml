@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="hr_leave_extended.LeaveDashboard" owl="1">
+        <div class="o_leave_dashboard container-fluid bg-light h-100 p-4">
+            <h1 class="mb-4 text-primary">Manager Leave Dashboard</h1>
+            
+            <div class="row">
+                <!-- Pending Approvals -->
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+                            <h4 class="card-title text-warning"><i class="fa fa-clock-o me-2"/> Pending Approvals</h4>
+                        </div>
+                        <div class="card-body">
+                            <t t-if="state.pendingApprovals.length === 0">
+                                <p class="text-muted">No pending approvals at the moment.</p>
+                            </t>
+                            <t t-else="">
+                                <ul class="list-group list-group-flush">
+                                    <t t-foreach="state.pendingApprovals" t-as="leave" t-key="leave.id">
+                                        <li class="list-group-item px-0 d-flex justify-content-between align-items-center cursor-pointer" t-on-click="() => this.openLeave(leave.id)">
+                                            <div>
+                                                <strong t-esc="leave.employee_id[1]"/>
+                                                <br/>
+                                                <small class="text-muted"><t t-esc="leave.holiday_status_id[1]"/> - <t t-esc="leave.number_of_days"/> days</small>
+                                            </div>
+                                            <span class="badge bg-warning rounded-pill">To Approve</span>
+                                        </li>
+                                    </t>
+                                </ul>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Balance Summary -->
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-sm border-0 h-100">
+                        <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+                            <h4 class="card-title text-info"><i class="fa fa-users me-2"/> Team Leave Balance</h4>
+                        </div>
+                        <div class="card-body">
+                           <ul class="list-group list-group-flush">
+                                <t t-foreach="state.teamBalances.slice(0, 5)" t-as="emp" t-key="emp.id">
+                                    <li class="list-group-item px-0">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span t-esc="emp.name"/>
+                                            <button class="btn btn-sm btn-outline-info">View Details</button>
+                                        </div>
+                                    </li>
+                                </t>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <!-- Dummy Team Calendar View -->
+                <div class="col-12">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+                            <h4 class="card-title text-success"><i class="fa fa-calendar me-2"/> Team Leave Calendar (Preview)</h4>
+                        </div>
+                        <div class="card-body text-center py-5 text-muted">
+                            <i class="fa fa-calendar-alt fa-3x mb-3 opacity-50"/>
+                            <h5>Calendar Integration</h5>
+                            <p>Visual calendar of team members on leave.</p>
+                            <!-- You'd integrate standard odoo fullcalendar component here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

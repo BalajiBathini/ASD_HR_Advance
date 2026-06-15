@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_hr_contract_structure_edit_wizard_form" model="ir.ui.view">
+        <field name="name">hr.contract.structure.edit.wizard.form</field>
+        <field name="model">hr.contract.structure.edit.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reason for Change">
+                <group>
+                    <field name="contract_id" invisible="1"/>
+                    <field name="reason" placeholder="Please provide a reason for editing the salary structure..." nolabel="1" colspan="2"/>
+                </group>
+                <footer>
+                    <button name="action_apply" string="Apply" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
