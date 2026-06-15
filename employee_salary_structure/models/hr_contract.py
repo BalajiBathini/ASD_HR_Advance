@@ -8,6 +8,7 @@ class HrContract(models.Model):
     annual_ctc = fields.Monetary(string='Annual CTC', compute='_compute_annual_ctc', store=True)
     
     employee_component_ids = fields.One2many('employee.salary.component', 'contract_id', string='Employee Salary Components')
+    revision_ids = fields.One2many('hr.contract.structure.revision', 'contract_id', string='Revisions')
     
     total_earnings = fields.Monetary(string='Total Earnings', compute='_compute_totals')
     total_deductions = fields.Monetary(string='Total Deductions', compute='_compute_totals')
@@ -69,7 +70,16 @@ class HrContract(models.Model):
 
     def action_edit_structure(self):
         for rec in self:
-            rec.is_structure_editable = True
+            return {
+                'name': _('Edit Structure Reason'),
+                'type': 'ir.actions.act_window',
+                'res_model': 'hr.contract.structure.edit.wizard',
+                'view_mode': 'form',
+                'target': 'new',
+                'context': {
+                    'default_contract_id': rec.id,
+                }
+            }
 
     def action_save_structure(self):
         for rec in self:

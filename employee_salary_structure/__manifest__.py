@@ -15,6 +15,8 @@
     'data': [
         'security/ir.model.access.csv',
         'views/hr_contract_views.xml',
+        'views/hr_contract_revision_views.xml',
+        'data/hr_salary_rules_data.xml',
     ],
     'installable': True,
     'application': False,

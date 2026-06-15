@@ -37,6 +37,15 @@
                         </list>
                     </field>
                 </page>
+                <page name="salary_structure_revision" string="Revision">
+                    <field name="revision_ids" readonly="1">
+                        <list>
+                            <field name="name"/>
+                            <field name="reason"/>
+                            <field name="revision_date"/>
+                        </list>
+                    </field>
+                </page>
             </xpath>
         </field>
     </record>

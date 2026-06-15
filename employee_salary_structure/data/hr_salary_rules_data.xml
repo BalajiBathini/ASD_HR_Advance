@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- CATEGORIES -->
+        <record id="BASIC" model="hr.salary.rule.category">
+            <field name="name">Basic</field>
+            <field name="code">BASIC</field>
+        </record>
+        <record id="ALW" model="hr.salary.rule.category">
+            <field name="name">Allowance</field>
+            <field name="code">ALW</field>
+        </record>
+        <record id="GROSS" model="hr.salary.rule.category">
+            <field name="name">Gross</field>
+            <field name="code">GROSS</field>
+        </record>
+        <record id="DED" model="hr.salary.rule.category">
+            <field name="name">Deduction</field>
+            <field name="code">DED</field>
+        </record>
+        <record id="NET" model="hr.salary.rule.category">
+            <field name="name">Net</field>
+            <field name="code">NET</field>
+        </record>
+        <record id="COMP" model="hr.salary.rule.category">
+            <field name="name">Company Contribution</field>
+            <field name="code">COMP</field>
+        </record>
+
+        <!-- SALARY RULES -->
+
+        <!-- 1. Basic Salary -->
+        <record id="rule_indian_basic" model="hr.salary.rule">
+            <field name="name">Basic Salary</field>
+            <field name="sequence" eval="10"/>
+            <field name="code">BASIC</field>
+            <field name="category_id" ref="BASIC"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = contract.wage * 0.40</field>
+        </record>
+
+        <!-- 2. HRA -->
+        <record id="rule_indian_hra" model="hr.salary.rule">
+            <field name="name">House Rent Allowance</field>
+            <field name="sequence" eval="20"/>
+            <field name="code">HRA</field>
+            <field name="category_id" ref="ALW"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories.BASIC * 0.40</field>
+        </record>
+
+        <!-- 3. Conveyance Allowance -->
+        <record id="rule_indian_ca" model="hr.salary.rule">
+            <field name="name">Conveyance Allowance</field>
+            <field name="sequence" eval="30"/>
+            <field name="code">CA</field>
+            <field name="category_id" ref="ALW"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+            <field name="amount_fix" eval="1600.0"/>
+        </record>
+
+        <!-- 4. Medical Allowance -->
+        <record id="rule_indian_ma" model="hr.salary.rule">
+            <field name="name">Medical Allowance</field>
+            <field name="sequence" eval="40"/>
+            <field name="code">MA</field>
+            <field name="category_id" ref="ALW"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+            <field name="amount_fix" eval="1250.0"/>
+        </record>
+
+        <!-- 5. Bonus / Incentive -->
+        <record id="rule_indian_bonus" model="hr.salary.rule">
+            <field name="name">Bonus / Incentive</field>
+            <field name="sequence" eval="50"/>
+            <field name="code">BONUS</field>
+            <field name="category_id" ref="ALW"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = inputs.BONUS.amount if inputs.BONUS else 0.0</field>
+        </record>
+        
+        <record id="input_bonus" model="hr.rule.input">
+            <field name="name">Bonus / Incentive</field>
+            <field name="code">BONUS</field>
+            <field name="input_id" ref="rule_indian_bonus"/>
+        </record>
+
+        <!-- 6. Special Allowance -->
+        <record id="rule_indian_sa" model="hr.salary.rule">
+            <field name="name">Special Allowance</field>
+            <field name="sequence" eval="60"/>
+            <field name="code">SA</field>
+            <field name="category_id" ref="ALW"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+basic = contract.wage * 0.40
+hra = basic * 0.40
+employer_pf = basic * 0.12
+gratuity = basic * 0.0481
+total_fixed = basic + hra + 1600.0 + 1250.0 + employer_pf + gratuity
+result = contract.wage - total_fixed
+if result &lt; 0:
+    result = 0.0
+            </field>
+        </record>
+
+        <!-- 7. Provident Fund (PF) Employee -->
+        <record id="rule_indian_pf" model="hr.salary.rule">
+            <field name="name">Provident Fund (Employee)</field>
+            <field name="sequence" eval="110"/>
+            <field name="code">PF</field>
+            <field name="category_id" ref="DED"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -(categories.BASIC * 0.12)</field>
+        </record>
+
+        <!-- 8. PF Employer -->
+        <record id="rule_indian_pf_employer" model="hr.salary.rule">
+            <field name="name">Employer PF</field>
+            <field name="sequence" eval="115"/>
+            <field name="code">PF_EMP</field>
+            <field name="category_id" ref="COMP"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories.BASIC * 0.12</field>
+        </record>
+
+        <!-- 9. ESI Employee -->
+        <record id="rule_indian_esi" model="hr.salary.rule">
+            <field name="name">ESI (Employee)</field>
+            <field name="sequence" eval="120"/>
+            <field name="code">ESI</field>
+            <field name="category_id" ref="DED"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = categories.GROSS &lt;= 21000.0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -(categories.GROSS * 0.0075)</field>
+        </record>
+
+        <!-- 10. ESI Employer -->
+        <record id="rule_indian_esi_employer" model="hr.salary.rule">
+            <field name="name">ESI (Employer)</field>
+            <field name="sequence" eval="125"/>
+            <field name="code">ESI_EMP</field>
+            <field name="category_id" ref="COMP"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = categories.GROSS &lt;= 21000.0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories.GROSS * 0.0325</field>
+        </record>
+
+        <!-- 11. Professional Tax -->
+        <record id="rule_indian_pt" model="hr.salary.rule">
+            <field name="name">Professional Tax</field>
+            <field name="sequence" eval="130"/>
+            <field name="code">PT</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+            <field name="amount_fix" eval="-200.0"/>
+        </record>
+
+        <!-- 12. TDS / Income Tax -->
+        <record id="rule_indian_tds" model="hr.salary.rule">
+            <field name="name">TDS / Income Tax</field>
+            <field name="sequence" eval="140"/>
+            <field name="code">TDS</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -inputs.TDS.amount if inputs.TDS else 0.0</field>
+        </record>
+
+        <record id="input_tds" model="hr.rule.input">
+            <field name="name">TDS / Income Tax</field>
+            <field name="code">TDS</field>
+            <field name="input_id" ref="rule_indian_tds"/>
+        </record>
+
+        <!-- 13. Gratuity Provision -->
+        <record id="rule_indian_gratuity" model="hr.salary.rule">
+            <field name="name">Gratuity Provision</field>
+            <field name="sequence" eval="150"/>
+            <field name="code">GRATUITY</field>
+            <field name="category_id" ref="COMP"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories.BASIC * 0.0481</field>
+        </record>
+
+        <!-- 14. LOP Deduction -->
+        <record id="rule_indian_lop" model="hr.salary.rule">
+            <field name="name">LOP Deduction</field>
+            <field name="sequence" eval="160"/>
+            <field name="code">LOPD</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+lop_days = inputs.LOP.amount if inputs.LOP else 0.0
+result = -((categories.GROSS / 30.0) * lop_days)
+            </field>
+        </record>
+
+        <record id="input_lop_days" model="hr.rule.input">
+            <field name="name">LOP Days</field>
+            <field name="code">LOP</field>
+            <field name="input_id" ref="rule_indian_lop"/>
+        </record>
+
+        <!-- Salary Structure (Wait till end so rules exist) -->
+        <record id="structure_indian_payroll" model="hr.payroll.structure">
+            <field name="name">Indian Salary Structure</field>
+            <field name="code">IND</field>
+            <field name="rule_ids" eval="[(6, 0, [
+                ref('rule_indian_basic'),
+                ref('rule_indian_hra'),
+                ref('rule_indian_ca'),
+                ref('rule_indian_ma'),
+                ref('rule_indian_bonus'),
+                ref('rule_indian_sa'),
+                ref('rule_indian_pf'),
+                ref('rule_indian_pf_employer'),
+                ref('rule_indian_esi'),
+                ref('rule_indian_esi_employer'),
+                ref('rule_indian_pt'),
+                ref('rule_indian_tds'),
+                ref('rule_indian_gratuity'),
+                ref('rule_indian_lop')
+            ])]"/>
+        </record>
+
+    </data>
+</odoo>

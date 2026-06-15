@@ -2,3 +2,8 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_employee_salary_component_hr_manager,employee.salary.component.hr.manager,model_employee_salary_component,hr.group_hr_manager,1,1,1,1
 access_employee_salary_component_hr_user,employee.salary.component.hr.user,model_employee_salary_component,hr.group_hr_user,1,1,1,1
 access_employee_salary_component_employee,employee.salary.component.employee,model_employee_salary_component,base.group_user,1,0,0,0
+access_hr_contract_structure_revision_hr_manager,hr.contract.structure.revision.hr.manager,model_hr_contract_structure_revision,hr.group_hr_manager,1,1,1,1
+access_hr_contract_structure_revision_hr_user,hr.contract.structure.revision.hr.user,model_hr_contract_structure_revision,hr.group_hr_user,1,1,1,1
+access_hr_contract_structure_revision_employee,hr.contract.structure.revision.employee,model_hr_contract_structure_revision,base.group_user,1,0,0,0
+access_hr_contract_structure_edit_wizard_hr_manager,hr.contract.structure.edit.wizard.hr.manager,model_hr_contract_structure_edit_wizard,hr.group_hr_manager,1,1,1,1
+access_hr_contract_structure_edit_wizard_hr_user,hr.contract.structure.edit.wizard.hr.user,model_hr_contract_structure_edit_wizard,hr.group_hr_user,1,1,1,1
