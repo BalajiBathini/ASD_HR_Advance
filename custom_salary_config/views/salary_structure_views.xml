@@ -22,9 +22,7 @@
                             <field name="rule_id" column_invisible="1"/>
                         </list>
                     </field>
-                    <p class="text-muted mt-2">
-                        <em>Components created here will automatically generate standard Odoo Salary Rules in the background, including necessary Python logic for evaluation and isolation overrides.</em>
-                    </p>
+
                 </page>
             </xpath>
         </field>
