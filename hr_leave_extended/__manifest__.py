@@ -20,7 +20,7 @@ Extended Leave Management:
     'website': '',
     'depends': [
         'hr_holidays',
-        'hr_payroll',
+        'payroll',
         'hr_attendance',
         'web',
     ],

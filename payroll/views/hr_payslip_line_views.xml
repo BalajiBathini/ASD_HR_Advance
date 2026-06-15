@@ -11,8 +11,8 @@
                 <field name="sequence" />
                 <field name="name" />
                 <field name="code" />
-                <field name="quantity" readonly="not allow_edit_payslip_lines" />
-                <field name="rate" readonly="not allow_edit_payslip_lines" />
+                <field name="quantity" readonly="not allow_edit_payslip_lines" optional="hide" />
+                <field name="rate" readonly="not allow_edit_payslip_lines" optional="hide" />
                 <field name="amount" readonly="not allow_edit_payslip_lines" />
                 <field name="total" />
                 <field name="amount_select" column_invisible="1" />
@@ -52,8 +52,8 @@
                         />
                         <field name="sequence" readonly="1" />
                         <separator />
-                        <field name="quantity" readonly="1" />
-                        <field name="rate" readonly="1" />
+                        <field name="quantity" readonly="1" optional="hide" />
+                        <field name="rate" readonly="1" optional="hide" />
                         <field name="amount" readonly="1" />
                         <field name="total" decoration-bf="1" readonly="1" />
                         <field name="currency_id" invisible="1" />

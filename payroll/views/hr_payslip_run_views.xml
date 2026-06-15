@@ -116,7 +116,7 @@
                         name="%(action_hr_payslip_by_employees)d"
                         type="action"
                         invisible="state != 'draft'"
-                        string="Generate Payslips"
+                        string="Process Payslips"
                         class="oe_highlight"
                     />
                     <button
