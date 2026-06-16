@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_appraisal_feedback_view_list" model="ir.ui.view">
+        <field name="name">hr.appraisal.feedback.list</field>
+        <field name="model">hr.appraisal.feedback</field>
+        <field name="arch" type="xml">
+            <list string="360 Feedback" editable="bottom">
+                <field name="employee_id"/>
+                <field name="reviewer_id"/>
+                <field name="reviewer_type"/>
+                <field name="rating"/>
+                <field name="state" widget="badge"/>
+                <field name="submitted_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="hr_appraisal_feedback_view_form" model="ir.ui.view">
+        <field name="name">hr.appraisal.feedback.form</field>
+        <field name="model">hr.appraisal.feedback</field>
+        <field name="arch" type="xml">
+            <form string="360 Feedback">
+                <header>
+                    <button name="action_mark_submitted" type="object" string="Submit"
+                            class="oe_highlight" invisible="state == 'done'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="appraisal_id"/>
+                        <field name="employee_id" readonly="1"/>
+                        <field name="reviewer_id"/>
+                        <field name="reviewer_type"/>
+                        <field name="rating"/>
+                        <field name="submitted_date" readonly="1"/>
+                    </group>
+                    <field name="feedback"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_appraisal_feedback_action" model="ir.actions.act_window">
+        <field name="name">360 Feedback</field>
+        <field name="res_model">hr.appraisal.feedback</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

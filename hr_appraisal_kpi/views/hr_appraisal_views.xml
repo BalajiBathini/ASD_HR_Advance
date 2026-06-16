@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ==================== FORM VIEW ==================== -->
+    <record id="hr_appraisal_view_form" model="ir.ui.view">
+        <field name="name">hr.appraisal.form</field>
+        <field name="model">hr.appraisal</field>
+        <field name="arch" type="xml">
+            <form string="Appraisal">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm"
+                            class="oe_highlight" invisible="state != 'new'"/>
+                    <button name="action_manager_review" type="object" string="Send for Manager Review"
+                            class="oe_highlight" invisible="state != 'pending'"/>
+                    <button name="action_done" type="object" string="Mark as Done"
+                            class="oe_highlight" invisible="state != 'manager_review'"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            invisible="state in ('done', 'cancel')"/>
+                    <button name="action_draft" type="object" string="Reset to Draft"
+                            invisible="state != 'cancel'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,pending,manager_review,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="employee_id" placeholder="Employee" options="{'no_create': True}"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="department_id"/>
+                            <field name="job_id"/>
+                            <field name="manager_ids" widget="many2many_tags"/>
+                            <field name="appraisal_template_id"/>
+                        </group>
+                        <group>
+                            <field name="date_open"/>
+                            <field name="date_close"/>
+                            <field name="overall_rating" widget="percentage"/>
+                            <field name="total_weightage"/>
+                            <field name="bell_curve_rating"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="KRA / KPI">
+                            <field name="kra_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="weightage" sum="Total"/>
+                                    <field name="kpi_count"/>
+                                    <field name="achievement_pct" widget="percentage"/>
+                                </list>
+                            </field>
+                            <field name="kpi_ids" string="KPIs">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="kra_id"/>
+                                    <field name="kpi_name"/>
+                                    <field name="uom"/>
+                                    <field name="target_value"/>
+                                    <field name="actual_value"/>
+                                    <field name="achievement_pct" widget="percentage"/>
+                                    <field name="bell_curve_rating"/>
+                                    <field name="carry_to_next_cycle"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Self Assessment">
+                            <group>
+                                <field name="employee_feedback_date" readonly="state != 'new'"/>
+                                <button name="action_set_employee_feedback_today" type="object"
+                                        string="Set Today's Date" class="btn-link" invisible="state != 'new'"/>
+                            </group>
+                            <field name="employee_feedback" placeholder="Employee self assessment summary..." readonly="state != 'new'"/>
+                            <separator string="Detailed Self Assessment (My Work / My Future / My Feelings)"/>
+                            <field name="employee_feedback_full" readonly="state != 'new'"/>
+                        </page>
+                        <page string="Manager Feedback">
+                            <group>
+                                <field name="manager_feedback_date" readonly="state != 'manager_review'"/>
+                                <button name="action_set_manager_feedback_today" type="object"
+                                        string="Set Today's Date" class="btn-link" invisible="state != 'manager_review'"/>
+                            </group>
+                            <field name="manager_feedback" placeholder="Manager feedback, evaluation and improvement areas..." readonly="state != 'manager_review'"/>
+                        </page>
+                        <page string="Skills Review">
+                            <field name="employee_skill_ids">
+                                <list editable="bottom">
+                                    <field name="skill_type_id"/>
+                                    <field name="skill_id"/>
+                                    <field name="skill_level_id"/>
+                                    <field name="level_progress" widget="progressbar"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="360 Feedback">
+                            <field name="feedback_ids">
+                                <list editable="bottom">
+                                    <field name="reviewer_id"/>
+                                    <field name="reviewer_type"/>
+                                    <field name="rating"/>
+                                    <field name="state"/>
+                                    <field name="submitted_date"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Goal Carry Forward">
+                            <group>
+                                <field name="carry_to_next_cycle"/>
+                                <field name="previous_appraisal_id" readonly="1"/>
+                                <field name="next_appraisal_id" readonly="1"/>
+                            </group>
+                            <button name="action_open_next_appraisal" type="object"
+                                    string="Open Next Cycle Appraisal"
+                                    invisible="not next_appraisal_id"
+                                    class="btn-secondary"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ==================== LIST VIEW ==================== -->
+    <record id="hr_appraisal_view_list" model="ir.ui.view">
+        <field name="name">hr.appraisal.list</field>
+        <field name="model">hr.appraisal</field>
+        <field name="arch" type="xml">
+            <list string="Appraisals">
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="manager_ids" widget="many2many_tags"/>
+                <field name="date_open"/>
+                <field name="date_close"/>
+                <field name="overall_rating" widget="percentage"/>
+                <field name="bell_curve_rating"/>
+                <field name="state" widget="badge" decoration-success="state == 'done'"
+                       decoration-info="state == 'pending'" decoration-muted="state == 'cancel'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ==================== KANBAN VIEW ==================== -->
+    <record id="hr_appraisal_view_kanban" model="ir.ui.view">
+        <field name="name">hr.appraisal.kanban</field>
+        <field name="model">hr.appraisal</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" class="o_kanban_small_column">
+                <field name="employee_id"/>
+                <field name="overall_rating"/>
+                <field name="bell_curve_rating"/>
+                <field name="date_close"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <strong><field name="employee_id"/></strong>
+                            <div>Deadline: <field name="date_close"/></div>
+                            <div>Rating: <field name="overall_rating" widget="percentage"/></div>
+                            <div>
+                                <field name="bell_curve_rating" widget="badge"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ==================== SEARCH VIEW ==================== -->
+    <record id="hr_appraisal_view_search" model="ir.ui.view">
+        <field name="name">hr.appraisal.search</field>
+        <field name="model">hr.appraisal</field>
+        <field name="arch" type="xml">
+            <search string="Appraisals">
+                <field name="employee_id"/>
+                <field name="department_id"/>
+                <field name="manager_ids"/>
+                <filter string="To Confirm" name="filter_new" domain="[('state', '=', 'new')]"/>
+                <filter string="Confirmed" name="filter_pending" domain="[('state', '=', 'pending')]"/>
+                <filter string="Done" name="filter_done" domain="[('state', '=', 'done')]"/>
+                <separator/>
+                <filter string="My Appraisals" name="filter_my"
+                        domain="[('employee_id.user_id', '=', uid)]"/>
+                <filter string="Appraisals I Manage" name="filter_managed"
+                        domain="[('manager_ids.user_id', '=', uid)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Department" name="group_department" context="{'group_by': 'department_id'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Bell Curve Rating" name="group_bell_curve" context="{'group_by': 'bell_curve_rating'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ==================== ACTION ==================== -->
+    <record id="hr_appraisal_action" model="ir.actions.act_window">
+        <field name="name">Appraisals</field>
+        <field name="res_model">hr.appraisal</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="hr_appraisal_view_search"/>
+        <field name="context">{'search_default_filter_my': 0}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new appraisal
+            </p>
+        </field>
+    </record>
+
+</odoo>

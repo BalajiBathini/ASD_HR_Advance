@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_appraisal_user,hr.appraisal.user,model_hr_appraisal,group_appraisal_user,1,1,1,0
+access_hr_appraisal_manager,hr.appraisal.manager,model_hr_appraisal,group_appraisal_manager,1,1,1,1
+access_hr_appraisal_kra_user,hr.appraisal.kra.user,model_hr_appraisal_kra,group_appraisal_user,1,1,1,1
+access_hr_appraisal_kra_manager,hr.appraisal.kra.manager,model_hr_appraisal_kra,group_appraisal_manager,1,1,1,1
+access_hr_appraisal_kpi_user,hr.appraisal.kpi.user,model_hr_appraisal_kpi,group_appraisal_user,1,1,1,1
+access_hr_appraisal_kpi_manager,hr.appraisal.kpi.manager,model_hr_appraisal_kpi,group_appraisal_manager,1,1,1,1
+access_hr_appraisal_feedback_user,hr.appraisal.feedback.user,model_hr_appraisal_feedback,group_appraisal_user,1,1,1,0
+access_hr_appraisal_feedback_manager,hr.appraisal.feedback.manager,model_hr_appraisal_feedback,group_appraisal_manager,1,1,1,1
+access_hr_appraisal_template_user,hr.appraisal.template.user,model_hr_appraisal_template,group_appraisal_user,1,0,0,0
+access_hr_appraisal_template_manager,hr.appraisal.template.manager,model_hr_appraisal_template,group_appraisal_manager,1,1,1,1
+access_hr_appraisal_template_kra_user,hr.appraisal.template.kra.user,model_hr_appraisal_template_kra,group_appraisal_user,1,0,0,0
+access_hr_appraisal_template_kra_manager,hr.appraisal.template.kra.manager,model_hr_appraisal_template_kra,group_appraisal_manager,1,1,1,1

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="hr_appraisal_template_default" model="hr.appraisal.template">
+            <field name="name">Standard Appraisal Template</field>
+            <field name="employee_feedback_template"><![CDATA[
+                <h3>My Work</h3>
+                <p>Describe your key achievements during this period.</p>
+                <h3>My Future</h3>
+                <p>What are your career development goals?</p>
+                <h3>My Feelings</h3>
+                <p>How do you feel about your role and the company?</p>
+            ]]></field>
+            <field name="manager_feedback_template"><![CDATA[
+                <h3>Feedback</h3>
+                <p>General feedback on the employee's performance.</p>
+                <h3>Evaluation</h3>
+                <p>Evaluate performance against KRAs/KPIs.</p>
+                <h3>Improvements</h3>
+                <p>Areas of improvement and development plan.</p>
+            ]]></field>
+        </record>
+
+        <record id="hr_appraisal_template_kra_1" model="hr.appraisal.template.kra">
+            <field name="template_id" ref="hr_appraisal_template_default"/>
+            <field name="sequence">10</field>
+            <field name="name">Job Performance</field>
+            <field name="weightage">40</field>
+        </record>
+
+        <record id="hr_appraisal_template_kra_2" model="hr.appraisal.template.kra">
+            <field name="template_id" ref="hr_appraisal_template_default"/>
+            <field name="sequence">20</field>
+            <field name="name">Quality of Work</field>
+            <field name="weightage">30</field>
+        </record>
+
+        <record id="hr_appraisal_template_kra_3" model="hr.appraisal.template.kra">
+            <field name="template_id" ref="hr_appraisal_template_default"/>
+            <field name="sequence">30</field>
+            <field name="name">Teamwork &amp; Collaboration</field>
+            <field name="weightage">15</field>
+        </record>
+
+        <record id="hr_appraisal_template_kra_4" model="hr.appraisal.template.kra">
+            <field name="template_id" ref="hr_appraisal_template_default"/>
+            <field name="sequence">40</field>
+            <field name="name">Attendance &amp; Discipline</field>
+            <field name="weightage">15</field>
+        </record>
+
+    </data>
+</odoo>

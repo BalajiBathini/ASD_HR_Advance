@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_hr_appraisal_root"
+              name="Appraisals"
+              sequence="60"
+              web_icon="hr_appraisal_kpi,static/description/icon.png"/>
+
+    <menuitem id="menu_hr_appraisal_main"
+              name="Appraisals"
+              parent="menu_hr_appraisal_root"
+              action="hr_appraisal_action"
+              sequence="10"/>
+
+    <record id="hr_appraisal_action_manager" model="ir.actions.act_window">
+        <field name="name">Appraisals to Review</field>
+        <field name="res_model">hr.appraisal</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('manager_ids.user_id', '=', uid)]</field>
+        <field name="context">{'search_default_group_state': 1}</field>
+    </record>
+
+    <menuitem id="menu_hr_appraisal_review"
+              name="Appraisals to Review"
+              parent="menu_hr_appraisal_root"
+              action="hr_appraisal_action_manager"
+              sequence="15"/>
+
+    <menuitem id="menu_hr_appraisal_feedback"
+              name="360 Feedback"
+              parent="menu_hr_appraisal_root"
+              action="hr_appraisal_feedback_action"
+              sequence="20"/>
+
+    <menuitem id="menu_hr_appraisal_reporting"
+              name="Reporting"
+              parent="menu_hr_appraisal_root"
+              sequence="30"/>
+
+    <menuitem id="menu_hr_appraisal_kra_report"
+              name="Key Result Areas"
+              parent="menu_hr_appraisal_reporting"
+              action="hr_appraisal_kra_action"
+              sequence="10"/>
+
+    <menuitem id="menu_hr_appraisal_kpi_report"
+              name="KPIs"
+              parent="menu_hr_appraisal_reporting"
+              action="hr_appraisal_kpi_action"
+              sequence="20"/>
+
+    <menuitem id="menu_hr_appraisal_config"
+              name="Configuration"
+              parent="menu_hr_appraisal_root"
+              sequence="100"
+              groups="group_appraisal_manager"/>
+
+    <menuitem id="menu_hr_appraisal_template"
+              name="Appraisal Templates"
+              parent="menu_hr_appraisal_config"
+              action="hr_appraisal_template_action"
+              sequence="10"/>
+
+</odoo>
