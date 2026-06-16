@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="clearance_tmpl_it_email" model="hr.exit.clearance.template">
+            <field name="name">Email &amp; ERP Access Revocation</field>
+            <field name="department">it</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="clearance_tmpl_it_laptop" model="hr.exit.clearance.template">
+            <field name="name">Laptop / Hardware Return</field>
+            <field name="department">it</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="clearance_tmpl_it_vpn" model="hr.exit.clearance.template">
+            <field name="name">GitHub / VPN Access Revocation</field>
+            <field name="department">it</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="clearance_tmpl_fin_advance" model="hr.exit.clearance.template">
+            <field name="name">Outstanding Advances / Loans Settlement</field>
+            <field name="department">finance</field>
+            <field name="sequence">40</field>
+        </record>
+        <record id="clearance_tmpl_fin_expense" model="hr.exit.clearance.template">
+            <field name="name">Expense Reimbursement Clearance</field>
+            <field name="department">finance</field>
+            <field name="sequence">50</field>
+        </record>
+        <record id="clearance_tmpl_admin_idcard" model="hr.exit.clearance.template">
+            <field name="name">ID Card / Access Card Return</field>
+            <field name="department">admin</field>
+            <field name="sequence">60</field>
+        </record>
+        <record id="clearance_tmpl_admin_assets" model="hr.exit.clearance.template">
+            <field name="name">Company Assets (Furniture, Keys) Return</field>
+            <field name="department">admin</field>
+            <field name="sequence">70</field>
+        </record>
+        <record id="clearance_tmpl_hr_fnf" model="hr.exit.clearance.template">
+            <field name="name">F&amp;F Documentation Complete</field>
+            <field name="department">hr</field>
+            <field name="sequence">80</field>
+        </record>
+        <record id="clearance_tmpl_hr_interview" model="hr.exit.clearance.template">
+            <field name="name">Exit Interview Conducted</field>
+            <field name="department">hr</field>
+            <field name="sequence">90</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_report_relieving_letter" model="ir.actions.report">
+        <field name="name">Relieving Letter</field>
+        <field name="model">hr.exit</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">hr_exit_management.report_relieving_letter</field>
+        <field name="report_file">hr_exit_management.report_relieving_letter</field>
+        <field name="print_report_name">'Relieving Letter - %s' % (object.employee_id.name)</field>
+        <field name="binding_model_id" ref="model_hr_exit"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_relieving_letter">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">Relieving Letter / Experience Certificate</h2>
+                        <p class="text-end">
+                            Date: <span t-out="o.relieving_letter_date or o.last_working_day"/>
+                        </p>
+                        <p>To,</p>
+                        <p>
+                            <strong t-out="o.employee_id.name"/><br/>
+                            <span t-field="o.employee_id.work_email"/>
+                        </p>
+                        <p>Dear <span t-out="o.employee_id.name"/>,</p>
+                        <p>
+                            This is to certify that
+                            <strong t-out="o.employee_id.name"/>
+                            was employed with
+                            <strong t-out="o.company_id.name"/>
+                            as
+                            <strong t-out="o.job_id.name or 'N/A'"/>
+                            in the
+                            <strong t-out="o.department_id.name or 'N/A'"/>
+                            department.
+                        </p>
+                        <p>
+                            The employee tendered resignation on
+                            <strong t-out="o.resignation_date"/>
+                            and the last working day with the organization was
+                            <strong t-out="o.last_working_day"/>.
+                        </p>
+                        <p>
+                            All dues, including Full and Final settlement amounting to
+                            <strong t-out="'%.2f' % (o.fnf_id and o.fnf_id[0].net_payable or 0.0)"/>,
+                            have been settled as per company policy.
+                        </p>
+                        <p>
+                            We thank
+                            <span t-out="o.employee_id.name"/>
+                            for the services rendered during the tenure and wish
+                            <t t-if="o.interview_id and o.interview_id[0].rehire_eligible">
+                                them well, and confirm they are eligible for re-hire in the future.
+                            </t>
+                            <t t-else="">
+                                them success in all future endeavors.
+                            </t>
+                        </p>
+                        <p>This letter is issued upon the employee's request for whatever purpose it may serve.</p>
+                        <br/>
+                        <p>
+                            Sincerely,<br/>
+                            HR Department<br/>
+                            <span t-out="o.company_id.name"/>
+                        </p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

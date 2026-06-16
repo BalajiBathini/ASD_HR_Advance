@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_exit_user,hr.exit.user,model_hr_exit,group_hr_exit_user,1,1,1,0
+access_hr_exit_manager,hr.exit.manager,model_hr_exit,group_hr_exit_manager,1,1,1,1
+access_hr_exit_clearance_template_manager,hr.exit.clearance.template.manager,model_hr_exit_clearance_template,group_hr_exit_manager,1,1,1,1
+access_hr_exit_clearance_user,hr.exit.clearance.user,model_hr_exit_clearance,group_hr_exit_user,1,0,0,0
+access_hr_exit_clearance_manager,hr.exit.clearance.manager,model_hr_exit_clearance,group_hr_exit_manager,1,1,1,1
+access_hr_exit_fnf_user,hr.exit.fnf.user,model_hr_exit_fnf,group_hr_exit_user,1,0,0,0
+access_hr_exit_fnf_manager,hr.exit.fnf.manager,model_hr_exit_fnf,group_hr_exit_manager,1,1,1,1
+access_hr_exit_interview_user,hr.exit.interview.user,model_hr_exit_interview,group_hr_exit_user,1,0,0,0
+access_hr_exit_interview_manager,hr.exit.interview.manager,model_hr_exit_interview,group_hr_exit_manager,1,1,1,1

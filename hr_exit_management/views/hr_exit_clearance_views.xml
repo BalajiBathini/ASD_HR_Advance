@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_hr_exit_clearance_list" model="ir.ui.view">
+        <field name="name">hr.exit.clearance.list</field>
+        <field name="model">hr.exit.clearance</field>
+        <field name="arch" type="xml">
+            <list editable="bottom" decoration-success="status == 'cleared'" decoration-warning="status == 'pending'">
+                <field name="exit_id"/>
+                <field name="employee_id"/>
+                <field name="department"/>
+                <field name="item"/>
+                <field name="status" widget="badge"/>
+                <field name="remarks"/>
+                <field name="cleared_by" readonly="1"/>
+                <field name="cleared_date" readonly="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_hr_exit_clearance_search" model="ir.ui.view">
+        <field name="name">hr.exit.clearance.search</field>
+        <field name="model">hr.exit.clearance</field>
+        <field name="arch" type="xml">
+            <search string="Clearance Checklist">
+                <field name="exit_id"/>
+                <field name="employee_id"/>
+                <field name="item"/>
+                <filter string="Pending" name="pending" domain="[('status','=','pending')]"/>
+                <filter string="Cleared" name="cleared" domain="[('status','=','cleared')]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Department" name="group_dept" context="{'group_by':'department'}"/>
+                    <filter string="Status" name="group_status" context="{'group_by':'status'}"/>
+                    <filter string="Employee" name="group_emp" context="{'group_by':'employee_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_hr_exit_clearance" model="ir.actions.act_window">
+        <field name="name">Clearance Checklist</field>
+        <field name="res_model">hr.exit.clearance</field>
+        <field name="view_mode">list</field>
+        <field name="search_view_id" ref="view_hr_exit_clearance_search"/>
+        <field name="context">{'search_default_pending': 1, 'search_default_group_dept': 1}</field>
+    </record>
+
+    <!-- Clearance template config -->
+    <record id="view_hr_exit_clearance_template_list" model="ir.ui.view">
+        <field name="name">hr.exit.clearance.template.list</field>
+        <field name="model">hr.exit.clearance.template</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="department"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_hr_exit_clearance_template" model="ir.actions.act_window">
+        <field name="name">Clearance Checklist Templates</field>
+        <field name="res_model">hr.exit.clearance.template</field>
+        <field name="view_mode">list</field>
+    </record>
+
+</odoo>

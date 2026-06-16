@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <record id="module_category_hr_exit" model="ir.module.category">
+            <field name="name">HR Exit Management</field>
+            <field name="sequence">15</field>
+        </record>
+
+        <record id="group_hr_exit_user" model="res.groups">
+            <field name="name">Exit User (Employee)</field>
+            <field name="category_id" ref="module_category_hr_exit"/>
+        </record>
+
+        <record id="group_hr_exit_manager" model="res.groups">
+            <field name="name">Exit Manager</field>
+            <field name="category_id" ref="module_category_hr_exit"/>
+            <field name="implied_ids" eval="[(4, ref('group_hr_exit_user'))]"/>
+        </record>
+
+        <record id="group_hr_exit_officer" model="res.groups">
+            <field name="name">Exit HR Officer / Admin</field>
+            <field name="category_id" ref="module_category_hr_exit"/>
+            <field name="implied_ids" eval="[(4, ref('group_hr_exit_manager'))]"/>
+            <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+        </record>
+
+        <!-- Record rule: Employees can only see their own exit requests -->
+        <record id="hr_exit_rule_employee" model="ir.rule">
+            <field name="name">Exit Request: Own Records Only</field>
+            <field name="model_id" ref="model_hr_exit"/>
+            <field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('group_hr_exit_user'))]"/>
+        </record>
+
+        <!-- Manager / HR Officer: full access -->
+        <record id="hr_exit_rule_manager" model="ir.rule">
+            <field name="name">Exit Request: Manager/HR Full Access</field>
+            <field name="model_id" ref="model_hr_exit"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_hr_exit_manager'))]"/>
+        </record>
+
+    </data>
+</odoo>

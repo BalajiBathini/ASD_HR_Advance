@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_hr_exit_root"
+              name="Exit &amp; Offboarding"
+              parent="hr.menu_hr_employee_payroll"
+              sequence="100"/>
+
+    <menuitem id="menu_hr_exit_requests"
+              name="Exit Requests"
+              parent="menu_hr_exit_root"
+              action="action_hr_exit"
+              sequence="10"/>
+
+    <menuitem id="menu_hr_exit_clearance"
+              name="Clearance Checklist"
+              parent="menu_hr_exit_root"
+              action="action_hr_exit_clearance"
+              sequence="20"/>
+
+    <menuitem id="menu_hr_exit_fnf"
+              name="F&amp;F Settlements"
+              parent="menu_hr_exit_root"
+              action="action_hr_exit_fnf"
+              sequence="30"/>
+
+    <menuitem id="menu_hr_exit_interview"
+              name="Exit Interviews"
+              parent="menu_hr_exit_root"
+              action="action_hr_exit_interview"
+              sequence="40"/>
+
+    <menuitem id="menu_hr_exit_config"
+              name="Configuration"
+              parent="menu_hr_exit_root"
+              sequence="90"/>
+
+    <menuitem id="menu_hr_exit_clearance_template"
+              name="Clearance Checklist Templates"
+              parent="menu_hr_exit_config"
+              action="action_hr_exit_clearance_template"
+              sequence="10"/>
+
+</odoo>
