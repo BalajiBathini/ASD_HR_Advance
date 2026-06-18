@@ -1,0 +1,166 @@
+// ── Variables fallback ─────────────────────────────────────
+$accent: #714B67 !default;
+$text-main: #1e293b !default;
+$text-muted: #94a3b8 !default;
+$text-dim: #64748b !default;
+$card-bg: #ffffff !default;
+$danger: #ef4444 !default;
+$bg: #eef2f7 !default;
+$transition: 0.2s ease !default;
+$mobile-breakpoint: 768px !default;
+$radius: 14px !default;
+
+// ── Loading ────────────────────────────────────────────────
+.o_ctr_loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: $text-muted;
+    font-size: 14px;
+    padding: 40px 0;
+}
+
+// ── Alert (no employee / no contract) ─────────────────────
+.o_ctr_alert {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 64px 32px;
+    background: $card-bg;
+    border-radius: $radius;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    max-width: 480px;
+}
+
+.o_ctr_alert_icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #fef3c7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+
+    i { font-size: 28px; color: #d97706; }
+
+    &.o_ctr_alert_icon_warn {
+        background: #fef3c7;
+        i { color: #d97706; }
+    }
+}
+
+.o_ctr_alert_title {
+    font-size: 18px;
+    font-weight: 700;
+    color: $text-main;
+    margin-bottom: 10px;
+}
+
+.o_ctr_alert_desc {
+    font-size: 14px;
+    color: $text-muted;
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+.o_ctr_alert_action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: $accent;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background $transition;
+
+    &:hover { background: darken(#714B67, 8%); }
+}
+
+// ── Status banner ──────────────────────────────────────────
+.o_ctr_status_banner {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: #d1fae5;
+    color: #065f46;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 12px;
+
+    i { font-size: 14px; }
+}
+
+// ── Contract name ──────────────────────────────────────────
+.o_ctr_name {
+    font-size: 22px;
+    font-weight: 700;
+    color: $text-main;
+    margin-bottom: 28px;
+}
+
+// ── Info grid ─────────────────────────────────────────────
+.o_ctr_grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+.o_ctr_card {
+    background: $card-bg;
+    border-radius: $radius;
+    padding: 20px 24px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.o_ctr_card_label {
+    font-size: 12px;
+    font-weight: 600;
+    color: $text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    i { margin-right: 6px; color: $accent; }
+}
+
+.o_ctr_card_val {
+    font-size: 15px;
+    font-weight: 600;
+    color: $text-main;
+}
+
+.o_ctr_wage {
+    font-size: 18px;
+    color: $accent;
+}
+
+.o_ctr_permanent {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 10px;
+    background: #d1fae5;
+    color: #065f46;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+// ── Mobile ─────────────────────────────────────────────────
+@media (max-width: #{$mobile-breakpoint}) {
+    .o_ctr_grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .o_ctr_name { font-size: 18px; }
+
+    .o_ctr_alert { padding: 48px 20px; }
+}

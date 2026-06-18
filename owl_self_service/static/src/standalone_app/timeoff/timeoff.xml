@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="owl_self_service.TimeOffPage">
+
+    <t t-if="state.loading">
+        <div class="o_tof_loading"><i class="fa fa-spinner fa-spin"/> Loading time off…</div>
+    </t>
+
+    <t t-elif="!state.employeeFound">
+        <div class="o_tof_page_header">
+            <div>
+                <div class="o_ess_page_title">My Time Off</div>
+                <div class="o_ess_page_subtitle">Manage your leave requests</div>
+            </div>
+        </div>
+        <div class="o_ess_no_employee">
+            <i class="fa fa-exclamation-triangle"/>
+            <div class="o_ess_no_employee_title">No Employee Record Found</div>
+            <div class="o_ess_no_employee_desc">Your account is not linked to any employee record. Please contact HR.</div>
+        </div>
+    </t>
+
+    <t t-else="">
+
+        <div class="o_tof_page_header">
+            <div>
+                <div class="o_ess_page_title">My Time Off</div>
+                <div class="o_ess_page_subtitle">Manage your leave requests</div>
+            </div>
+            <button class="o_tof_btn_request" t-on-click="openModal">
+                <i class="fa fa-calendar-plus-o"/> Request Time Off
+            </button>
+        </div>
+
+        <div class="o_ess_tabs">
+            <button t-attf-class="o_ess_tab {{ state.activeTab === 'balance' ? 'active' : '' }}"
+                    t-on-click="() => this.setTab('balance')">
+                <i class="fa fa-bar-chart"/> Balance
+            </button>
+            <button t-attf-class="o_ess_tab {{ state.activeTab === 'history' ? 'active' : '' }}"
+                    t-on-click="() => this.setTab('history')">
+                <i class="fa fa-list-ul"/> History
+            </button>
+        </div>
+
+        <!-- ── Balance tab ── -->
+        <t t-if="state.activeTab === 'balance'">
+            <div class="o_tof_balance_layout">
+
+                <!-- Left: balance cards -->
+                <div class="o_tof_balance_col">
+                    <t t-if="!state.balances.length">
+                        <div class="o_tof_empty"><i class="fa fa-inbox"/><div>No leave types allocated.</div></div>
+                    </t>
+                    <t t-else="">
+                        <div class="o_tof_balance_scroll">
+                            <t t-foreach="state.balances" t-as="b" t-key="b.id">
+                                <div class="o_tof_balance_card">
+                                    <div class="o_tof_balance_top">
+                                        <div class="o_tof_balance_dot" t-attf-style="background: {{ b.color_hex }};"/>
+                                        <div class="o_tof_balance_name"><t t-esc="b.name"/></div>
+                                        <div t-if="b.requires_allocation" class="o_tof_balance_remaining">
+                                            <span class="o_tof_balance_num"><t t-esc="b.virtual_remaining"/></span>
+                                            <span class="o_tof_balance_unit"> days left</span>
+                                        </div>
+                                        <div t-else="" class="o_tof_balance_remaining">
+                                            <span class="o_tof_balance_unlimited">Unlimited</span>
+                                        </div>
+                                    </div>
+                                    <t t-if="b.requires_allocation">
+                                        <div class="o_tof_progress_bar">
+                                            <div class="o_tof_progress_fill"
+                                                 t-attf-style="width: {{ balancePercent(b) }}%; background: {{ b.color_hex }};"/>
+                                        </div>
+                                        <div class="o_tof_balance_meta">
+                                            <span><i class="fa fa-check-circle"/> <t t-esc="b.leaves_taken"/> taken</span>
+                                            <span><i class="fa fa-circle-o"/> <t t-esc="b.max_leaves"/> total</span>
+                                        </div>
+                                    </t>
+                                </div>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- Right: calendar -->
+                <div class="o_tof_cal_col">
+                    <div class="o_tof_cal">
+
+                        <!-- Toolbar -->
+                        <div class="o_tof_cal_toolbar">
+                            <div class="o_tof_cal_toolbar_left">
+                                <button class="o_tof_cal_today_btn" t-on-click="() => this.goToday()">Today</button>
+                                <button class="o_tof_cal_nav" t-on-click="() => this.calPrev()"><i class="fa fa-chevron-left"/></button>
+                                <button class="o_tof_cal_nav" t-on-click="() => this.calNext()"><i class="fa fa-chevron-right"/></button>
+                                <div class="o_tof_cal_month_label"><t t-esc="calLabel"/></div>
+                            </div>
+                            <div class="o_tof_cal_view_switcher">
+                                <button t-attf-class="o_tof_cal_view_btn {{ state.calView === 'day' ? 'active' : '' }}"
+                                        t-on-click="() => this.setCalView('day')">Day</button>
+                                <button t-attf-class="o_tof_cal_view_btn o_tof_cal_view_week {{ state.calView === 'week' ? 'active' : '' }}"
+                                        t-on-click="() => this.setCalView('week')">Week</button>
+                                <button t-attf-class="o_tof_cal_view_btn {{ state.calView === 'month' ? 'active' : '' }}"
+                                        t-on-click="() => this.setCalView('month')">Month</button>
+                            </div>
+                        </div>
+
+                        <!-- Month view -->
+                        <t t-if="state.calView === 'month'">
+                            <div class="o_tof_cal_grid o_tof_cal_dow_row">
+                                <div class="o_tof_cal_dow">Sun</div>
+                                <div class="o_tof_cal_dow">Mon</div>
+                                <div class="o_tof_cal_dow">Tue</div>
+                                <div class="o_tof_cal_dow">Wed</div>
+                                <div class="o_tof_cal_dow">Thu</div>
+                                <div class="o_tof_cal_dow">Fri</div>
+                                <div class="o_tof_cal_dow">Sat</div>
+                            </div>
+                            <div class="o_tof_cal_grid">
+                                <t t-foreach="calDays" t-as="cell" t-key="cell_index">
+                                    <t t-if="!cell.day">
+                                        <div class="o_tof_cal_cell o_tof_cal_empty"/>
+                                    </t>
+                                    <t t-else="">
+                                        <div t-attf-class="o_tof_cal_cell {{ cell.isToday ? 'is-today' : '' }} {{ cell.events.length ? 'has-event' : '' }}"
+                                             t-on-click="() => this.clickDayCell(cell.dateStr)">
+                                            <span class="o_tof_cal_day"><t t-esc="cell.day"/></span>
+                                            <t t-if="cell.events.length">
+                                                <div class="o_tof_cal_dots">
+                                                    <t t-foreach="cell.events" t-as="ev" t-key="ev_index">
+                                                        <span class="o_tof_cal_event_label"
+                                                              t-attf-style="background: {{ ev.color_hex }};">
+                                                            <t t-esc="ev.employee_name"/> · <t t-esc="ev.type_name"/>
+                                                        </span>
+                                                    </t>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </t>
+                                </t>
+                            </div>
+                        </t>
+
+                        <!-- Week view -->
+                        <t t-if="state.calView === 'week'">
+                            <div class="o_tof_tg">
+                                <!-- sticky column headers -->
+                                <div class="o_tof_tg_head">
+                                    <div class="o_tof_tg_gutter"/>
+                                    <t t-foreach="calWeekDays" t-as="wday" t-key="wday.dateStr">
+                                        <div t-attf-class="o_tof_tg_colhead {{ wday.isToday ? 'is-today' : '' }}"
+                                             t-on-click="() => this.clickDayCell(wday.dateStr)">
+                                            <div class="o_tof_tg_dow"><t t-esc="wday.label"/></div>
+                                            <div t-attf-class="o_tof_tg_daynum {{ wday.isToday ? 'is-today' : '' }}">
+                                                <t t-esc="wday.dayNum"/>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </div>
+                                <!-- all-day row -->
+                                <div class="o_tof_tg_allday_row">
+                                    <div class="o_tof_tg_gutter o_tof_tg_allday_label">All day</div>
+                                    <t t-foreach="calWeekDays" t-as="wday" t-key="wday.dateStr">
+                                        <div t-attf-class="o_tof_tg_allday_cell {{ wday.isToday ? 'is-today' : '' }}">
+                                            <t t-foreach="wday.events" t-as="ev" t-key="ev_index">
+                                                <div class="o_tof_tg_allday_event"
+                                                     t-attf-style="background: {{ ev.color_hex }};">
+                                                    <t t-esc="ev.employee_name"/> · <t t-esc="ev.type_name"/>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </t>
+                                </div>
+                                <!-- scrollable time body -->
+                                <div class="o_tof_tg_body">
+                                    <div class="o_tof_tg_labels">
+                                        <t t-foreach="hours24" t-as="h" t-key="h">
+                                            <div class="o_tof_tg_label"><t t-esc="h"/></div>
+                                        </t>
+                                    </div>
+                                    <t t-foreach="calWeekDays" t-as="wday" t-key="wday.dateStr">
+                                        <div t-attf-class="o_tof_tg_col {{ wday.isToday ? 'is-today' : '' }}">
+                                            <t t-foreach="hours24" t-as="h" t-key="h">
+                                                <div class="o_tof_tg_row"/>
+                                            </t>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+
+                        <!-- Day view -->
+                        <t t-if="state.calView === 'day'">
+                            <div class="o_tof_tg o_tof_tg_single">
+                                <!-- all-day row -->
+                                <div class="o_tof_tg_allday_row">
+                                    <div class="o_tof_tg_gutter o_tof_tg_allday_label">All day</div>
+                                    <div class="o_tof_tg_allday_cell o_tof_tg_allday_full">
+                                        <t t-if="!calDayEvents.length">
+                                            <span class="o_tof_tg_allday_empty">No time off on this day</span>
+                                        </t>
+                                        <t t-foreach="calDayEvents" t-as="ev" t-key="ev_index">
+                                            <div class="o_tof_tg_allday_event"
+                                                 t-attf-style="background: {{ ev.color_hex }};">
+                                                <t t-esc="ev.type_name"/>
+                                                <span class="o_tof_tg_allday_days">
+                                                    · <t t-esc="ev.number_of_days"/> day(s)
+                                                </span>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                                <!-- scrollable time body -->
+                                <div class="o_tof_tg_body">
+                                    <div class="o_tof_tg_labels">
+                                        <t t-foreach="hours24" t-as="h" t-key="h">
+                                            <div class="o_tof_tg_label"><t t-esc="h"/></div>
+                                        </t>
+                                    </div>
+                                    <div class="o_tof_tg_col o_tof_tg_col_full is-today">
+                                        <t t-foreach="hours24" t-as="h" t-key="h">
+                                            <div class="o_tof_tg_row"/>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+
+                        <!-- Legend -->
+                        <t t-if="state.calEvents.length">
+                            <div class="o_tof_cal_legend">
+                                <t t-foreach="state.balances" t-as="b" t-key="b.id">
+                                    <t t-if="state.calEvents.some(ev => ev.type_name === b.name)">
+                                        <span class="o_tof_cal_legend_item">
+                                            <span class="o_tof_cal_legend_dot" t-attf-style="background: {{ b.color_hex }};"/>
+                                            <t t-esc="b.name"/>
+                                        </span>
+                                    </t>
+                                </t>
+                            </div>
+                        </t>
+
+                    </div>
+                </div>
+
+            </div>
+        </t>
+
+        <!-- ── History tab ── -->
+        <t t-if="state.activeTab === 'history'">
+            <t t-if="!state.history.length">
+                <div class="o_tof_empty"><i class="fa fa-inbox"/><div>No time off requests found.</div></div>
+            </t>
+            <t t-else="">
+                <div class="o_tof_history_list">
+                    <t t-foreach="state.history" t-as="leave" t-key="leave.id">
+                        <div class="o_tof_group_card">
+                            <!-- Header: tanggal + durasi -->
+                            <div class="o_tof_group_header">
+                                <span>
+                                    <i class="fa fa-calendar-o"/>
+                                    <t t-esc="formatDate(leave.date_from)"/>
+                                    <t t-if="leave.date_from !== leave.date_to">
+                                        → <t t-esc="formatDate(leave.date_to)"/>
+                                    </t>
+                                </span>
+                                <span class="o_tof_group_days">
+                                    <t t-esc="leave.number_of_days"/> day(s)
+                                </span>
+                            </div>
+                            <!-- Row: nama + badge + tombol -->
+                            <div class="o_tof_row">
+                                <div class="o_tof_row_left">
+                                    <div class="o_tof_row_name">
+                                        <span class="o_tof_history_dot" t-attf-style="background: {{ leave.color_hex }};"/>
+                                        <t t-esc="leave.type_name"/>
+                                    </div>
+                                    <div class="o_tof_row_employee">
+                                        <i class="fa fa-user-o"/> <t t-esc="leave.employee_name"/>
+                                    </div>
+                                    <t t-if="leave.description">
+                                        <div class="o_tof_row_desc"><t t-esc="leave.description"/></div>
+                                    </t>
+                                    <t t-if="leave.has_attachment">
+                                        <div class="o_tof_row_desc">
+                                            <i class="fa fa-paperclip"/> <t t-esc="leave.attachment_name"/>
+                                        </div>
+                                    </t>
+                                </div>
+                                <div class="o_tof_row_right">
+                                    <span t-attf-class="o_tof_badge o_tof_badge_{{ leave.state_color }}">
+                                        <t t-esc="leave.state_label"/>
+                                    </span>
+                                    <t t-if="leave.can_edit">
+                                        <button class="o_tof_icon_btn o_tof_icon_edit"
+                                                t-on-click="() => this.onEdit(leave)"
+                                                title="Edit">
+                                            <i class="fa fa-pencil"/>
+                                        </button>
+                                    </t>
+                                    <t t-if="leave.can_cancel">
+                                        <button class="o_tof_icon_btn o_tof_icon_delete"
+                                                t-on-click="() => this.onCancel(leave.id)"
+                                                title="Delete">
+                                            <i class="fa fa-times"/>
+                                        </button>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+                <div class="o_tof_pagination" t-if="state.historyTotalPages &gt; 1">
+                    <button class="o_tof_page_btn" t-att-disabled="state.historyPage &lt;= 1"
+                            t-on-click="() => this.onPageChange(state.historyPage - 1)">
+                        <i class="fa fa-chevron-left"/>
+                    </button>
+                    <span class="o_tof_page_info">Page <t t-esc="state.historyPage"/> of <t t-esc="state.historyTotalPages"/></span>
+                    <button class="o_tof_page_btn" t-att-disabled="state.historyPage &gt;= state.historyTotalPages"
+                            t-on-click="() => this.onPageChange(state.historyPage + 1)">
+                        <i class="fa fa-chevron-right"/>
+                    </button>
+                </div>
+            </t>
+        </t>
+
+    </t>
+
+    <!-- ── Modal ── -->
+    <t t-if="state.showModal">
+        <div class="o_tof_modal_backdrop"/>
+        <div class="o_tof_modal">
+            <div class="o_tof_modal_header">
+                <div class="o_tof_modal_title">
+                    <i t-attf-class="fa {{ state.form._editId ? 'fa-pencil' : 'fa-calendar-plus-o' }}"/>
+                    <t t-esc="state.form._editId ? 'Edit Time Off' : 'Request Time Off'"/>
+                </div>
+                <button class="o_tof_modal_close" t-on-click="closeModal"><i class="fa fa-times"/></button>
+            </div>
+            <div class="o_tof_modal_body">
+
+                <!-- Server error -->
+                <t t-if="state.formErrors._server">
+                    <div class="o_tof_server_error">
+                        <i class="fa fa-exclamation-circle"/> <t t-esc="state.formErrors._server"/>
+                    </div>
+                </t>
+
+                <!-- Leave type -->
+                <div t-attf-class="o_tof_form_group {{ state.formErrors.holiday_status_id ? 'has-error' : '' }}">
+                    <label class="o_tof_form_label">Leave Type <span class="o_tof_required">*</span></label>
+                    <select class="o_tof_form_input" t-on-change="onFormInput('holiday_status_id')">
+                        <option value="">— Select type —</option>
+                        <t t-foreach="state.leaveTypes" t-as="ltype" t-key="ltype.id">
+                            <option t-att-value="ltype.id"
+                                    t-att-selected="state.form.holiday_status_id == ltype.id">
+                                <t t-esc="ltype.name"/>
+                            </option>
+                        </t>
+                    </select>
+                    <span t-if="state.formErrors.holiday_status_id" class="o_tof_form_error">
+                        <t t-esc="state.formErrors.holiday_status_id"/>
+                    </span>
+                </div>
+
+                <!-- ── unit = day : date range ── -->
+                <t t-if="!selectedLeaveType or selectedLeaveType.request_unit === 'day'">
+                    <div class="o_tof_form_row">
+                        <div t-attf-class="o_tof_form_group {{ state.formErrors.date_from ? 'has-error' : '' }}">
+                            <label class="o_tof_form_label">From <span class="o_tof_required">*</span></label>
+                            <input class="o_tof_form_input" type="date"
+                                   t-att-value="state.form.date_from"
+                                   t-on-change="onFormInput('date_from')"/>
+                            <span t-if="state.formErrors.date_from" class="o_tof_form_error">
+                                <t t-esc="state.formErrors.date_from"/>
+                            </span>
+                        </div>
+                        <div t-attf-class="o_tof_form_group {{ state.formErrors.date_to ? 'has-error' : '' }}">
+                            <label class="o_tof_form_label">To <span class="o_tof_required">*</span></label>
+                            <input class="o_tof_form_input" type="date"
+                                   t-att-value="state.form.date_to"
+                                   t-on-change="onFormInput('date_to')"/>
+                            <span t-if="state.formErrors.date_to" class="o_tof_form_error">
+                                <t t-esc="state.formErrors.date_to"/>
+                            </span>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- ── unit = half_day ── -->
+                <t t-if="selectedLeaveType and selectedLeaveType.request_unit === 'half_day'">
+                    <div class="o_tof_form_group">
+                        <label class="o_tof_form_label">Date <span class="o_tof_required">*</span></label>
+                        <input class="o_tof_form_input" type="date"
+                               t-att-value="state.form.date_from"
+                               t-on-change="onFormInput('date_from')"/>
+                        <span t-if="state.formErrors.date_from" class="o_tof_form_error">
+                            <t t-esc="state.formErrors.date_from"/>
+                        </span>
+                    </div>
+                    <div class="o_tof_form_group">
+                        <label class="o_tof_form_label">Period <span class="o_tof_required">*</span></label>
+                        <div class="o_tof_period_group">
+                            <label t-attf-class="o_tof_period_btn {{ state.form.half_day_period === 'am' ? 'active' : '' }}">
+                                <input type="radio" name="half_day_period" value="am"
+                                       t-on-change="onFormInput('half_day_period')"
+                                       t-att-checked="state.form.half_day_period === 'am'"/>
+                                <i class="fa fa-sun-o"/> Morning
+                            </label>
+                            <label t-attf-class="o_tof_period_btn {{ state.form.half_day_period === 'pm' ? 'active' : '' }}">
+                                <input type="radio" name="half_day_period" value="pm"
+                                       t-on-change="onFormInput('half_day_period')"
+                                       t-att-checked="state.form.half_day_period === 'pm'"/>
+                                <i class="fa fa-moon-o"/> Afternoon
+                            </label>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- ── unit = hour ── -->
+                <t t-if="selectedLeaveType and selectedLeaveType.request_unit === 'hour'">
+                    <div class="o_tof_form_group">
+                        <label class="o_tof_form_label">Date <span class="o_tof_required">*</span></label>
+                        <input class="o_tof_form_input" type="date"
+                               t-att-value="state.form.date_from"
+                               t-on-change="onFormInput('date_from')"/>
+                        <span t-if="state.formErrors.date_from" class="o_tof_form_error">
+                            <t t-esc="state.formErrors.date_from"/>
+                        </span>
+                    </div>
+                    <div class="o_tof_form_row">
+                        <div t-attf-class="o_tof_form_group {{ state.formErrors.hour_from ? 'has-error' : '' }}">
+                            <label class="o_tof_form_label">Start Time <span class="o_tof_required">*</span></label>
+                            <select class="o_tof_form_input" t-on-change="onFormInput('hour_from')">
+                                <t t-foreach="hourOptions" t-as="opt" t-key="opt.value">
+                                    <option t-att-value="opt.value"
+                                            t-att-selected="state.form.hour_from == opt.value">
+                                        <t t-esc="opt.label"/>
+                                    </option>
+                                </t>
+                            </select>
+                            <span t-if="state.formErrors.hour_from" class="o_tof_form_error">
+                                <t t-esc="state.formErrors.hour_from"/>
+                            </span>
+                        </div>
+                        <div t-attf-class="o_tof_form_group {{ state.formErrors.hour_to ? 'has-error' : '' }}">
+                            <label class="o_tof_form_label">End Time <span class="o_tof_required">*</span></label>
+                            <select class="o_tof_form_input" t-on-change="onFormInput('hour_to')">
+                                <t t-foreach="hourOptions" t-as="opt" t-key="opt.value">
+                                    <option t-att-value="opt.value"
+                                            t-att-selected="state.form.hour_to == opt.value">
+                                        <t t-esc="opt.label"/>
+                                    </option>
+                                </t>
+                            </select>
+                            <span t-if="state.formErrors.hour_to" class="o_tof_form_error">
+                                <t t-esc="state.formErrors.hour_to"/>
+                            </span>
+                        </div>
+                    </div>
+                </t>
+
+                <!-- Reason -->
+                <div class="o_tof_form_group">
+                    <label class="o_tof_form_label">Reason</label>
+                    <textarea class="o_tof_form_input o_tof_form_textarea" rows="3"
+                              placeholder="Optional reason…"
+                              t-on-input="onFormInput('description')">
+                        <t t-esc="state.form.description"/>
+                    </textarea>
+                </div>
+
+                <!-- Attachment — hanya tampil jika leave type require/support document -->
+                <t t-if="selectedLeaveType and selectedLeaveType.support_document">
+                    <div class="o_tof_form_group">
+                        <label class="o_tof_form_label">
+                            Supporting Document <span class="o_tof_required">*</span>
+                        </label>
+                        <t t-if="!state.form.attachmentName">
+                            <label class="o_tof_file_label" for="tof_file_input">
+                                <i class="fa fa-paperclip"/> Attach file
+                                <input id="tof_file_input" type="file" class="o_tof_file_input"
+                                       accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                                       t-on-change="onFileChange"/>
+                            </label>
+                            <div class="o_tof_file_hint">PDF, JPG, PNG, DOC — max 10 MB</div>
+                        </t>
+                        <t t-else="">
+                            <div class="o_tof_file_preview">
+                                <i class="fa fa-file-text-o"/>
+                                <span class="o_tof_file_name"><t t-esc="state.form.attachmentName"/></span>
+                                <button class="o_tof_file_remove" t-on-click="removeAttachment" title="Remove">
+                                    <i class="fa fa-times"/>
+                                </button>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+
+            </div>
+            <div class="o_tof_modal_footer">
+                <button class="o_tof_btn_cancel" t-on-click="closeModal">Cancel</button>
+                <button class="o_tof_btn_submit" t-att-disabled="state.modalLoading" t-on-click="onSubmitForm">
+                    <t t-if="state.modalLoading">
+                        <i class="fa fa-spinner fa-spin"/> Submitting…
+                    </t>
+                    <t t-else="">
+                        <i class="fa fa-paper-plane"/> Submit Request
+                    </t>
+                </button>
+            </div>
+        </div>
+    </t>
+
+    <!-- ── Confirm Dialog ── -->
+    <t t-if="state.confirmDialog.show">
+        <div class="o_ess_confirm_backdrop" t-on-click="onConfirmCancel"/>
+        <div class="o_ess_confirm_dialog">
+            <div class="o_ess_confirm_icon">
+                <i class="fa fa-exclamation-triangle"/>
+            </div>
+            <div class="o_ess_confirm_title"><t t-esc="state.confirmDialog.title"/></div>
+            <div class="o_ess_confirm_message"><t t-esc="state.confirmDialog.message"/></div>
+            <div class="o_ess_confirm_actions">
+                <button class="o_ess_confirm_btn_cancel" t-on-click="onConfirmCancel">No, Keep It</button>
+                <button class="o_ess_confirm_btn_ok" t-on-click="onConfirmOk">
+                    <i class="fa fa-times-circle"/> Yes, Cancel
+                </button>
+            </div>
+        </div>
+    </t>
+
+</t>
+</templates>

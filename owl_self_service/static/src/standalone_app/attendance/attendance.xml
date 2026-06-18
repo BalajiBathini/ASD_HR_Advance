@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="owl_self_service.AttendancePage">
+
+        <t t-if="state.loading">
+            <div class="o_att_loading">
+                <i class="fa fa-spinner fa-spin"/> Loading...
+            </div>
+        </t>
+
+        <t t-elif="!state.employeeFound">
+            <div class="o_ess_no_employee">
+                <i class="fa fa-exclamation-triangle"/>
+                <div class="o_ess_no_employee_title">No Employee Record Found</div>
+                <div class="o_ess_no_employee_desc">
+                    No employee record is linked to your account email.
+                    Please contact HR to set up your employee profile.
+                </div>
+            </div>
+        </t>
+
+        <t t-else="">
+
+            <!-- Tab navigation -->
+            <div class="o_ess_tabs">
+                <button t-attf-class="o_ess_tab {{ state.activeTab === 'dashboard' ? 'active' : '' }}"
+                        t-on-click="() => this.setTab('dashboard')">
+                    <i class="fa fa-clock-o"/> Check In / Out
+                </button>
+                <button t-attf-class="o_ess_tab {{ state.activeTab === 'history' ? 'active' : '' }}"
+                        t-on-click="() => this.setTab('history')">
+                    <i class="fa fa-list-ul"/> History
+                </button>
+            </div>
+
+
+            <!-- ── Dashboard tab ──────────────────────────────── -->
+            <t t-if="state.activeTab === 'dashboard'">
+                <div class="o_att_layout o_att_layout_single">
+
+                    <!-- Check-in card -->
+                    <div class="o_att_panel_main">
+                        <div class="o_att_card">
+                            <div class="o_att_clock_wrap">
+                                <div class="o_att_clock_time">
+                                    <t t-if="state.isCheckedIn">
+                                        <t t-esc="state.elapsed"/>
+                                    </t>
+                                    <t t-else="">--:--:--</t>
+                                </div>
+                                <div class="o_att_clock_date"><t t-esc="todayLabel"/></div>
+                            </div>
+
+                            <div class="o_att_circle_wrap">
+                                <button t-attf-class="o_att_circle_btn {{ state.isCheckedIn ? 'checkout' : 'checkin' }}"
+                                        t-att-disabled="state.actionLoading"
+                                        t-on-click="_toggleAttendance">
+                                    <i t-attf-class="fa fa-2x {{ state.actionLoading ? 'fa-spinner fa-spin' : (state.isCheckedIn ? 'fa-sign-out' : 'fa-hand-o-up') }}"/>
+                                    <span>
+                                        <t t-if="state.isCheckedIn">Check Out</t>
+                                        <t t-else="">Check In</t>
+                                    </span>
+                                </button>
+                            </div>
+
+                            <div class="o_att_summary_row">
+                                <div class="o_att_summary_item">
+                                    <i class="fa fa-sign-in"/>
+                                    <div class="o_att_summary_val">
+                                        <t t-esc="formatTime(lastRecord and lastRecord.checkIn)"/>
+                                    </div>
+                                    <div class="o_att_summary_label">Check In</div>
+                                </div>
+                                <div class="o_att_summary_sep"/>
+                                <div class="o_att_summary_item">
+                                    <i class="fa fa-sign-out"/>
+                                    <div class="o_att_summary_val">
+                                        <t t-esc="formatTime(lastRecord and lastRecord.checkOut)"/>
+                                    </div>
+                                    <div class="o_att_summary_label">Check Out</div>
+                                </div>
+                                <div class="o_att_summary_sep"/>
+                                <div class="o_att_summary_item">
+                                    <i class="fa fa-hourglass-half"/>
+                                    <div class="o_att_summary_val">
+                                        <t t-esc="lastRecord ? formatDuration(lastRecord.checkIn, lastRecord.checkOut) : '--:-- hrs'"/>
+                                    </div>
+                                    <div class="o_att_summary_label">Total Hrs</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </t>
+
+            <!-- ── History tab ────────────────────────────────── -->
+            <t t-if="state.activeTab === 'history'">
+
+                <t t-if="state.history.length === 0">
+                    <div class="o_att_empty">
+                        <i class="fa fa-inbox"/>
+                        No attendance records found.
+                    </div>
+                </t>
+                <t t-else="">
+
+                    <div t-foreach="historyByDate" t-as="group" t-key="group.date"
+                         class="o_att_group_card">
+                        <div class="o_att_group_header">
+                            <span>Date: <t t-esc="group.date"/></span>
+                            <span class="o_att_group_employee">
+                                <i class="fa fa-user-o"/> <t t-esc="group.rows[0].employeeName"/>
+                            </span>
+                            <span>Total: <t t-esc="formatTotalHours(group.totalSeconds)"/></span>
+                        </div>
+                        <div t-foreach="group.rows" t-as="row" t-key="row.id"
+                             class="o_att_group_row">
+                            <div class="o_att_group_cell">
+                                <i class="fa fa-sign-in"/>
+                                <div class="o_att_group_cell_val"><t t-esc="formatTime(row.checkIn)"/></div>
+                                <div class="o_att_group_cell_lbl">Check In</div>
+                            </div>
+                            <div class="o_att_group_cell">
+                                <i class="fa fa-sign-out"/>
+                                <div class="o_att_group_cell_val">
+                                    <t t-if="row.checkOut"><t t-esc="formatTime(row.checkOut)"/></t>
+                                    <t t-else="">Now</t>
+                                </div>
+                                <div class="o_att_group_cell_lbl">Check Out</div>
+                            </div>
+                            <div class="o_att_group_cell">
+                                <i class="fa fa-clock-o"/>
+                                <div class="o_att_group_cell_val">
+                                    <t t-esc="formatDuration(row.checkIn, row.checkOut)"/>
+                                </div>
+                                <div class="o_att_group_cell_lbl">Total Hrs</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div t-if="state.totalPages > 1" class="o_att_pagination">
+                        <button class="o_att_page_btn"
+                                t-att-disabled="state.currentPage === 1"
+                                t-on-click="() => this.onPageChange(state.currentPage - 1)">
+                            <i class="fa fa-chevron-left"/>
+                        </button>
+                        <span class="o_att_page_info">
+                            Page <t t-esc="state.currentPage"/> of <t t-esc="state.totalPages"/>
+                        </span>
+                        <button class="o_att_page_btn"
+                                t-att-disabled="state.currentPage === state.totalPages"
+                                t-on-click="() => this.onPageChange(state.currentPage + 1)">
+                            <i class="fa fa-chevron-right"/>
+                        </button>
+                    </div>
+
+                </t>
+            </t>
+
+        </t>
+
+    </t>
+</templates>

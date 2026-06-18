@@ -1,0 +1,1141 @@
+// Fallback variables (in case this bundle loads before root.scss)
+$accent: #714B67 !default;
+$accent-light: #f3eef1 !default;
+$text-dim: #64748b !default;
+$border-color: #e2e8f0 !default;
+$radius: 12px !default;
+
+// ── Loading / empty states ─────────────────────────────────
+
+.o_tof_loading,
+.o_tof_empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 64px 24px;
+    color: $text-dim;
+    text-align: center;
+
+    i { font-size: 2rem; }
+}
+
+// ── Page header ────────────────────────────────────────────
+
+.o_tof_page_header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    gap: 12px;
+}
+
+.o_tof_btn_request {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: $accent;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: .875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .15s;
+
+    &:hover { background: darken($accent, 8%); }
+}
+
+// ── Balance cards ──────────────────────────────────────────
+
+.o_tof_balance_card {
+    background: #fff;
+    border: 1px solid $border-color;
+    border-radius: $radius;
+    padding: 16px 20px;
+}
+
+.o_tof_balance_top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.o_tof_balance_dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.o_tof_balance_name {
+    flex: 1;
+    font-weight: 600;
+    font-size: .9375rem;
+    color: #1e293b;
+}
+
+.o_tof_balance_remaining {
+    text-align: right;
+}
+
+.o_tof_balance_num {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.o_tof_balance_unit {
+    font-size: .8125rem;
+    color: $text-dim;
+}
+
+.o_tof_balance_unlimited {
+    font-size: .875rem;
+    font-weight: 600;
+    color: #059669;
+}
+
+// ── Progress bar ───────────────────────────────────────────
+
+.o_tof_progress_bar {
+    height: 8px;
+    background: #f1f5f9;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.o_tof_progress_fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width .3s ease;
+    min-width: 4px;
+}
+
+.o_tof_balance_meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: .8125rem;
+    color: $text-dim;
+
+    i { margin-right: 4px; }
+}
+
+// ── History list ───────────────────────────────────────────
+
+.o_tof_history_list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.o_tof_group_card {
+    background: #fff;
+    border-radius: $radius;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .05);
+    overflow: hidden;
+}
+
+.o_tof_group_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: #fff;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: .8125rem;
+    font-weight: 600;
+    color: $text-dim;
+
+    i { margin-right: 6px; color: $accent; }
+}
+
+.o_tof_group_days {
+    font-size: .8125rem;
+    font-weight: 700;
+    color: $accent;
+}
+
+.o_tof_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+}
+
+.o_tof_row_left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    flex: 1;
+}
+
+.o_tof_row_name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: .875rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.o_tof_row_employee {
+    font-size: .8125rem;
+    color: $text-dim;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    i { font-size: 11px; }
+}
+
+.o_tof_row_desc {
+    font-size: .8125rem;
+    color: $text-dim;
+
+    i { margin-right: 4px; }
+}
+
+.o_tof_history_dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: inline-block;
+}
+
+.o_tof_row_right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+// ── Icon action buttons (edit / delete) ────────────────────
+
+.o_tof_icon_btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .8125rem;
+    transition: background .15s, border-color .15s, color .15s;
+
+    i { pointer-events: none; }
+}
+
+.o_tof_icon_edit {
+    color: $text-dim;
+    &:hover { background: #f0f4ff; border-color: #93c5fd; color: #1d4ed8; }
+}
+
+.o_tof_icon_delete {
+    color: $text-dim;
+    &:hover { background: #fef2f2; border-color: #fca5a5; color: #dc2626; }
+}
+
+// ── Status badges ──────────────────────────────────────────
+
+.o_tof_badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: .75rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.o_tof_badge_gray   { background: #f1f5f9; color: #64748b; }
+.o_tof_badge_blue   { background: #dbeafe; color: #1d4ed8; }
+.o_tof_badge_green  { background: #d1fae5; color: #065f46; }
+.o_tof_badge_orange { background: #ffedd5; color: #c2410c; }
+.o_tof_badge_red    { background: #fee2e2; color: #991b1b; }
+
+// ── Pagination ─────────────────────────────────────────────
+
+.o_tof_pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.o_tof_page_btn {
+    width: 34px;
+    height: 34px;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    background: #fff;
+    color: #1e293b;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .15s, border-color .15s;
+
+    &:hover:not(:disabled) { background: $accent-light; border-color: $accent; color: $accent; }
+    &:disabled { opacity: .4; cursor: not-allowed; }
+}
+
+.o_tof_page_info {
+    font-size: .875rem;
+    color: $text-dim;
+}
+
+// ── Modal ──────────────────────────────────────────────────
+
+.o_tof_modal_backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, .45);
+    z-index: 1050;
+}
+
+.o_tof_modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1060;
+    background: #fff;
+    border-radius: $radius;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .18);
+    width: 500px;
+    max-width: calc(100vw - 32px);
+    max-height: calc(100vh - 48px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.o_tof_modal_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    border-bottom: 1px solid $border-color;
+}
+
+.o_tof_modal_title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    i { color: $accent; }
+}
+
+.o_tof_modal_close {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: #f1f5f9;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: $text-dim;
+    transition: background .15s;
+
+    &:hover { background: $accent-light; color: $accent; }
+}
+
+.o_tof_modal_body {
+    padding: 20px 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.o_tof_modal_footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 24px;
+    border-top: 1px solid $border-color;
+}
+
+// ── Server error banner ────────────────────────────────────
+
+.o_tof_server_error {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    font-size: .875rem;
+    color: #dc2626;
+    line-height: 1.5;
+
+    i { flex-shrink: 0; margin-top: 2px; }
+}
+
+// ── Form inside modal ──────────────────────────────────────
+
+.o_tof_form_row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.o_tof_form_group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    &.has-error .o_tof_form_input {
+        border-color: #f87171;
+    }
+}
+
+.o_tof_form_label {
+    font-size: .8125rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.o_tof_required { color: #dc2626; }
+
+.o_tof_form_input {
+    padding: 8px 12px;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    font-size: .875rem;
+    color: #1e293b;
+    background: #fff;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color .15s, box-shadow .15s;
+
+    &:focus {
+        outline: none;
+        border-color: $accent;
+        box-shadow: 0 0 0 3px rgba(113, 75, 103, .1);
+    }
+}
+
+.o_tof_form_textarea {
+    resize: vertical;
+    min-height: 72px;
+}
+
+.o_tof_form_error {
+    font-size: .75rem;
+    color: #dc2626;
+}
+
+.o_tof_btn_cancel {
+    padding: 8px 18px;
+    background: #f1f5f9;
+    color: #374151;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    font-size: .875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .15s;
+
+    &:hover { background: #e2e8f0; }
+}
+
+.o_tof_btn_submit {
+    padding: 8px 20px;
+    background: $accent;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: .875rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background .15s;
+
+    &:hover:not(:disabled) { background: darken($accent, 8%); }
+    &:disabled { opacity: .6; cursor: not-allowed; }
+}
+
+// ── Balance layout (2-col: cards + calendar) ───────────────
+
+.o_tof_balance_layout {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+    width: 100%;
+}
+
+.o_tof_balance_col {
+    min-width: 0;
+}
+
+.o_tof_balance_scroll {
+    // page header + tabs + padding
+    height: calc(100vh - 260px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-right: 4px;
+
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+
+    &::-webkit-scrollbar { width: 4px; }
+    &::-webkit-scrollbar-track { background: transparent; }
+    &::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+}
+
+.o_tof_cal_col {
+    min-width: 0;
+    width: 100%;
+}
+
+// ── Calendar ───────────────────────────────────────────────
+
+.o_tof_cal {
+    background: #fff;
+    border: 1px solid $border-color;
+    border-radius: $radius;
+    padding: 16px 12px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+// ── Calendar toolbar ───────────────────────────────────────
+
+.o_tof_cal_toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.o_tof_cal_toolbar_left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.o_tof_cal_month_label {
+    font-weight: 700;
+    font-size: .9375rem;
+    color: #1e293b;
+    white-space: nowrap;
+    margin-left: 4px;
+}
+
+.o_tof_cal_today_btn {
+    padding: 5px 12px;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    background: #fff;
+    color: #374151;
+    font-size: .8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .15s;
+
+    &:hover { background: #f1f5f9; }
+}
+
+.o_tof_cal_nav {
+    width: 30px;
+    height: 30px;
+    border: 1px solid $border-color;
+    border-radius: 6px;
+    background: #f8fafc;
+    color: $text-dim;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .75rem;
+    transition: background .15s, color .15s;
+
+    &:hover { background: $accent-light; color: $accent; border-color: $accent; }
+}
+
+// ── View switcher ──────────────────────────────────────────
+
+.o_tof_cal_view_switcher {
+    display: flex;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.o_tof_cal_view_btn {
+    padding: 5px 14px;
+    border: none;
+    border-right: 1px solid $border-color;
+    background: #fff;
+    color: $text-dim;
+    font-size: .8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+
+    &:last-child { border-right: none; }
+
+    &:hover { background: #f1f5f9; color: #1e293b; }
+
+    &.active {
+        background: $accent;
+        color: #fff;
+        font-weight: 600;
+    }
+}
+
+.o_tof_cal_grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 4px;
+    width: 100%;
+}
+
+.o_tof_cal_dow_row {
+    margin-bottom: 4px;
+    gap: 4px;
+}
+
+.o_tof_cal_dow {
+    text-align: center;
+    font-size: .75rem;
+    font-weight: 600;
+    color: $text-dim;
+    padding: 6px 0;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+.o_tof_cal_cell {
+    position: relative;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 6px 8px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background .1s;
+
+    &:hover:not(.o_tof_cal_empty) {
+        border-color: $border-color;
+    }
+
+    &.is-today {
+        background: $accent-light;
+        border-color: rgba($accent, .25);
+
+        .o_tof_cal_day {
+            color: $accent;
+            font-weight: 700;
+        }
+    }
+
+    &.has-event:not(.is-today) {
+        background: #f0fdf4;
+        border-color: #bbf7d0;
+    }
+}
+
+.o_tof_cal_empty {
+    background: transparent !important;
+    border-color: transparent !important;
+    min-height: 100px;
+    cursor: default;
+}
+
+.o_tof_cal_day {
+    font-size: .875rem;
+    color: #374151;
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+// Event label inside cell (like the reference image)
+.o_tof_cal_dots {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+}
+
+.o_tof_cal_event_label {
+    display: block;
+    width: 100%;
+    font-size: .6875rem;
+    font-weight: 500;
+    color: #fff;
+    padding: 2px 5px;
+    border-radius: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+
+}
+
+// ── Time grid (shared: day + week) ─────────────────────────
+
+// ── Time grid (week + day view) ────────────────────────────
+
+$tg-row-h: 44px;       // height per 1 hour row
+$tg-gutter: 52px;      // left label column width
+
+.o_tof_tg {
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+// ── Column headers (week) ──────────────────────────────────
+
+.o_tof_tg_head {
+    display: flex;
+    border-bottom: 1px solid $border-color;
+    background: #f8fafc;
+    flex-shrink: 0;
+}
+
+.o_tof_tg_gutter {
+    width: $tg-gutter;
+    flex-shrink: 0;
+    border-right: 1px solid $border-color;
+}
+
+.o_tof_tg_colhead {
+    flex: 1;
+    padding: 8px 4px;
+    text-align: center;
+    border-right: 1px solid $border-color;
+    cursor: pointer;
+    transition: background .1s;
+
+    &:last-child { border-right: none; }
+    &:hover { background: #f1f5f9; }
+    &.is-today { background: $accent-light; }
+}
+
+.o_tof_tg_dow {
+    font-size: .625rem;
+    font-weight: 600;
+    color: $text-dim;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    margin-bottom: 4px;
+}
+
+.o_tof_tg_daynum {
+    font-size: .9375rem;
+    font-weight: 600;
+    color: #374151;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+
+    &.is-today { background: $accent; color: #fff; }
+}
+
+// ── All-day row ────────────────────────────────────────────
+
+.o_tof_tg_allday_row {
+    display: flex;
+    border-bottom: 1px solid #f1f5f9;
+    background: #f8fafc;
+    min-height: 36px;
+    flex-shrink: 0;
+}
+
+.o_tof_tg_allday_label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .625rem;
+    font-weight: 600;
+    color: $text-dim;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+.o_tof_tg_allday_cell {
+    flex: 1;
+    border-right: 1px solid $border-color;
+    padding: 3px 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    &:last-child { border-right: none; }
+    &.is-today { background: $accent-light; }
+    &.o_tof_tg_allday_full { flex: 1; }
+}
+
+.o_tof_tg_allday_event {
+    border-radius: 3px;
+    padding: 2px 6px;
+    font-size: .6875rem;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.o_tof_tg_allday_days {
+    font-weight: 400;
+    opacity: .85;
+}
+
+.o_tof_tg_allday_empty {
+    font-size: .75rem;
+    color: #94a3b8;
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+}
+
+// ── Scrollable body ────────────────────────────────────────
+
+.o_tof_tg_body {
+    display: flex;
+    overflow-y: auto;
+    max-height: 380px;
+    flex: 1;
+}
+
+// Hour label column
+.o_tof_tg_labels {
+    width: $tg-gutter;
+    flex-shrink: 0;
+    border-right: 1px solid $border-color;
+    background: #f8fafc;
+}
+
+.o_tof_tg_label {
+    height: $tg-row-h;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 4px;
+    font-size: .6875rem;
+    font-weight: 500;
+    color: $text-dim;
+    border-bottom: 1px solid #f1f5f9;
+    box-sizing: border-box;
+
+    &:last-child { border-bottom: none; }
+}
+
+// Day column
+.o_tof_tg_col {
+    flex: 1;
+    position: relative;
+    border-right: 1px solid $border-color;
+
+    &:last-child { border-right: none; }
+    &.is-today { background: #fefcff; }
+    &.o_tof_tg_col_full { flex: 1; }
+}
+
+// Hour separator line
+.o_tof_tg_row {
+    height: $tg-row-h;
+    border-bottom: 1px solid #f1f5f9;
+    box-sizing: border-box;
+
+    &:last-child { border-bottom: none; }
+}
+
+// Single-day variant (wider col)
+.o_tof_tg_single {
+    .o_tof_tg_body { max-height: 420px; }
+}
+
+// ── Calendar legend ────────────────────────────────────────
+
+.o_tof_cal_legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid $border-color;
+}
+
+.o_tof_cal_legend_item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .8125rem;
+    color: $text-dim;
+}
+
+.o_tof_cal_legend_dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+// ── Half-day period toggle ─────────────────────────────────
+
+.o_tof_period_group {
+    display: flex;
+    gap: 10px;
+}
+
+.o_tof_period_btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 10px 14px;
+    border: 1.5px solid $border-color;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: .875rem;
+    font-weight: 500;
+    color: $text-dim;
+    transition: border-color .15s, background .15s, color .15s;
+
+    input[type="radio"] { display: none; }
+
+    i { font-size: 1rem; }
+
+    &.active {
+        border-color: $accent;
+        background: $accent-light;
+        color: $accent;
+        font-weight: 600;
+    }
+
+    &:hover:not(.active) {
+        border-color: #94a3b8;
+        color: #374151;
+    }
+}
+
+// ── Attachment upload ──────────────────────────────────────
+
+.o_tof_file_label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 14px;
+    border: 1.5px dashed $border-color;
+    border-radius: 8px;
+    color: $text-dim;
+    font-size: .875rem;
+    cursor: pointer;
+    transition: border-color .15s, color .15s, background .15s;
+
+    &:hover {
+        border-color: $accent;
+        color: $accent;
+        background: $accent-light;
+    }
+}
+
+.o_tof_file_input {
+    display: none;
+}
+
+.o_tof_file_hint {
+    font-size: .75rem;
+    color: #94a3b8;
+    margin-top: 5px;
+}
+
+.o_tof_file_preview {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    font-size: .875rem;
+    color: #15803d;
+
+    i { font-size: 1rem; }
+}
+
+.o_tof_file_name {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.o_tof_file_remove {
+    width: 22px;
+    height: 22px;
+    border: none;
+    background: #dcfce7;
+    border-radius: 50%;
+    color: #15803d;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .7rem;
+    flex-shrink: 0;
+    transition: background .15s;
+
+    &:hover { background: #bbf7d0; }
+}
+
+
+// ── Mobile ─────────────────────────────────────────────────
+
+@media (max-width: 768px) {
+    .o_tof_balance_layout {
+        grid-template-columns: 1fr;
+    }
+
+    .o_tof_cal_col {
+        order: -1;
+        position: static;
+    }
+
+    .o_tof_balance_scroll {
+        height: auto;
+        max-height: 360px;
+    }
+
+    .o_tof_cal {
+        padding: 12px 4px 10px;
+    }
+
+    .o_tof_cal_toolbar {
+        gap: 4px;
+        margin-bottom: 10px;
+        padding: 0 4px;
+        flex-wrap: nowrap;
+    }
+
+    .o_tof_cal_toolbar_left {
+        gap: 4px;
+        flex-shrink: 1;
+        min-width: 0;
+    }
+
+    .o_tof_cal_today_btn {
+        padding: 4px 6px;
+        font-size: .6875rem;
+    }
+
+    .o_tof_cal_nav {
+        width: 24px;
+        height: 24px;
+        font-size: .6875rem;
+    }
+
+    .o_tof_cal_month_label {
+        font-size: .75rem;
+        margin-left: 2px;
+    }
+
+    .o_tof_cal_view_btn {
+        padding: 4px 7px;
+        font-size: .6875rem;
+    }
+
+    .o_tof_cal_dow {
+        font-size: .5625rem;
+        padding: 4px 0;
+    }
+
+    .o_tof_cal_grid {
+        gap: 1px;
+    }
+
+    .o_tof_cal_dow_row {
+        gap: 1px;
+    }
+
+    .o_tof_cal_cell,
+    .o_tof_cal_empty {
+        min-height: 52px;
+        padding: 3px 2px;
+        border-radius: 3px;
+    }
+
+    .o_tof_cal_day {
+        font-size: .6875rem;
+        margin-bottom: 2px;
+    }
+
+    .o_tof_cal_event_label {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        padding: 0;
+        font-size: 0 !important;
+        color: transparent !important;
+        opacity: 1 !important;
+        flex-shrink: 0;
+    }
+
+    .o_tof_cal_dots {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 3px;
+    }
+
+    // Sembunyikan tombol Week di mobile
+    .o_tof_cal_view_week {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .o_tof_page_header {
+        flex-direction: column;
+        align-items: stretch;
+
+        .o_tof_btn_request {
+            justify-content: center;
+        }
+    }
+
+    .o_tof_form_row {
+        grid-template-columns: 1fr;
+    }
+
+}

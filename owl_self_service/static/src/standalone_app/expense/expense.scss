@@ -1,0 +1,468 @@
+// ── Variables (fallback jika di-load sebelum root.scss) ────
+$accent: #714B67 !default;
+$text-main: #1e293b !default;
+$text-muted: #94a3b8 !default;
+$text-dim: #64748b !default;
+$card-bg: #ffffff !default;
+$danger: #ef4444 !default;
+$bg: #eef2f7 !default;
+$transition: 0.2s ease !default;
+$mobile-breakpoint: 768px !default;
+$radius: 14px !default;
+
+// ── Loading / empty / no-employee ──────────────────────────
+.o_exp_loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: $text-muted;
+    font-size: 14px;
+    padding: 40px 0;
+}
+
+
+.o_exp_empty {
+    text-align: center;
+    padding: 48px;
+    color: $text-muted;
+    font-size: 14px;
+    background: $card-bg;
+    border-radius: $radius;
+
+    i { font-size: 28px; display: block; margin-bottom: 8px; color: $text-muted; }
+}
+
+// ── Page header ────────────────────────────────────────────
+.o_exp_page_header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    gap: 12px;
+}
+
+// ── Toolbar ────────────────────────────────────────────────
+.o_exp_toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.o_exp_toolbar_filters {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.o_exp_date_group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.o_exp_date_sep {
+    font-size: 14px;
+    color: $text-muted;
+    flex-shrink: 0;
+}
+
+.o_exp_select_wrap,
+.o_exp_date_wrap {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: $card-bg;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: $text-dim;
+
+    i { font-size: 12px; color: $text-muted; }
+
+    select,
+    input[type="date"] {
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 13px;
+        color: $text-main;
+        cursor: pointer;
+    }
+}
+
+.o_exp_btn_reset {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    background: #fef2f2;
+    color: #dc2626;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background $transition, border-color $transition;
+    white-space: nowrap;
+
+    &:hover { background: #fee2e2; border-color: #f87171; }
+}
+
+
+// ── Grouped cards ──────────────────────────────────────────
+.o_exp_list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.o_exp_card {
+    background: $card-bg;
+    border-radius: $radius;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.o_exp_card_left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    flex: 1;
+}
+
+.o_exp_row_name {
+    font-size: 14px;
+    font-weight: 600;
+    color: $text-main;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.o_exp_card_meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: $text-dim;
+
+    i { margin-right: 4px; }
+}
+
+.o_exp_row_right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.o_exp_card_amount {
+    font-size: .9375rem;
+    font-weight: 700;
+    color: $text-main;
+    white-space: nowrap;
+}
+
+.o_exp_row_actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.o_exp_icon_btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: $card-bg;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    transition: background $transition, border-color $transition;
+
+    i { pointer-events: none; }
+}
+
+.o_exp_icon_edit {
+    color: $text-dim;
+    &:hover { background: #f0f4ff; border-color: #93c5fd; color: #1d4ed8; }
+}
+
+.o_exp_icon_delete {
+    color: $text-muted;
+    &:hover { background: #fef2f2; border-color: #fca5a5; color: $danger; }
+}
+
+// ── Status badges ──────────────────────────────────────────
+.o_exp_badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+
+    &.o_exp_badge_gray   { background: #f1f5f9; color: $text-dim; }
+    &.o_exp_badge_blue   { background: #dbeafe; color: #1d4ed8; }
+    &.o_exp_badge_green  { background: #d1fae5; color: #065f46; }
+    &.o_exp_badge_red    { background: #fee2e2; color: #991b1b; }
+}
+
+// ── Pagination ─────────────────────────────────────────────
+.o_exp_pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 16px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.o_exp_page_btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: $card-bg;
+    color: $text-dim;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background $transition;
+
+    &:hover:not(:disabled) { background: $bg; color: $accent; }
+    &:disabled { opacity: 0.4; cursor: not-allowed; }
+}
+
+.o_exp_page_info {
+    font-size: 13px;
+    color: $text-muted;
+}
+
+// ── Modal ──────────────────────────────────────────────────
+.o_exp_modal_backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 999;
+}
+
+.o_exp_modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background: $card-bg;
+    border-radius: $radius;
+    width: 100%;
+    max-width: 520px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+.o_exp_modal_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid #f1f5f9;
+    flex-shrink: 0;
+}
+
+.o_exp_modal_title {
+    font-size: 16px;
+    font-weight: 700;
+    color: $text-main;
+
+    i { color: $accent; margin-right: 8px; }
+}
+
+.o_exp_modal_close {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: $bg;
+    border-radius: 8px;
+    cursor: pointer;
+    color: $text-dim;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    transition: background $transition;
+
+    &:hover { background: #e2e8f0; color: $text-main; }
+}
+
+.o_exp_modal_body {
+    padding: 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.o_exp_server_error {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    font-size: .875rem;
+    color: #dc2626;
+    line-height: 1.5;
+
+    i { flex-shrink: 0; margin-top: 2px; }
+}
+
+.o_exp_modal_footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 16px 24px;
+    border-top: 1px solid #f1f5f9;
+    flex-shrink: 0;
+}
+
+// ── Form elements ──────────────────────────────────────────
+.o_exp_form_row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.o_exp_form_group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    &.has-error .o_exp_form_input {
+        border-color: $danger;
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    }
+}
+
+.o_exp_form_label {
+    font-size: 13px;
+    font-weight: 600;
+    color: $text-dim;
+}
+
+.o_exp_required { color: $danger; }
+
+.o_exp_form_input {
+    padding: 10px 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: $text-main;
+    background: $bg;
+    outline: none;
+    width: 100%;
+    transition: border-color $transition, box-shadow $transition;
+
+    &:focus {
+        border-color: $accent;
+        box-shadow: 0 0 0 3px rgba(113, 75, 103, 0.15);
+    }
+}
+
+.o_exp_form_textarea {
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+}
+
+.o_exp_form_error {
+    font-size: 12px;
+    color: $danger;
+}
+
+.o_exp_btn_cancel {
+    padding: 9px 18px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: $card-bg;
+    color: $text-dim;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background $transition;
+
+    &:hover { background: $bg; }
+}
+
+.o_exp_btn_submit {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 20px;
+    border: none;
+    border-radius: 8px;
+    background: $accent;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background $transition;
+
+    &:hover:not(:disabled) { background: darken(#714B67, 8%); }
+    &:disabled { opacity: 0.65; cursor: not-allowed; }
+}
+
+// ── Mobile ─────────────────────────────────────────────────
+@media (max-width: #{$mobile-breakpoint}) {
+    .o_exp_toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .o_exp_toolbar_filters {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        justify-content: unset;
+    }
+
+    .o_exp_select_wrap { width: 100%; }
+
+    .o_exp_date_group {
+        grid-column: 1 / -1;
+    }
+
+    .o_exp_date_wrap {
+        flex: 1;
+        min-width: 0;
+
+        input[type="date"] { width: 100%; min-width: 0; }
+    }
+
+    .o_exp_form_row { grid-template-columns: 1fr; }
+
+    .o_exp_modal {
+        max-width: calc(100vw - 32px);
+        max-height: 85vh;
+    }
+}

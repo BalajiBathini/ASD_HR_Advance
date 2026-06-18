@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="owl_self_service.PayslipPage">
+        <div class="o_ess_page">
+            <div class="o_ess_history_card" style="margin-top: 1rem;">
+                <div class="o_ess_history_header">
+                    <h4>My Payslips</h4>
+                </div>
+
+                <div class="o_ess_table_wrap">
+                    <t t-if="state.loading">
+                        <div class="o_ess_table_empty">
+                            <i class="fa fa-spinner fa-spin fa-2x"/>
+                            <p style="margin-top: 10px;">Loading payslips...</p>
+                        </div>
+                    </t>
+                    <t t-elif="state.error">
+                        <div class="o_ess_table_empty" style="color: #dc2626;">
+                            <i class="fa fa-exclamation-triangle fa-2x"/>
+                            <p style="margin-top: 10px;"><t t-esc="state.error"/></p>
+                        </div>
+                    </t>
+                    <t t-elif="state.records.length === 0">
+                        <div class="o_ess_table_empty">
+                            <i class="fa fa-file-text-o fa-2x"/>
+                            <p style="margin-top: 10px;">No payslips found.</p>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <table class="o_ess_table">
+                            <thead>
+                                <tr>
+                                    <th>Reference</th>
+                                    <th>Period</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th style="width: 100px;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="state.records" t-as="record" t-key="record.id">
+                                    <td><span class="o_ess_table_desc"><t t-esc="record.name"/></span></td>
+                                    <td>
+                                        <div class="o_ess_table_date"><t t-esc="record.date_from"/> to <t t-esc="record.date_to"/></div>
+                                    </td>
+                                    <td><t t-esc="record.amount"/> <t t-esc="record.currency"/></td>
+                                    <td>
+                                        <span t-attf-class="o_ess_status_badge {{ record.state === 'done' or record.state === 'paid' ? 'status-green' : 'status-gray' }}">
+                                            <t t-esc="record.state_label"/>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button class="o_ess_btn_icon" title="Download PDF" t-on-click="() => this.downloadPdf(record.id)">
+                                            <i class="fa fa-download"/>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </t>
+                </div> <!-- /o_ess_table_wrap -->
+
+                <t t-if="state.totalPages > 1">
+                    <div class="o_ess_pagination">
+                        <span class="o_ess_page_info">Page <t t-esc="state.currentPage"/> of <t t-esc="state.totalPages"/></span>
+                        <div class="o_ess_page_controls">
+                            <button class="o_ess_btn_page" t-att-disabled="state.currentPage === 1"
+                                    t-on-click="() => this.onPageChange(state.currentPage - 1)">
+                                <i class="fa fa-chevron-left"/>
+                            </button>
+                            <button class="o_ess_btn_page" t-att-disabled="state.currentPage === state.totalPages"
+                                    t-on-click="() => this.onPageChange(state.currentPage + 1)">
+                                <i class="fa fa-chevron-right"/>
+                            </button>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

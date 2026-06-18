@@ -1,0 +1,306 @@
+// ── Attendance variables ───────────────────────────────────
+$accent: #714B67 !default;
+$text-main: #1e293b !default;
+$text-muted: #94a3b8 !default;
+$text-dim: #64748b !default;
+$card-bg: #ffffff !default;
+$danger: #ef4444 !default;
+$bg: #eef2f7 !default;
+$transition: 0.2s ease !default;
+$mobile-breakpoint: 768px !default;
+$radius: 14px !default;
+$att-primary: $accent;
+
+// ── States ─────────────────────────────────────────────────
+.o_att_loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: $text-muted;
+    font-size: 14px;
+    padding: 40px 0;
+}
+
+
+.o_att_empty {
+    text-align: center;
+    padding: 48px;
+    color: $text-muted;
+    font-size: 14px;
+    background: $card-bg;
+    border-radius: $radius;
+
+    i { font-size: 24px; display: block; margin-bottom: 8px; }
+}
+
+// ── Layout ─────────────────────────────────────────────────
+.o_att_layout {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 24px;
+    align-items: start;
+
+    &.o_att_layout_single {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+
+        .o_att_panel_main {
+            width: 340px;
+            flex-shrink: 0;
+            position: static;
+        }
+    }
+}
+
+.o_att_panel_main {
+    position: sticky;
+    top: 0;
+}
+
+// ── Check-in card ──────────────────────────────────────────
+.o_att_card {
+    background: $att-primary;
+    border-radius: $radius;
+    padding: 32px 24px 28px;
+    box-shadow: 0 4px 20px rgba(113, 75, 103, 0.35);
+    color: #fff;
+    text-align: center;
+}
+
+.o_att_clock_wrap {
+    margin-bottom: 28px;
+}
+
+.o_att_clock_time {
+    font-size: 44px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    color: #fff;
+}
+
+.o_att_clock_date {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 6px;
+}
+
+// ── Circle button ──────────────────────────────────────────
+.o_att_circle_wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 32px;
+}
+
+.o_att_circle_btn {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 700;
+    transition: transform $transition, box-shadow $transition, opacity $transition;
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: -8px;
+        border-radius: 50%;
+        border: 2px solid rgba(255,255,255,0.25);
+    }
+
+    &.checkin {
+        background: #fff;
+        color: $att-primary;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    &.checkout {
+        background: $danger;
+        color: #fff;
+        box-shadow: 0 8px 32px rgba(239, 68, 68, 0.4);
+    }
+
+    &:not(:disabled):hover {
+        transform: scale(1.06);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
+    }
+
+    &:disabled { opacity: 0.7; cursor: not-allowed; }
+
+    i { font-size: 28px; }
+    span { font-size: 14px; font-weight: 700; }
+}
+
+// ── Summary row ────────────────────────────────────────────
+.o_att_summary_row {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    padding-top: 24px;
+}
+
+.o_att_summary_sep {
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,0.2);
+    flex-shrink: 0;
+}
+
+.o_att_summary_item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+    i { font-size: 18px; color: rgba(255,255,255,0.7); }
+}
+
+.o_att_summary_val {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.o_att_summary_label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+// ── Grouped history cards ──────────────────────────────────
+.o_att_group_card {
+    background: $card-bg;
+    border-radius: $radius;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.o_att_group_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: #fff;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 13px;
+    font-weight: 600;
+    color: $text-dim;
+
+    i { color: $att-primary; }
+}
+
+.o_att_group_employee {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    color: $text-muted;
+
+    i { font-size: 11px; color: $att-primary; }
+}
+
+.o_att_group_row {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #f1f5f9;
+
+    &:last-child { border-bottom: none; }
+}
+
+.o_att_group_cell {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+    i { font-size: 16px; color: $text-muted; }
+}
+
+.o_att_group_cell_val {
+    font-size: 15px;
+    font-weight: 700;
+    color: $text-main;
+}
+
+.o_att_group_cell_lbl {
+    font-size: 11px;
+    color: $text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+// ── Pagination ─────────────────────────────────────────────
+.o_att_pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 16px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.o_att_page_btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: $card-bg;
+    color: $text-dim;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background $transition;
+
+    &:hover:not(:disabled) { background: $bg; color: $accent; }
+    &:disabled { opacity: 0.4; cursor: not-allowed; }
+}
+
+.o_att_page_info {
+    font-size: 13px;
+    color: $text-muted;
+}
+
+// ── Mobile ─────────────────────────────────────────────────
+@media (max-width: #{$mobile-breakpoint}) {
+    .o_att_layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+
+        &.o_att_layout_single {
+            flex-direction: column;
+            align-items: center;
+
+            .o_att_panel_main { width: 100%; }
+        }
+    }
+
+    .o_att_panel_main { position: static; }
+    .o_att_panel_history { display: none; }
+
+    .o_att_card { padding: 28px 20px 24px; }
+    .o_att_clock_time { font-size: 36px; }
+
+    .o_att_circle_btn {
+        width: 120px;
+        height: 120px;
+
+        i { font-size: 24px; }
+        span { font-size: 13px; }
+    }
+}

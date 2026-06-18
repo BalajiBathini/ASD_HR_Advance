@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="owl_self_service.ContractPage">
+
+    <!-- Loading -->
+    <t t-if="state.loading">
+        <div class="o_ctr_loading">
+            <i class="fa fa-spinner fa-spin"/> Loading contract…
+        </div>
+    </t>
+
+    <!-- No employee -->
+    <t t-elif="!state.employeeFound">
+        <div class="o_ctr_alert">
+            <div class="o_ctr_alert_icon"><i class="fa fa-exclamation-triangle"/></div>
+            <div class="o_ctr_alert_title">No Employee Record Found</div>
+            <div class="o_ctr_alert_desc">
+                Your account is not linked to any employee record.
+                Please contact the HR team to resolve this.
+            </div>
+        </div>
+    </t>
+
+    <!-- No active contract -->
+    <t t-elif="!state.contract">
+        <div class="o_ctr_alert">
+            <div class="o_ctr_alert_icon o_ctr_alert_icon_warn">
+                <i class="fa fa-file-text-o"/>
+            </div>
+            <div class="o_ctr_alert_title">No Active Contract Found</div>
+            <div class="o_ctr_alert_desc">
+                You currently have no active employment contract on record.
+                Please contact the HR team as soon as possible to ensure your contract is up to date.
+            </div>
+            <div class="o_ctr_alert_action">
+                <i class="fa fa-envelope-o"/> Contact HR Team
+            </div>
+        </div>
+    </t>
+
+    <!-- Active contract -->
+    <t t-else="">
+        <!-- Status banner -->
+        <div class="o_ctr_status_banner">
+            <i class="fa fa-check-circle"/> Active Contract
+        </div>
+
+        <!-- Contract name -->
+        <div class="o_ctr_name"><t t-esc="state.contract.name"/></div>
+
+        <!-- Info cards grid -->
+        <div class="o_ctr_grid">
+
+            <div class="o_ctr_card">
+                <div class="o_ctr_card_label"><i class="fa fa-briefcase"/> Position</div>
+                <div class="o_ctr_card_val"><t t-esc="state.contract.job_title or '—'"/></div>
+            </div>
+
+            <div class="o_ctr_card">
+                <div class="o_ctr_card_label"><i class="fa fa-sitemap"/> Department</div>
+                <div class="o_ctr_card_val"><t t-esc="state.contract.department or '—'"/></div>
+            </div>
+
+            <div class="o_ctr_card">
+                <div class="o_ctr_card_label"><i class="fa fa-calendar-check-o"/> Start Date</div>
+                <div class="o_ctr_card_val"><t t-esc="formatDate(state.contract.date_start)"/></div>
+            </div>
+
+            <div class="o_ctr_card">
+                <div class="o_ctr_card_label"><i class="fa fa-calendar-times-o"/> End Date</div>
+                <div class="o_ctr_card_val">
+                    <t t-if="state.contract.date_end">
+                        <t t-esc="formatDate(state.contract.date_end)"/>
+                    </t>
+                    <t t-else="">
+                        <span class="o_ctr_permanent">Permanent</span>
+                    </t>
+                </div>
+            </div>
+
+            <div class="o_ctr_card">
+                <div class="o_ctr_card_label"><i class="fa fa-money"/> Monthly Wage</div>
+                <div class="o_ctr_card_val o_ctr_wage">
+                    <t t-esc="formatWage(state.contract.wage, state.contract.currency_symbol)"/>
+                </div>
+            </div>
+
+            <div class="o_ctr_card">
+                <div class="o_ctr_card_label"><i class="fa fa-building-o"/> Company</div>
+                <div class="o_ctr_card_val"><t t-esc="state.contract.company or '—'"/></div>
+            </div>
+
+        </div>
+    </t>
+
+</t>
+</templates>

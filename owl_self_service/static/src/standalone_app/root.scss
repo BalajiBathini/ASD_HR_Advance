@@ -1,0 +1,1102 @@
+// ── Variables ──────────────────────────────────────────────
+$sidebar-width: 64px;
+$bg: #eef2f7;
+$sidebar-bg: #ffffff;
+$accent: #714B67;
+$text-main: #1e293b;
+$text-muted: #94a3b8;
+$text-dim: #64748b;
+$card-bg: #ffffff;
+$danger: #ef4444;
+$transition: 0.2s ease;
+$mobile-breakpoint: 768px;
+$bottom-nav-height: 64px;
+$radius: 14px;
+
+// ── Reset ──────────────────────────────────────────────────
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: $bg;
+}
+
+// ── Layout ─────────────────────────────────────────────────
+.o_ess_layout {
+    display: flex;
+    height: 100vh;
+    background: $bg;
+}
+
+// ── Sidebar ────────────────────────────────────────────────
+.o_ess_sidebar {
+    width: $sidebar-width;
+    flex-shrink: 0;
+    background: $sidebar-bg;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    overflow: visible;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.04);
+}
+
+// ── Logo ───────────────────────────────────────────────────
+.o_ess_logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 22px 0;
+    flex-shrink: 0;
+}
+
+.o_ess_logo_icon {
+    font-size: 22px;
+    color: $accent;
+}
+
+// ── Nav ────────────────────────────────────────────────────
+.o_ess_nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8px 10px;
+    gap: 2px;
+}
+
+// Shared styles for nav item and user item
+%sidebar-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 0;
+    border-radius: 10px;
+    cursor: pointer;
+    position: relative;
+    transition: background $transition;
+
+    .o_ess_nav_icon {
+        font-size: 20px;
+        width: $sidebar-width;
+        text-align: center;
+        color: $text-muted;
+        transition: color $transition;
+        flex-shrink: 0;
+    }
+
+    &:hover {
+        background: $bg;
+        .o_ess_nav_icon { color: $accent; }
+    }
+
+    &.active .o_ess_nav_icon { color: $accent; }
+}
+
+.o_ess_nav_item {
+    @extend %sidebar-item;
+    &:hover .o_ess_nav_label {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+// Tooltip label (desktop only)
+%tooltip {
+    position: absolute;
+    left: calc(#{$sidebar-width} + 12px);
+    background: #fff;
+    color: $text-main;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 8px;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity $transition, transform $transition;
+    pointer-events: none;
+    z-index: 200;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+
+    &::before {
+        content: '';
+        position: absolute;
+        left: -6px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 6px solid transparent;
+        border-right-color: #fff;
+        border-left: none;
+    }
+}
+
+.o_ess_nav_label { @extend %tooltip; }
+
+// ── User ───────────────────────────────────────────────────
+.o_ess_user {
+    @extend %sidebar-item;
+    flex-shrink: 0;
+
+    &:hover .o_ess_user_name {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.o_ess_user_name { @extend %tooltip; }
+
+// ── Main content ───────────────────────────────────────────
+.o_ess_main {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 32px 28px;
+    background: $bg;
+    margin-left: $sidebar-width;
+    min-width: 0;
+}
+
+.o_ess_page_title {
+    font-size: 22px;
+    font-weight: 700;
+    color: $text-main;
+    margin-bottom: 4px;
+}
+
+.o_ess_page_subtitle {
+    font-size: 14px;
+    color: $text-muted;
+    margin-bottom: 28px;
+}
+
+// ── Menu cards ─────────────────────────────────────────────
+.o_ess_cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.o_ess_card {
+    background: $card-bg;
+    border-radius: $radius;
+    padding: 28px;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    transition: box-shadow $transition, transform $transition;
+
+    &:hover {
+        box-shadow: 0 6px 24px rgba(113, 75, 103, 0.12);
+        transform: translateY(-2px);
+    }
+}
+
+.o_ess_card_icon {
+    font-size: 28px;
+    margin-bottom: 14px;
+    color: $accent;
+}
+
+.o_ess_card_title {
+    font-size: 15px;
+    font-weight: 600;
+    color: $text-main;
+    margin-bottom: 6px;
+}
+
+.o_ess_card_desc {
+    font-size: 13px;
+    color: $text-muted;
+    line-height: 1.5;
+}
+
+// ── Shared no-employee state ───────────────────────────────
+.o_ess_no_employee {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 64px 32px;
+    background: $card-bg;
+    border-radius: $radius;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+
+    i { font-size: 40px; color: #f59e0b; margin-bottom: 16px; }
+}
+
+.o_ess_no_employee_title {
+    font-size: 17px;
+    font-weight: 700;
+    color: $text-main;
+    margin-bottom: 8px;
+}
+
+.o_ess_no_employee_desc {
+    font-size: 14px;
+    color: $text-muted;
+    max-width: 360px;
+    line-height: 1.6;
+}
+
+// ── Shared empty state ─────────────────────────────────────
+.o_ess_empty_state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 64px 24px;
+    color: $text-muted;
+    text-align: center;
+
+    i { font-size: 2rem; }
+}
+
+// ── Shared error banner ────────────────────────────────────
+.o_ess_error_banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    font-size: .875rem;
+    color: #dc2626;
+    line-height: 1.5;
+
+    i { flex-shrink: 0; margin-top: 2px; }
+}
+
+// ── Shared tab navigation ──────────────────────────────────
+.o_ess_tabs {
+    display: flex;
+    gap: 4px;
+    background: $card-bg;
+    border-radius: 12px;
+    padding: 5px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    width: fit-content;
+}
+
+.o_ess_tab {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    background: transparent;
+    color: $text-muted;
+    transition: background $transition, color $transition;
+
+    i { font-size: 13px; }
+
+    &:hover { color: $accent; }
+
+    &.active {
+        background: $accent;
+        color: #fff;
+        font-weight: 600;
+    }
+}
+
+@media (max-width: #{$mobile-breakpoint}) {
+    .o_ess_tabs {
+        width: 100%;
+    }
+
+    .o_ess_tab {
+        flex: 1;
+        justify-content: center;
+        padding: 9px 12px;
+        font-size: 13px;
+    }
+}
+
+// ── Profile page ───────────────────────────────────────────
+.o_ess_profile_page {
+    max-width: 100%;
+}
+
+.o_ess_profile_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.o_ess_btn_logout {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    background: #fff;
+    color: $danger;
+    border: 1.5px solid $danger;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background $transition, color $transition;
+
+    &:hover { background: #fef2f2; }
+}
+
+.o_ess_profile_breadcrumb {
+    font-size: 13px;
+    color: $text-muted;
+    margin-bottom: 10px;
+
+    i { font-size: 11px; margin-right: 4px; }
+}
+
+.o_ess_profile_header_title {
+    font-size: 26px;
+    font-weight: 700;
+    color: $text-main;
+    margin-bottom: 6px;
+}
+
+.o_ess_profile_header_sub {
+    font-size: 14px;
+    color: $text-muted;
+}
+
+.o_ess_profile_section {
+    background: $card-bg;
+    border-radius: $radius;
+    padding: 28px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.o_ess_profile_section_title {
+    font-size: 15px;
+    font-weight: 700;
+    color: $text-main;
+    margin-bottom: 2px;
+}
+
+.o_ess_profile_section_sub {
+    font-size: 13px;
+    color: $text-muted;
+    margin-bottom: 24px;
+}
+
+.o_ess_profile_avatar_row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.o_ess_profile_avatar_info { flex: 1; min-width: 0; }
+
+.o_ess_name_inline_input {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: $text-main;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid $accent;
+    border-radius: 0;
+    outline: none;
+    padding: 2px 4px;
+    width: 100%;
+    margin-bottom: 4px;
+    transition: border-color $transition;
+
+    &:focus { border-bottom-color: darken(#714B67, 10%); }
+    &::placeholder { color: $text-muted; font-weight: 400; }
+}
+
+.o_ess_select_disabled {
+    pointer-events: none;
+    opacity: 0.7;
+    background-image: none;
+}
+
+.o_ess_form_textarea {
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.6;
+    font-family: inherit;
+    font-size: 14px;
+}
+
+.o_ess_textarea_disabled {
+    resize: none;
+    cursor: default;
+}
+
+.o_ess_profile_avatar_circle {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    font-size: 28px;
+    flex-shrink: 0;
+}
+
+.o_ess_profile_avatar_actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+// ── Buttons ────────────────────────────────────────────────
+.o_ess_btn_primary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: $accent;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background $transition;
+
+    &:hover { background: darken(#714B67, 8%); }
+}
+
+.o_ess_btn_danger {
+    background: $card-bg;
+    color: $danger;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background $transition;
+
+    &:hover { background: #fef2f2; }
+}
+
+.o_ess_btn_secondary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: $card-bg;
+    color: $text-dim;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background $transition, border-color $transition;
+
+    &:hover:not(:disabled) { background: $bg; border-color: #cbd5e1; }
+    &:disabled { opacity: 0.45; cursor: not-allowed; }
+}
+
+.o_ess_btn_primary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.o_ess_info_readonly_row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.o_ess_info_badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    background: #f1f5f9;
+    border-radius: 20px;
+    font-size: 13px;
+    color: $text-dim;
+
+    i { color: $accent; font-size: 12px; }
+}
+
+.o_ess_info_actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 16px;
+    margin-top: 8px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.o_ess_logout_wrap {
+    margin-top: 16px;
+
+    .o_ess_btn_logout {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+.o_ess_form_select {
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+}
+
+.o_ess_info_loading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: $text-muted;
+    font-size: 14px;
+    padding: 32px 0;
+}
+
+// ── Profile form ───────────────────────────────────────────
+.o_ess_profile_form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.o_ess_form_row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.o_ess_form_group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.o_ess_form_label {
+    font-size: 13px;
+    font-weight: 600;
+    color: $text-dim;
+}
+
+.o_ess_required { color: $danger; }
+
+.o_ess_form_input {
+    padding: 11px 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: $text-main;
+    background: $bg;
+    outline: none;
+    transition: border-color $transition, box-shadow $transition, background $transition;
+
+    &:focus {
+        border-color: $accent;
+        box-shadow: 0 0 0 3px rgba(113, 75, 103, 0.15);
+    }
+
+    &[readonly] {
+        color: $text-dim;
+        cursor: default;
+        background: darken($bg, 2%);
+    }
+
+    &[disabled] {
+        color: $text-dim;
+        cursor: default;
+        background: $bg;
+        opacity: 1;
+    }
+}
+
+// Edit mode: input aktif jadi putih, disabled tetap abu
+.o_ess_form_editing {
+    .o_ess_form_input:not([disabled]) {
+        background: #fff;
+        border-color: #cbd5e1;
+
+        &:focus {
+            border-color: $accent;
+            box-shadow: 0 0 0 3px rgba(113, 75, 103, 0.15);
+        }
+    }
+}
+
+// ── Avatar image ───────────────────────────────────────────
+
+.o_ess_nav_avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+
+.o_ess_user_menu_avatar_img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.o_ess_profile_avatar_img {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.o_ess_avatar_wrap {
+    position: relative;
+    flex-shrink: 0;
+    width: 76px;
+    height: 76px;
+
+    .o_ess_profile_avatar_img,
+    .o_ess_profile_avatar_circle {
+        width: 76px;
+        height: 76px;
+    }
+}
+
+.o_ess_avatar_edit_btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: $accent;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,.25);
+    transition: background $transition, transform $transition;
+
+    &:hover { background: darken(#714B67, 8%); transform: scale(1.1); }
+    &.loading { cursor: not-allowed; background: $text-muted; }
+}
+
+// ── User menu popup ────────────────────────────────────────
+
+.o_ess_user_wrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.o_ess_user_menu_backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 110;
+}
+
+.o_ess_user_menu {
+    position: fixed;
+    bottom: 16px;
+    left: calc(#{$sidebar-width} + 12px);
+    width: 240px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, .14);
+    border: 1px solid #e2e8f0;
+    z-index: 120;
+    overflow: hidden;
+}
+
+.o_ess_user_menu_header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+}
+
+.o_ess_user_menu_avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #e2e8f0;
+    color: #94a3b8;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.o_ess_user_menu_info {
+    min-width: 0;
+}
+
+.o_ess_user_menu_name {
+    font-size: .875rem;
+    font-weight: 600;
+    color: $text-main;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.o_ess_user_menu_email {
+    font-size: .75rem;
+    color: $text-muted;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.o_ess_user_menu_divider {
+    height: 1px;
+    background: #f1f5f9;
+    margin: 0;
+}
+
+.o_ess_user_menu_item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 11px 16px;
+    border: none;
+    background: none;
+    font-size: .875rem;
+    font-weight: 500;
+    color: $text-main;
+    cursor: pointer;
+    text-align: left;
+    transition: background $transition;
+
+    i { width: 16px; text-align: center; color: $text-muted; }
+
+    &:hover {
+        background: #f8fafc;
+        i { color: $accent; }
+    }
+}
+
+.o_ess_user_menu_logout {
+    color: #dc2626;
+    i { color: #fca5a5; }
+    &:hover {
+        background: #fef2f2;
+        i { color: #dc2626; }
+    }
+}
+
+@media (max-width: 768px) {
+    .o_ess_user_menu {
+        bottom: calc(#{$bottom-nav-height} + 8px) !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        right: auto !important;
+    }
+}
+
+// ── Password form ──────────────────────────────────────────
+
+.o_ess_pw_error_banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    font-size: .875rem;
+    color: #dc2626;
+    line-height: 1.5;
+    margin-bottom: 16px;
+
+    i { flex-shrink: 0; margin-top: 2px; }
+}
+
+.o_ess_pw_success_banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    font-size: .875rem;
+    color: #15803d;
+    font-weight: 500;
+    margin-bottom: 16px;
+    animation: o_ess_fadein 0.3s ease, o_ess_fadeout 0.5s ease 3.5s forwards;
+
+    i { color: #16a34a; }
+}
+
+@keyframes o_ess_fadein {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes o_ess_fadeout {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
+
+.o_ess_input_error {
+    border-color: #f87171 !important;
+    &:focus { box-shadow: 0 0 0 3px rgba(239, 68, 68, .15) !important; }
+}
+
+.o_ess_field_error {
+    font-size: .75rem;
+    color: #dc2626;
+    margin-top: 2px;
+}
+
+.o_ess_pw_actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 4px;
+}
+
+// ── Confirm Dialog ─────────────────────────────────────────
+
+.o_ess_confirm_backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, .5);
+    z-index: 1070;
+}
+
+.o_ess_confirm_dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1080;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, .2);
+    width: 360px;
+    max-width: calc(100vw - 32px);
+    padding: 32px 28px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+}
+
+.o_ess_confirm_icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #fff7ed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+
+    i {
+        font-size: 1.5rem;
+        color: #f97316;
+    }
+}
+
+.o_ess_confirm_title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.o_ess_confirm_message {
+    font-size: .875rem;
+    color: #64748b;
+    line-height: 1.6;
+}
+
+.o_ess_confirm_actions {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    margin-top: 8px;
+}
+
+.o_ess_confirm_btn_cancel {
+    flex: 1;
+    padding: 10px;
+    background: #f1f5f9;
+    color: #374151;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: .875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .15s;
+
+    &:hover { background: #e2e8f0; }
+}
+
+.o_ess_confirm_btn_ok {
+    flex: 1;
+    padding: 10px;
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: .875rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: background .15s;
+
+    &:hover { background: #dc2626; }
+
+    i { font-size: .8125rem; }
+}
+
+// ── Mobile ─────────────────────────────────────────────────
+@media (max-width: #{$mobile-breakpoint}) {
+    .o_ess_layout { flex-direction: column; }
+
+    // ── Bottom nav bar ─────────────────────────────────────
+    .o_ess_sidebar {
+        width: 100% !important;
+        height: $bottom-nav-height;
+        flex-direction: row;
+        order: 2;
+        position: fixed;
+        bottom: 0;
+        top: auto;
+        left: 0;
+        right: 0;
+        overflow: hidden;
+        box-shadow: 0 -1px 0 #e2e8f0, 0 -4px 16px rgba(0, 0, 0, 0.06);
+        padding: 0;
+        z-index: 100;
+    }
+
+    .o_ess_logo { display: none; }
+
+    // Sidebar jadi flex row, nav dan user_wrap berbagi lebar sama rata
+    .o_ess_nav {
+        flex-direction: row;
+        flex: 4;                  // 4 menu item
+        justify-content: stretch;
+        align-items: stretch;
+        padding: 0;
+        gap: 0;
+        height: 100%;
+    }
+
+    .o_ess_user_wrap {
+        flex: 1;                  // 1 slot untuk profile
+        display: flex;
+        align-items: stretch;
+    }
+
+    // Setiap nav item — ukuran seragam
+    .o_ess_nav_item {
+        flex: 1;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        height: $bottom-nav-height;
+        gap: 0;
+        border-radius: 0;
+        min-width: 0;
+        position: relative;
+
+        .o_ess_nav_icon {
+            font-size: 20px;
+            width: auto;
+            line-height: 1;
+        }
+    }
+
+    // Sembunyikan label (tooltip) di mobile
+    .o_ess_nav_item .o_ess_nav_label,
+    .o_ess_nav_item:hover .o_ess_nav_label { opacity: 0; pointer-events: none; }
+
+    // Tombol profile — sama proporsional dengan nav item
+    .o_ess_user {
+        flex: 1;
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        height: $bottom-nav-height;
+        border-radius: 0;
+        position: relative;
+
+        .o_ess_user_name { display: none; }
+        .o_ess_nav_avatar { width: 28px; height: 28px; }
+        .o_ess_nav_avatar_icon { font-size: 20px; width: auto; }
+    }
+
+    // Active indicator — dot di atas icon
+    .o_ess_nav_item.active::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 28px;
+        height: 3px;
+        background: $accent;
+        border-radius: 0 0 3px 3px;
+    }
+
+    .o_ess_user.active::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 28px;
+        height: 3px;
+        background: $accent;
+        border-radius: 0 0 3px 3px;
+    }
+
+    // ── Main content ───────────────────────────────────────
+    .o_ess_main {
+        order: 1;
+        flex: 1;
+        margin-left: 0;
+        padding: 20px 16px;
+        padding-bottom: $bottom-nav-height + 16px;
+    }
+
+    // ── Profile page ───────────────────────────────────────
+    .o_ess_form_row { grid-template-columns: 1fr; }
+    .o_ess_profile_page { max-width: 100%; }
+    .o_ess_profile_section { padding: 20px 16px; }
+    .o_ess_profile_avatar_row { flex-wrap: wrap; gap: 12px; }
+    .o_ess_profile_header { flex-wrap: wrap; gap: 10px; }
+    .o_ess_profile_header_title { font-size: 20px; }
+    .o_ess_profile_avatar_actions { flex-wrap: wrap; }
+}

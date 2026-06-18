@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="owl_self_service.ExpensePage">
+
+    <!-- Loading -->
+    <t t-if="state.loading">
+        <div class="o_exp_loading">
+            <i class="fa fa-spinner fa-spin"/> Loading expenses…
+        </div>
+    </t>
+
+    <!-- No employee -->
+    <t t-elif="!state.employeeFound">
+        <div class="o_exp_page_header">
+            <div>
+                <div class="o_ess_page_title">My Expenses</div>
+                <div class="o_ess_page_subtitle">Welcome to Employee Self Service</div>
+            </div>
+        </div>
+        <div class="o_ess_no_employee">
+            <i class="fa fa-exclamation-triangle"/>
+            <div class="o_ess_no_employee_title">No Employee Record Found</div>
+            <div class="o_ess_no_employee_desc">
+                Your account is not linked to any employee record. Please contact HR.
+            </div>
+        </div>
+    </t>
+
+    <t t-else="">
+
+        <!-- Page header -->
+        <div class="o_exp_page_header">
+            <div>
+                <div class="o_ess_page_title">My Expenses</div>
+                <div class="o_ess_page_subtitle">Welcome to Employee Self Service</div>
+            </div>
+            <button class="o_tof_btn_request" t-on-click="openModal">
+                <i class="fa fa-plus"/> Add Expense
+            </button>
+        </div>
+
+        <!-- Toolbar: Filters -->
+        <div class="o_exp_toolbar">
+            <div class="o_exp_toolbar_filters">
+                <div class="o_exp_select_wrap">
+                    <i class="fa fa-filter"/>
+                    <select t-on-change="onFilterChange">
+                        <option value="all" t-att-selected="state.filterby === 'all'">All Status</option>
+                        <option value="draft" t-att-selected="state.filterby === 'draft'">To Submit</option>
+                        <option value="submit" t-att-selected="state.filterby === 'submit'">Submitted</option>
+                        <option value="approve" t-att-selected="state.filterby === 'approve'">Approved</option>
+                        <option value="done" t-att-selected="state.filterby === 'done'">Done</option>
+                        <option value="cancel" t-att-selected="state.filterby === 'cancel'">Refused</option>
+                    </select>
+                </div>
+
+                <div class="o_exp_select_wrap">
+                    <i class="fa fa-sort-amount-desc"/>
+                    <select t-on-change="onSortChange">
+                        <option value="date" t-att-selected="state.sortby === 'date'">Date</option>
+                        <option value="name" t-att-selected="state.sortby === 'name'">Reference</option>
+                        <option value="amount" t-att-selected="state.sortby === 'amount'">Amount</option>
+                        <option value="state" t-att-selected="state.sortby === 'state'">Status</option>
+                    </select>
+                </div>
+
+                <div class="o_exp_date_group">
+                    <div class="o_exp_date_wrap">
+                        <i class="fa fa-calendar"/>
+                        <input type="date" t-att-value="state.dateFrom" t-on-change="onDateFromChange"/>
+                    </div>
+                    <span class="o_exp_date_sep">→</span>
+                    <div class="o_exp_date_wrap">
+                        <i class="fa fa-calendar"/>
+                        <input type="date" t-att-value="state.dateTo" t-on-change="onDateToChange"/>
+                    </div>
+                </div>
+
+                <t t-if="isFilterActive">
+                    <button class="o_exp_btn_reset" t-on-click="onResetFilter" title="Reset filters">
+                        <i class="fa fa-times"/> Reset
+                    </button>
+                </t>
+            </div>
+        </div>
+
+        <!-- Empty state -->
+        <t t-if="!state.records.length">
+            <div class="o_exp_empty">
+                <i class="fa fa-inbox"/>
+                <div>No expense records found.</div>
+            </div>
+        </t>
+
+        <!-- Flat list -->
+        <t t-else="">
+            <div class="o_exp_list">
+                <t t-foreach="state.records" t-as="row" t-key="row.id">
+                    <div class="o_exp_card">
+                        <div class="o_exp_card_left">
+                            <div class="o_exp_row_name"><t t-esc="row.name"/></div>
+                            <div class="o_exp_card_meta">
+                                <span><i class="fa fa-calendar-o"/> <t t-esc="row.date"/></span>
+                                <span><i class="fa fa-user-o"/> <t t-esc="row.employee_name"/></span>
+                            </div>
+                        </div>
+                        <div class="o_exp_row_right">
+                            <div class="o_exp_card_amount">
+                                <t t-esc="formatAmount(row.total_amount, row.currency_symbol)"/>
+                            </div>
+                            <div class="o_exp_row_actions">
+                                <span t-attf-class="o_exp_badge o_exp_badge_{{ row.state_color }}">
+                                    <t t-esc="row.state_label"/>
+                                </span>
+                                <t t-if="row.state === 'draft'">
+                                    <button class="o_exp_icon_btn o_exp_icon_edit"
+                                            t-on-click="() => this.openEditModal(row)"
+                                            title="Edit">
+                                        <i class="fa fa-pencil"/>
+                                    </button>
+                                    <button class="o_exp_icon_btn o_exp_icon_delete"
+                                            t-on-click="() => this.onDelete(row.id)"
+                                            title="Delete">
+                                        <i class="fa fa-times"/>
+                                    </button>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+
+            <!-- Pagination -->
+            <div class="o_exp_pagination" t-if="state.totalPages &gt; 1">
+                <button class="o_exp_page_btn"
+                        t-att-disabled="state.currentPage &lt;= 1"
+                        t-on-click="() => onPageChange(state.currentPage - 1)">
+                    <i class="fa fa-chevron-left"/>
+                </button>
+                <span class="o_exp_page_info">
+                    Page <t t-esc="state.currentPage"/> of <t t-esc="state.totalPages"/>
+                </span>
+                <button class="o_exp_page_btn"
+                        t-att-disabled="state.currentPage &gt;= state.totalPages"
+                        t-on-click="() => onPageChange(state.currentPage + 1)">
+                    <i class="fa fa-chevron-right"/>
+                </button>
+            </div>
+        </t>
+
+    </t>
+
+    <!-- ── Modal ── -->
+    <t t-if="state.showModal">
+        <div class="o_exp_modal_backdrop"/>
+        <div class="o_exp_modal">
+            <div class="o_exp_modal_header">
+                <div class="o_exp_modal_title">
+                    <t t-if="state.modalMode === 'edit'">
+                        <i class="fa fa-pencil"/> Edit Expense
+                    </t>
+                    <t t-else="">
+                        <i class="fa fa-plus-circle"/> New Expense
+                    </t>
+                </div>
+                <button class="o_exp_modal_close" t-on-click="closeModal">
+                    <i class="fa fa-times"/>
+                </button>
+            </div>
+
+            <div class="o_exp_modal_body">
+                <!-- Server error -->
+                <t t-if="state.formErrors._server">
+                    <div class="o_exp_server_error">
+                        <i class="fa fa-exclamation-circle"/> <t t-esc="state.formErrors._server"/>
+                    </div>
+                </t>
+                <!-- Expense Name -->
+                <div t-attf-class="o_exp_form_group {{ state.formErrors.name ? 'has-error' : '' }}">
+                    <label class="o_exp_form_label">Expense Name <span class="o_exp_required">*</span></label>
+                    <input class="o_exp_form_input" type="text" placeholder="e.g. Business Lunch"
+                           t-att-value="state.form.name"
+                           t-on-input="onFormInput('name')"/>
+                    <span t-if="state.formErrors.name" class="o_exp_form_error">
+                        <t t-esc="state.formErrors.name"/>
+                    </span>
+                </div>
+
+                <!-- Product -->
+                <div t-attf-class="o_exp_form_group {{ state.formErrors.product_id ? 'has-error' : '' }}">
+                    <label class="o_exp_form_label">Category <span class="o_exp_required">*</span></label>
+                    <select class="o_exp_form_input"
+                            t-on-change="onFormInput('product_id')">
+                        <option value="">— Select category —</option>
+                        <t t-foreach="state.products" t-as="p" t-key="p.id">
+                            <option t-att-value="p.id" t-att-selected="state.form.product_id == p.id">
+                                <t t-esc="p.name"/>
+                            </option>
+                        </t>
+                    </select>
+                    <span t-if="state.formErrors.product_id" class="o_exp_form_error">
+                        <t t-esc="state.formErrors.product_id"/>
+                    </span>
+                </div>
+
+                <!-- Amount + Date (2 col) -->
+                <div class="o_exp_form_row">
+                    <div t-attf-class="o_exp_form_group {{ state.formErrors.total_amount ? 'has-error' : '' }}">
+                        <label class="o_exp_form_label">Total Amount <span class="o_exp_required">*</span></label>
+                        <input class="o_exp_form_input" type="number" min="0" step="0.01" placeholder="0.00"
+                               t-att-value="state.form.total_amount"
+                               t-on-input="onFormInput('total_amount')"/>
+                        <span t-if="state.formErrors.total_amount" class="o_exp_form_error">
+                            <t t-esc="state.formErrors.total_amount"/>
+                        </span>
+                    </div>
+                    <div t-attf-class="o_exp_form_group {{ state.formErrors.expense_date ? 'has-error' : '' }}">
+                        <label class="o_exp_form_label">Date <span class="o_exp_required">*</span></label>
+                        <input class="o_exp_form_input" type="date"
+                               t-att-value="state.form.expense_date"
+                               t-on-change="onFormInput('expense_date')"/>
+                        <span t-if="state.formErrors.expense_date" class="o_exp_form_error">
+                            <t t-esc="state.formErrors.expense_date"/>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Notes -->
+                <div class="o_exp_form_group">
+                    <label class="o_exp_form_label">Notes</label>
+                    <textarea class="o_exp_form_input o_exp_form_textarea" rows="3"
+                              placeholder="Optional description…"
+                              t-on-input="onFormInput('description')">
+                        <t t-esc="state.form.description"/>
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="o_exp_modal_footer">
+                <button class="o_exp_btn_cancel" t-on-click="closeModal">Cancel</button>
+                <button class="o_exp_btn_submit"
+                        t-att-disabled="state.modalLoading"
+                        t-on-click="onSubmitForm">
+                    <t t-if="state.modalLoading">
+                        <i class="fa fa-spinner fa-spin"/>
+                        <t t-if="state.modalMode === 'edit'"> Saving…</t>
+                        <t t-else=""> Submitting…</t>
+                    </t>
+                    <t t-elif="state.modalMode === 'edit'">
+                        <i class="fa fa-save"/> Save Changes
+                    </t>
+                    <t t-else="">
+                        <i class="fa fa-paper-plane"/> Submit
+                    </t>
+                </button>
+            </div>
+        </div>
+    </t>
+
+    <!-- ── Confirm Dialog ── -->
+    <t t-if="state.confirmDialog.show">
+        <div class="o_ess_confirm_backdrop" t-on-click="onConfirmCancel"/>
+        <div class="o_ess_confirm_dialog">
+            <div class="o_ess_confirm_icon">
+                <i class="fa fa-exclamation-triangle"/>
+            </div>
+            <div class="o_ess_confirm_title"><t t-esc="state.confirmDialog.title"/></div>
+            <div class="o_ess_confirm_message"><t t-esc="state.confirmDialog.message"/></div>
+            <div class="o_ess_confirm_actions">
+                <button class="o_ess_confirm_btn_cancel" t-on-click="onConfirmCancel">Cancel</button>
+                <button class="o_ess_confirm_btn_ok" t-on-click="onConfirmOk">
+                    <i class="fa fa-trash"/> Delete
+                </button>
+            </div>
+        </div>
+    </t>
+
+</t>
+</templates>

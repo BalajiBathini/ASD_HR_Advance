@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="owl_self_service.Root">
+        <div class="o_ess_layout">
+
+            <aside class="o_ess_sidebar">
+                <div class="o_ess_logo">
+                    <div class="o_ess_logo_icon"><i class="fa fa-th"/></div>
+                </div>
+
+                <nav class="o_ess_nav">
+                    <div t-foreach="menus" t-as="menu" t-key="menu.id"
+                         t-attf-class="o_ess_nav_item {{ activeMenu === menu.id ? 'active' : '' }}"
+                         t-on-click="() => this.setActive(menu.id)">
+                        <span class="o_ess_nav_icon">
+                            <i t-att-class="activeMenu === menu.id ? menu.iconActive : menu.icon"/>
+                        </span>
+                        <span class="o_ess_nav_label"><t t-esc="menu.label"/></span>
+                    </div>
+                </nav>
+
+                <!-- User button → langsung ke Account Settings -->
+                <div class="o_ess_user_wrap">
+                    <div t-attf-class="o_ess_user {{ activeMenu === 'profile' ? 'active' : '' }}"
+                         t-on-click="() => this.setActive('profile')">
+                        <span class="o_ess_nav_icon">
+                            <t t-if="userAvatarUrl">
+                                <img class="o_ess_nav_avatar" t-att-src="userAvatarUrl" t-att-alt="userName"/>
+                            </t>
+                            <t t-else="">
+                                <i class="fa fa-user o_ess_nav_avatar_icon"/>
+                            </t>
+                        </span>
+                        <span class="o_ess_user_name"><t t-esc="userName"/></span>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="o_ess_main">
+                <t t-if="activeMenu !== 'profile'">
+                    <t t-if="activeMenu !== 'expenses' and activeMenu !== 'timeoff' and activeMenu !== 'payslips'">
+                        <div class="o_ess_page_title"><t t-esc="activeMenuLabel"/></div>
+                        <div class="o_ess_page_subtitle">Welcome to Employee Self Service</div>
+                    </t>
+
+
+                    <AttendancePage t-if="activeMenu === 'attendance'"/>
+                    <TimeOffPage t-elif="activeMenu === 'timeoff'"/>
+                    <ExpensePage t-elif="activeMenu === 'expenses'"/>
+                    <PayslipPage t-elif="activeMenu === 'payslips'"/>
+                    <ContractPage t-elif="activeMenu === 'contracts'"/>
+
+                    <t t-else="">
+                        <div class="o_ess_cards">
+                            <t t-foreach="menus" t-as="menu" t-key="menu.id">
+                                <t t-if="activeMenu === menu.id">
+                                    <div class="o_ess_card">
+                                        <div class="o_ess_card_icon">
+                                            <i t-att-class="menu.iconActive"/>
+                                        </div>
+                                        <div class="o_ess_card_title"><t t-esc="menu.label"/></div>
+                                        <div class="o_ess_card_desc"><t t-esc="menu.description"/></div>
+                                    </div>
+                                </t>
+                            </t>
+                        </div>
+                    </t>
+                </t>
+
+                <t t-if="activeMenu === 'profile'">
+                    <div class="o_ess_profile_page">
+                        <div class="o_ess_profile_header">
+                            <div>
+                                <div class="o_ess_profile_header_title">Account Settings</div>
+                                <div class="o_ess_profile_header_sub">Manage your preferences and personal information.</div>
+                            </div>
+                        </div>
+
+                        <!-- Tabs -->
+                        <div class="o_ess_tabs">
+                            <button t-attf-class="o_ess_tab {{ state.profileTab === 'info' ? 'active' : '' }}"
+                                    t-on-click="() => this.setProfileTab('info')">
+                                <i class="fa fa-user"/> Personal Info
+                            </button>
+                            <button t-attf-class="o_ess_tab {{ state.profileTab === 'password' ? 'active' : '' }}"
+                                    t-on-click="() => this.setProfileTab('password')">
+                                <i class="fa fa-lock"/> Change Password
+                            </button>
+                        </div>
+
+                        <!-- Tab: Personal Information -->
+                        <t t-if="state.profileTab === 'info'">
+                            <div class="o_ess_profile_section">
+                                <!-- Avatar row -->
+                                <div class="o_ess_profile_avatar_row">
+                                    <div class="o_ess_avatar_wrap">
+                                        <t t-if="userAvatarUrl">
+                                            <img class="o_ess_profile_avatar_img" t-att-src="userAvatarUrl" t-att-alt="userName"/>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="o_ess_profile_avatar_circle">
+                                                <i class="fa fa-user"/>
+                                            </div>
+                                        </t>
+                                        <t t-if="state.infoEditing">
+                                            <label t-attf-class="o_ess_avatar_edit_btn {{ state.avatarUploading ? 'loading' : '' }}">
+                                                <t t-if="state.avatarUploading">
+                                                    <i class="fa fa-spinner fa-spin"/>
+                                                </t>
+                                                <t t-else="">
+                                                    <i class="fa fa-camera"/>
+                                                </t>
+                                                <input type="file" accept="image/jpeg,image/png,image/gif,image/webp"
+                                                       style="display:none" t-on-change="onAvatarChange"/>
+                                            </label>
+                                        </t>
+                                    </div>
+                                    <div class="o_ess_profile_avatar_info">
+                                        <t t-if="state.infoEditing">
+                                            <input class="o_ess_name_inline_input" type="text"
+                                                   t-att-value="state.infoForm.name"
+                                                   t-on-input="onInfoInput('name')"
+                                                   placeholder="Your name"/>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="o_ess_profile_header_title" style="font-size:1.1rem"><t t-esc="userName"/></div>
+                                        </t>
+                                        <div class="o_ess_profile_header_sub"><t t-esc="userEmail"/></div>
+                                    </div>
+                                </div>
+
+                                <t t-if="state.infoLoading">
+                                    <div class="o_ess_info_loading"><i class="fa fa-spinner fa-spin"/> Loading…</div>
+                                </t>
+                                <t t-else="">
+                                    <t t-if="state.infoError">
+                                        <div class="o_ess_pw_error_banner">
+                                            <i class="fa fa-exclamation-circle"/>
+                                            <t t-esc="state.infoError"/>
+                                        </div>
+                                    </t>
+                                    <t t-if="state.infoSuccess">
+                                        <div class="o_ess_pw_success_banner">
+                                            <i class="fa fa-check-circle"/> Profile updated successfully.
+                                        </div>
+                                    </t>
+
+                                    <div t-attf-class="o_ess_profile_form {{ state.infoEditing ? 'o_ess_form_editing' : '' }}">
+
+                                        <!-- Employee info badges -->
+                                        <t t-if="state.infoMeta.has_employee">
+                                            <div class="o_ess_info_readonly_row">
+                                                <t t-if="state.infoMeta.job_title">
+                                                    <div class="o_ess_info_badge">
+                                                        <i class="fa fa-briefcase"/> <t t-esc="state.infoMeta.job_title"/>
+                                                    </div>
+                                                </t>
+                                                <t t-if="state.infoMeta.department">
+                                                    <div class="o_ess_info_badge">
+                                                        <i class="fa fa-sitemap"/> <t t-esc="state.infoMeta.department"/>
+                                                    </div>
+                                                </t>
+                                                <t t-if="state.infoMeta.work_email">
+                                                    <div class="o_ess_info_badge">
+                                                        <i class="fa fa-envelope-o"/> <t t-esc="state.infoMeta.work_email"/>
+                                                    </div>
+                                                </t>
+                                            </div>
+                                        </t>
+
+                                        <!-- Row 1: Email + Tax ID -->
+                                        <div class="o_ess_form_row">
+                                            <div class="o_ess_form_group">
+                                                <label class="o_ess_form_label">Email</label>
+                                                <input class="o_ess_form_input" type="email"
+                                                       t-att-value="state.infoMeta.email"
+                                                       disabled="disabled"/>
+                                            </div>
+                                            <div class="o_ess_form_group">
+                                                <label class="o_ess_form_label">Tax ID</label>
+                                                <input class="o_ess_form_input" type="text"
+                                                       t-att-value="state.infoForm.vat"
+                                                       t-att-disabled="!state.infoEditing"
+                                                       t-on-input="onInfoInput('vat')" placeholder="VAT number"/>
+                                            </div>
+                                        </div>
+
+                                        <!-- Row 2: Work Phone + Mobile -->
+                                        <div class="o_ess_form_row">
+                                            <div class="o_ess_form_group">
+                                                <label class="o_ess_form_label">Work Phone</label>
+                                                <input class="o_ess_form_input" type="tel"
+                                                       t-att-value="state.infoForm.work_phone"
+                                                       t-att-disabled="!state.infoEditing"
+                                                       t-on-input="onInfoInput('work_phone')" placeholder="Work phone"/>
+                                            </div>
+                                            <div class="o_ess_form_group">
+                                                <label class="o_ess_form_label">Mobile</label>
+                                                <input class="o_ess_form_input" type="tel"
+                                                       t-att-value="state.infoForm.mobile_phone"
+                                                       t-att-disabled="!state.infoEditing"
+                                                       t-on-input="onInfoInput('mobile_phone')" placeholder="Mobile number"/>
+                                            </div>
+                                        </div>
+
+                                        <!-- Street (textarea) -->
+                                        <div class="o_ess_form_group">
+                                            <label class="o_ess_form_label">Street</label>
+                                            <textarea t-attf-class="o_ess_form_input o_ess_form_textarea {{ !state.infoEditing ? 'o_ess_textarea_disabled' : '' }}"
+                                                      t-att-disabled="!state.infoEditing"
+                                                      placeholder="Street address"
+                                                      t-on-input="onInfoInput('street')"><t t-esc="state.infoForm.street"/></textarea>
+                                        </div>
+
+                                        <!-- Row 3: City + ZIP -->
+                                        <div class="o_ess_form_row">
+                                            <div class="o_ess_form_group">
+                                                <label class="o_ess_form_label">City</label>
+                                                <input class="o_ess_form_input" type="text"
+                                                       t-att-value="state.infoForm.city"
+                                                       t-att-disabled="!state.infoEditing"
+                                                       t-on-input="onInfoInput('city')" placeholder="City"/>
+                                            </div>
+                                            <div class="o_ess_form_group">
+                                                <label class="o_ess_form_label">ZIP / Postal Code</label>
+                                                <input class="o_ess_form_input" type="text"
+                                                       t-att-value="state.infoForm.zip"
+                                                       t-att-disabled="!state.infoEditing"
+                                                       t-on-input="onInfoInput('zip')" placeholder="ZIP code"/>
+                                            </div>
+                                        </div>
+
+                                        <!-- Country (full width) -->
+                                        <div class="o_ess_form_group">
+                                            <label class="o_ess_form_label">Country</label>
+                                            <select t-attf-class="o_ess_form_input o_ess_form_select {{ !state.infoEditing ? 'o_ess_select_disabled' : '' }}"
+                                                    t-att-disabled="!state.infoEditing"
+                                                    t-on-change="onInfoInput('country_id')">
+                                                <option value="">-- Select Country --</option>
+                                                <t t-foreach="state.countries" t-as="country" t-key="country.id">
+                                                    <option t-att-value="country.id"
+                                                            t-att-selected="country.id == state.infoForm.country_id">
+                                                        <t t-esc="country.name"/>
+                                                    </option>
+                                                </t>
+                                            </select>
+                                        </div>
+
+                                        <!-- Emergency Contact Row -->
+                                        <hr class="o_ess_profile_divider" style="margin: 2rem 0; border: none; border-top: 1px solid #e2e8f0;"/>
+                                        <div class="o_ess_profile_header_title" style="font-size: 1rem; margin-bottom: 1rem;">Emergency Contact</div>
+                                        <div class="o_ess_form_row">
+                                            <div class="o_ess_form_group">
+                                                <label class="o_ess_form_label">Contact Name</label>
+                                                <input class="o_ess_form_input" type="text"
+                                                       t-att-value="state.infoForm.emergency_contact"
+                                                       t-att-disabled="!state.infoEditing"
+                                                       t-on-input="onInfoInput('emergency_contact')" placeholder="Emergency Contact Name"/>
+                                            </div>
+                                            <div class="o_ess_form_group">
+                                                <label class="o_ess_form_label">Contact Phone</label>
+                                                <input class="o_ess_form_input" type="tel"
+                                                       t-att-value="state.infoForm.emergency_phone"
+                                                       t-att-disabled="!state.infoEditing"
+                                                       t-on-input="onInfoInput('emergency_phone')" placeholder="Emergency Phone Number"/>
+                                            </div>
+                                        </div>
+
+                                        <!-- Family Information Row -->
+                                        <hr class="o_ess_profile_divider" style="margin: 2rem 0; border: none; border-top: 1px solid #e2e8f0;"/>
+                                        <div class="o_ess_profile_header_title" style="font-size: 1rem; margin-bottom: 1rem;">Family Status</div>
+                                        <div class="o_ess_form_row">
+                                            <div class="o_ess_form_group">
+                                                <label class="o_ess_form_label">Marital Status</label>
+                                                <select t-attf-class="o_ess_form_input o_ess_form_select {{ !state.infoEditing ? 'o_ess_select_disabled' : '' }}"
+                                                        t-att-disabled="!state.infoEditing"
+                                                        t-on-change="onInfoInput('marital')">
+                                                    <option value="">-- None --</option>
+                                                    <option value="single" t-att-selected="state.infoForm.marital === 'single'">Single</option>
+                                                    <option value="married" t-att-selected="state.infoForm.marital === 'married'">Married</option>
+                                                    <option value="cohabitant" t-att-selected="state.infoForm.marital === 'cohabitant'">Legal Cohabitant</option>
+                                                    <option value="widower" t-att-selected="state.infoForm.marital === 'widower'">Widower</option>
+                                                    <option value="divorced" t-att-selected="state.infoForm.marital === 'divorced'">Divorced</option>
+                                                </select>
+                                            </div>
+                                            <div class="o_ess_form_group">
+                                                <label class="o_ess_form_label">Spouse Complete Name</label>
+                                                <input class="o_ess_form_input" type="text"
+                                                       t-att-value="state.infoForm.spouse_complete_name"
+                                                       t-att-disabled="!state.infoEditing"
+                                                       t-on-input="onInfoInput('spouse_complete_name')" placeholder="Spouse Name"/>
+                                            </div>
+                                        </div>
+                                        <div class="o_ess_form_row">
+                                            <div class="o_ess_form_group">
+                                                <label class="o_ess_form_label">Dependent Children</label>
+                                                <input class="o_ess_form_input" type="number"
+                                                       t-att-value="state.infoForm.children"
+                                                       t-att-disabled="!state.infoEditing"
+                                                       t-on-input="onInfoInput('children')" placeholder="0"/>
+                                            </div>
+                                            <div class="o_ess_form_group">
+                                                <label class="o_ess_form_label">Spouse Birthdate</label>
+                                                <input class="o_ess_form_input" type="date"
+                                                       t-att-value="state.infoForm.spouse_birthdate"
+                                                       t-att-disabled="!state.infoEditing"
+                                                       t-on-input="onInfoInput('spouse_birthdate')"/>
+                                            </div>
+                                        </div>
+
+                                        <!-- Education Row -->
+                                        <hr class="o_ess_profile_divider" style="margin: 2rem 0; border: none; border-top: 1px solid #e2e8f0;"/>
+                                        <div class="o_ess_profile_header_title" style="font-size: 1rem; margin-bottom: 1rem;">Education</div>
+                                        <div class="o_ess_form_row">
+                                            <div class="o_ess_form_group">
+                                                <label class="o_ess_form_label">Certificate Level</label>
+                                                <select t-attf-class="o_ess_form_input o_ess_form_select {{ !state.infoEditing ? 'o_ess_select_disabled' : '' }}"
+                                                        t-att-disabled="!state.infoEditing"
+                                                        t-on-change="onInfoInput('certificate')">
+                                                    <option value="">-- None --</option>
+                                                    <option value="bachelor" t-att-selected="state.infoForm.certificate === 'bachelor'">Bachelor</option>
+                                                    <option value="master" t-att-selected="state.infoForm.certificate === 'master'">Master</option>
+                                                    <option value="other" t-att-selected="state.infoForm.certificate === 'other'">Other</option>
+                                                </select>
+                                            </div>
+                                            <div class="o_ess_form_group">
+                                                <label class="o_ess_form_label">Field of Study</label>
+                                                <input class="o_ess_form_input" type="text"
+                                                       t-att-value="state.infoForm.study_field"
+                                                       t-att-disabled="!state.infoEditing"
+                                                       t-on-input="onInfoInput('study_field')" placeholder="Field of study"/>
+                                            </div>
+                                        </div>
+                                        <div class="o_ess_form_group">
+                                            <label class="o_ess_form_label">School</label>
+                                            <input class="o_ess_form_input" type="text"
+                                                   t-att-value="state.infoForm.study_school"
+                                                   t-att-disabled="!state.infoEditing"
+                                                   t-on-input="onInfoInput('study_school')" placeholder="School or University name"/>
+                                        </div>
+
+                                        <!-- Form actions -->
+                                        <div class="o_ess_info_actions">
+                                            <t t-if="!state.infoEditing and !state.infoLoading">
+                                                <button class="o_ess_btn_primary" t-on-click="onInfoEdit">
+                                                    <i class="fa fa-pencil"/> Edit
+                                                </button>
+                                            </t>
+                                            <t t-if="state.infoEditing">
+                                                <button class="o_ess_btn_secondary"
+                                                        t-att-disabled="state.infoSaving"
+                                                        t-on-click="onInfoDiscard">
+                                                    Cancel
+                                                </button>
+                                                <button class="o_ess_btn_primary"
+                                                        t-att-disabled="state.infoSaving"
+                                                        t-on-click="onInfoSave">
+                                                    <t t-if="state.infoSaving">
+                                                        <i class="fa fa-spinner fa-spin"/> Saving…
+                                                    </t>
+                                                    <t t-else="">
+                                                        <i class="fa fa-save"/> Save
+                                                    </t>
+                                                </button>
+                                            </t>
+                                        </div>
+
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+
+                        <!-- Tab: Change Password -->
+                        <t t-if="state.profileTab === 'password'">
+                            <div class="o_ess_profile_section">
+                                <t t-if="state.pwErrors._server">
+                                    <div class="o_ess_pw_error_banner">
+                                        <i class="fa fa-exclamation-circle"/>
+                                        <t t-esc="state.pwErrors._server"/>
+                                    </div>
+                                </t>
+                                <t t-if="state.pwSuccess">
+                                    <div class="o_ess_pw_success_banner">
+                                        <i class="fa fa-check-circle"/>
+                                        Password changed successfully.
+                                    </div>
+                                </t>
+                                <div class="o_ess_profile_form">
+                                    <div class="o_ess_form_group">
+                                        <label class="o_ess_form_label">Current Password <span class="o_ess_required">*</span></label>
+                                        <input t-attf-class="o_ess_form_input {{ state.pwErrors.old_password ? 'o_ess_input_error' : '' }}"
+                                               type="password" placeholder="Enter current password"
+                                               t-att-value="state.pwForm.old_password"
+                                               t-on-input="onPwInput('old_password')"/>
+                                        <t t-if="state.pwErrors.old_password">
+                                            <span class="o_ess_field_error"><t t-esc="state.pwErrors.old_password"/></span>
+                                        </t>
+                                    </div>
+                                    <div class="o_ess_form_row">
+                                        <div class="o_ess_form_group">
+                                            <label class="o_ess_form_label">New Password <span class="o_ess_required">*</span></label>
+                                            <input t-attf-class="o_ess_form_input {{ state.pwErrors.new_password ? 'o_ess_input_error' : '' }}"
+                                                   type="password" placeholder="Min. 6 characters"
+                                                   t-att-value="state.pwForm.new_password"
+                                                   t-on-input="onPwInput('new_password')"/>
+                                            <t t-if="state.pwErrors.new_password">
+                                                <span class="o_ess_field_error"><t t-esc="state.pwErrors.new_password"/></span>
+                                            </t>
+                                        </div>
+                                        <div class="o_ess_form_group">
+                                            <label class="o_ess_form_label">Confirm New Password <span class="o_ess_required">*</span></label>
+                                            <input t-attf-class="o_ess_form_input {{ state.pwErrors.confirm_password ? 'o_ess_input_error' : '' }}"
+                                                   type="password" placeholder="Repeat new password"
+                                                   t-att-value="state.pwForm.confirm_password"
+                                                   t-on-input="onPwInput('confirm_password')"/>
+                                            <t t-if="state.pwErrors.confirm_password">
+                                                <span class="o_ess_field_error"><t t-esc="state.pwErrors.confirm_password"/></span>
+                                            </t>
+                                        </div>
+                                    </div>
+                                    <div class="o_ess_pw_actions">
+                                        <button class="o_ess_btn_primary"
+                                                t-att-disabled="state.pwLoading"
+                                                t-on-click="onChangePassword">
+                                            <t t-if="state.pwLoading">
+                                                <i class="fa fa-spinner fa-spin"/> Saving…
+                                            </t>
+                                            <t t-else="">
+                                                <i class="fa fa-lock"/> Update Password
+                                            </t>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+
+                        <div class="o_ess_logout_wrap">
+                            <button class="o_ess_btn_logout" t-on-click="logout">
+                                <i class="fa fa-sign-out"/> Logout
+                            </button>
+                        </div>
+
+                    </div>
+                </t>
+            </main>
+
+        </div>
+    </t>
+</templates>
