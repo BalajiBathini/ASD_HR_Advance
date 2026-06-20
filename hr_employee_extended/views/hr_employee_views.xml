@@ -41,16 +41,20 @@
             <xpath expr="//sheet//field[@name='company_id']" position="after">
                 <field name="father_name"/>
                 <field name="mother_name"/>
+                <xpath expr="//field[@name='birthday']" position="move"/>
+
+
 
 
             </xpath>
             <xpath expr="//sheet//field[@name='coach_id']" position="after">
                 <field name="blood_group"/>
+                <field name="age" readonly="0"/>
 
 
             </xpath>
-            <xpath expr="//sheet//field[@name='birthday']" position="after">
-                <field name="age" readonly="0"/>
+            <xpath expr="//field[@name='place_of_birth']" position="before">
+
                 <field name="religion_id"/>
                 <field name="food_preference" widget="selection_badge"/>
 
@@ -136,6 +140,9 @@
                 </group>
 
             </xpath>
+            <xpath expr="//field[@name='emergency_phone']" position="after">
+                <field name="emergency_relation"/>
+            </xpath>
             <xpath expr="//group[field[@name='has_work_permit']]" position="after">
 
                 <separator string="Family Members" colspan="2"/>
@@ -149,6 +156,9 @@
                     </list>
                 </field>
 
+            </xpath>
+            <xpath expr="//page[@name='personal_information']" position="attributes">
+                <attribute name="string">Compliance</attribute>
             </xpath>
             <xpath expr="//page[@name='personal_information']" position="after">
 

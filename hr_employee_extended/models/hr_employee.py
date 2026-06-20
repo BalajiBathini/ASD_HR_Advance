@@ -117,6 +117,16 @@ class Employee(models.Model):
         'employee_id',
         string='Family Members'
     )
+    emergency_relation = fields.Selection([
+        ('father', 'Father'),
+        ('mother', 'Mother'),
+        ('spouse', 'Spouse'),
+        ('son', 'Son'),
+        ('daughter', 'Daughter'),
+        ('brother', 'Brother'),
+        ('sister', 'Sister'),
+        ('other', 'Other'),
+    ], string='Emergency Relation')
 
     document_ids = fields.One2many(
         'hr.employee.document',
@@ -145,6 +155,50 @@ class Employee(models.Model):
                 employee.joining_date = employee.create_date.date()
             else:
                 employee.joining_date = False
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        employees = super(Employee, self).create(vals_list)
+        for employee in employees:
+            if employee.emergency_contact:
+                employee._sync_emergency_contact_to_family()
+        return employees
+
+    def _sync_emergency_contact_to_family(self):
+        """Creates or updates a family member based on emergency contact."""
+        self.ensure_one()
+        if not self.emergency_contact:
+            return
+            
+        existing_family = self.env['hr.employee.family']
+        
+        if self.emergency_phone:
+            matched_by_phone = self.family_ids.filtered(lambda f: f.phone == self.emergency_phone)
+            if matched_by_phone:
+                existing_family = matched_by_phone[0]
+                
+        if not existing_family:
+            matched_by_name = self.family_ids.filtered(lambda f: f.name.lower() == self.emergency_contact.lower())
+            if matched_by_name:
+                existing_family = matched_by_name[0]
+
+        if existing_family:
+            update_vals = {}
+            if self.emergency_contact and self.emergency_contact != existing_family.name:
+                update_vals['name'] = self.emergency_contact
+            if self.emergency_phone and self.emergency_phone != existing_family.phone:
+                update_vals['phone'] = self.emergency_phone
+            if self.emergency_relation and self.emergency_relation != existing_family.relation:
+                update_vals['relation'] = self.emergency_relation
+            if update_vals:
+                existing_family.write(update_vals)
+        else:
+            self.env['hr.employee.family'].create({
+                'employee_id': self.id,
+                'name': self.emergency_contact,
+                'phone': self.emergency_phone,
+                'relation': self.emergency_relation,
+            })
 
     def action_generate_barcodes_bulk(self):
         """Generate random barcodes for selected employees who don't have one.
@@ -188,6 +242,11 @@ class Employee(models.Model):
 
         # Apply the changes to the employee
         res = super(Employee, self).write(vals)
+
+        if any(field in vals for field in ['emergency_contact', 'emergency_phone', 'emergency_relation']):
+            for employee in self:
+                if employee.emergency_contact:
+                    employee._sync_emergency_contact_to_family()
 
         # Synchronize resource_calendar_id to open contracts
         if 'resource_calendar_id' in vals and not self.env.context.get('calendar_sync_from_contract'):

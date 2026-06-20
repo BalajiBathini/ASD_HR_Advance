@@ -90,13 +90,15 @@
                                            decoration-warning="state == 'in_progress'"
                                            decoration-danger="state == 'pending'"
                                            decoration-info="state == 'skipped'"/>
-                                    <field name="is_mandatory"/>
+                                    <field name="is_mandatory" optional="hide"/>
                                     <button name="action_mark_done"
                                             string="✔ Done"
                                             type="object"
                                             class="btn-sm btn-success"
                                             invisible="state == 'done'"/>
                                     <field name="completed_date" optional="hide"/>
+                                    <field name="notes" optional="show"/>
+
                                     <field name="completed_by" optional="hide"/>
                                 </list>
                             </field>
