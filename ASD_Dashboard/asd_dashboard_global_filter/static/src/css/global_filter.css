@@ -1,0 +1,7 @@
+/* Global filter responsive utilities */
+.o_global_dashboard_filter {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+    padding: 10px 15px;
+    border-radius: 5px;
+}

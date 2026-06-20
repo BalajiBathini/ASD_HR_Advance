@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_dashboard_form_inherit_global_filter" model="ir.ui.view">
+        <field name="name">dashboard.dashboard.form.inherit.global_filter</field>
+        <field name="model">dashboard.dashboard</field>
+        <field name="inherit_id" ref="asd_cust_dashboard.dashboard_dashboard_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='auto_reload_duration']" position="after">
+                <field name="enable_global_filter"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

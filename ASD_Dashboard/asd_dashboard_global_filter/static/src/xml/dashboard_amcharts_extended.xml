@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="asd_dashboard_global_filter.GlobalFilter" owl="1">
+        <div class="o_global_dashboard_filter d-flex align-items-center mr-3" style="gap: 15px;">
+            <label class="font-weight-bold mb-0">Global Filter:</label>
+            <select class="form-control" style="width: auto;" t-model="state.quickFilter" t-on-change="onQuickFilterChange">
+                <option value="none">None</option>
+                <option value="today">Today</option>
+                <option value="yesterday">Yesterday</option>
+                <option value="last_7_days">Last 7 Days</option>
+                <option value="last_30_days">Last 30 Days</option>
+                <option value="this_week">This Week</option>
+                <option value="last_week">Last Week</option>
+                <option value="this_month">This Month</option>
+                <option value="last_month">Last Month</option>
+                <option value="this_quarter">This Quarter</option>
+                <option value="last_quarter">Last Quarter</option>
+                <option value="this_year">This Year</option>
+                <option value="custom">Custom Range</option>
+            </select>
+
+            <t t-if="state.quickFilter === 'custom'">
+                <div class="d-flex align-items-center" style="gap: 10px;">
+                    <input type="date" class="form-control" t-model="state.startDate" t-on-change="onCustomDateChange" />
+                    <span>to</span>
+                    <input type="date" class="form-control" t-model="state.endDate" t-on-change="onCustomDateChange" />
+                </div>
+            </t>
+        </div>
+    </t>
+
+    <t t-name="asd_dashboard_global_filter.DashboardAmcharts" t-inherit="asd_cust_dashboard.DashboardAmcharts" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('right-panel')]/button" position="before">
+            <DashboardGlobalFilter 
+                initialStart="globalFilterState.start" 
+                initialEnd="globalFilterState.end" 
+                initialFilterType="globalFilterState.filterType" 
+                onChange.bind="onGlobalFilterChange" />
+        </xpath>
+    </t>
+</templates>

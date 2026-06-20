@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="asd_dashboard_drilldown.TileView" t-inherit="asd_cust_dashboard.TileView" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('oe_inner')]" position="attributes">
+            <attribute name="t-on-click">onTileClick</attribute>
+            <attribute name="class" add="cursor-pointer" separator=" "/>
+            <attribute name="style" add="cursor: pointer;" separator=";"/>
+        </xpath>
+    </t>
+</templates>
