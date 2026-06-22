@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_percentage_increase_wizard_view_form" model="ir.ui.view">
+        <field name="name">hr.contract.percentage.increase.wizard.form</field>
+        <field name="model">hr.contract.percentage.increase.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Percentage Increase">
+                <sheet>
+                    <group>
+                        <field name="current_ctc" widget="monetary" readonly="1"/>
+                        <field name="percentage_increase"/>
+                        <field name="new_ctc" widget="monetary" readonly="1"/>
+                        <field name="reason" placeholder="e.g. Annual Appraisal, Promotion..."/>
+                    </group>
+                    <group invisible="1">
+                        <field name="contract_id"/>
+                        <field name="currency_id"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_apply" string="Apply Increase" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

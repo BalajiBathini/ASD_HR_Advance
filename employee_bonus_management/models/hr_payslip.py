@@ -41,7 +41,7 @@ class HrPayslip(models.Model):
                         })
                 else: 
                     # Other percentage or fixed deduction
-                    deduct_amt = att.total_amount if not att.is_percentage else (contract.gross_salary * att.percentage / 100.0)
+                    deduct_amt = att.total_amount if not att.is_percentage else (contract.wage * att.percentage / 100.0)
                     res.append({
                         'name': att.name,
                         'code': 'ATT_OTHER_' + str(att.id),
@@ -57,7 +57,7 @@ class HrPayslip(models.Model):
                 ('bonus_month', '<=', date_to)
             ])
             for bonus in bonuses:
-                bonus_amt = bonus.amount if bonus.bonus_type == 'fixed' else (contract.gross_salary * bonus.amount / 100.0)
+                bonus_amt = bonus.amount if bonus.bonus_type == 'fixed' else (contract.wage * bonus.amount / 100.0)
                 res.append({
                     'name': bonus.name,
                     'code': 'BONUS_' + str(bonus.id),

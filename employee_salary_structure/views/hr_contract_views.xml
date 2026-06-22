@@ -5,44 +5,59 @@
         <field name="model">hr.contract</field>
         <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='wage']" position="attributes">
+                <attribute name="readonly">is_structure_editable == False</attribute>
+            </xpath>
+            <xpath expr="//div[@name='wage']" position="after">
+                <label for="annual_ctc"/>
+                <div class="o_row mw-50" name="annual_ctc_div">
+                    <field name="annual_ctc" class="oe_inline o_hr_narrow_field" nolabel="1" readonly="salary_status != 'editing'"/>
+                    <field name="revision_indicator_html" widget="html" nolabel="1" readonly="1" invisible="not revision_indicator_html"/>
+                </div>
+                <field name="salary_status" widget="badge" decoration-success="salary_status == 'approved'" decoration-warning="salary_status == 'pending'" decoration-info="salary_status == 'editing'"/>
+            </xpath>
+            <xpath expr="//field[@name='struct_id']" position="after">
+                <field name="state_salary_policy_id"/>
+            </xpath>
+            <xpath expr="//group[@name='yearly_benefits']" position="inside">
+                <field name="total_earnings" readonly="1"/>
+                <field name="total_deductions" readonly="1"/>
+                <field name="net_salary" readonly="1" decoration-bf="1" decoration-success="1"/>
+                <field name="is_structure_editable" invisible="1"/>
+            </xpath>
+            <xpath expr="//page[@name='information']" position="inside">
+                <header>
+                    <button name="action_approve_salary" string="Approve Salary" type="object" class="btn-success" invisible="salary_status != 'pending'" groups="hr.group_hr_manager"/>
+                    <button name="action_reject_salary" string="Reject" type="object" class="btn-danger" invisible="salary_status != 'pending'" groups="hr.group_hr_manager"/>
+                    <button name="action_load_structure" string="Load from Template" type="object" class="oe_highlight" invisible="salary_status != 'editing'"/>
+                    <button name="action_edit_structure" string="Edit Structure" type="object" class="btn-primary" invisible="salary_status != 'approved'"/>
+                    <button name="action_percentage_increase" string="Percentage Increase" type="object" class="btn-info" invisible="salary_status != 'approved'"/>
+                    <button name="action_save_structure" string="Submit Structure" type="object" class="btn-success" invisible="salary_status != 'editing'"/>
+                    <button name="action_recalculate" string="Recalculate" type="object" class="btn-secondary" invisible="salary_status != 'editing'"/>
+                </header>
+                <field name="employee_component_ids" readonly="is_structure_editable == False">
+                    <list editable="bottom" decoration-info="component_type == 'earning'" decoration-danger="component_type == 'deduction'">
+                        <field name="sequence" widget="handle"/>
+                        <field name="name"/>
+                        <field name="component_type"/>
+                        <field name="calculation_method"/>
+                        <field name="based_on" invisible="calculation_method != 'percentage'" required="calculation_method == 'percentage'"/>
+                        <field name="amount_or_percentage"/>
+                        <field name="calculated_amount" readonly="1"/>
+                    </list>
+                </field>
+            </xpath>
             <xpath expr="//page[@name='information']" position="after">
-                <page name="salary_information" string="Salary Information">
-                    <group>
-                        <group>
-                            <field name="gross_salary"/>
-                            <field name="annual_ctc" readonly="1"/>
-                            <field name="is_structure_editable" invisible="1"/>
-                        </group>
-                        <group>
-                            <field name="total_earnings" readonly="1"/>
-                            <field name="total_deductions" readonly="1"/>
-                            <field name="net_salary" readonly="1" decoration-bf="1" decoration-success="1"/>
-                        </group>
-                    </group>
-                    <header>
-                        <button name="action_load_structure" string="Load from Template" type="object" class="oe_highlight"/>
-                        <button name="action_edit_structure" string="Edit Structure" type="object" class="btn-primary" invisible="is_structure_editable == True"/>
-                        <button name="action_save_structure" string="Save Structure" type="object" class="btn-success" invisible="is_structure_editable == False"/>
-                        <button name="action_recalculate" string="Recalculate" type="object" class="btn-secondary"/>
-                    </header>
-                    <field name="employee_component_ids" readonly="is_structure_editable == False">
-                        <list editable="bottom" decoration-info="component_type == 'earning'" decoration-danger="component_type == 'deduction'">
-                            <field name="sequence" widget="handle"/>
-                            <field name="name"/>
-                            <field name="component_type"/>
-                            <field name="calculation_method"/>
-                            <field name="based_on" invisible="calculation_method != 'percentage'" required="calculation_method == 'percentage'"/>
-                            <field name="amount_or_percentage"/>
-                            <field name="calculated_amount" readonly="1"/>
-                        </list>
-                    </field>
-                </page>
                 <page name="salary_structure_revision" string="Revision">
                     <field name="revision_ids" readonly="1">
                         <list>
                             <field name="name"/>
-                            <field name="reason"/>
                             <field name="revision_date"/>
+                            <field name="previous_ctc"/>
+                            <field name="current_ctc"/>
+                            <field name="percentage_change"/>
+                            <field name="revision_type"/>
+                            <field name="reason"/>
                         </list>
                     </field>
                 </page>

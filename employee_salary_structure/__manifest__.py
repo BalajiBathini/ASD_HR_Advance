@@ -14,8 +14,11 @@
     'depends': ['hr_contract', 'custom_salary_config'],
     'data': [
         'security/ir.model.access.csv',
+        'wizard/hr_salary_decrease_wizard_views.xml',
+        'wizard/hr_percentage_increase_wizard_views.xml',
         'views/hr_contract_views.xml',
         'views/hr_contract_revision_views.xml',
+        'views/hr_state_salary_policy_views.xml',
         'data/hr_salary_rules_data.xml',
     ],
     'installable': True,

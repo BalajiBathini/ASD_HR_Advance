@@ -21,9 +21,13 @@ class HrContractEditWizard(models.TransientModel):
             'name': increment_name,
             'reason': self.reason,
             'contract_id': self.contract_id.id,
+            'previous_ctc': self.contract_id.annual_ctc,
         })
 
-        # Set contract to editable
-        self.contract_id.is_structure_editable = True
+        # Set contract to editing
+        self.contract_id.salary_status = 'editing'
 
-        return {'type': 'ir.actions.act_window_close'}
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'reload',
+        }
